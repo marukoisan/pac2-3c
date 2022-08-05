@@ -6,6 +6,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 {
 	//ウィンドウモードで起動する
 	ChangeWindowMode(TRUE);
+	SetGraphMode(1280, 720, 32);
  
 	//DXライブラリの初期化処理:エラーが起きたら直ちに終了
 	if (DxLib_Init() == -1)return-1;
@@ -20,7 +21,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 		ClearDrawScreen();
  
 		//ループカウンタの表示
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "LoopCount=%d", g_LoopCount++);
+		DrawFormatString(0, 0, GetColor(255, 128, 0), "LoopCount=%d", g_LoopCount++);
  
 		//裏画面の内容を表画面に反映
 		ScreenFlip();
