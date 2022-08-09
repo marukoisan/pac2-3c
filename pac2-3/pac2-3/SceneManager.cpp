@@ -1,9 +1,9 @@
 #include "SceneManager.h"
 
 // メンバ変数の値を書き換えるのがアップデート関数
-AbstractScene* SceneManager::Update(XINPUT_STATE* data) {
+AbstractScene* SceneManager::Update() {
     // 現在シーンのアップデートを実行
-    AbstractScene* p = mScene->Update(data);
+    AbstractScene* p = mScene->Update();
 
     // 次のシーンが現在シーンと違う場合切り替える
     if (p != mScene) {

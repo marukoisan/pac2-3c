@@ -1,4 +1,7 @@
 #include"DxLib.h"
+#include"AbstractScene.h"
+#include"SceneManager.h"
+#include"GameMain.h"
 //変数の宣言
 int g_LoopCount = 0;
 //プログラムの開始
@@ -13,15 +16,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
  
 	//描画先画面を裏にする
 	SetDrawScreen(DX_SCREEN_BACK);
- 
+
+	//変数宣言
+	SceneManager sceneManager;
+    
+	
+
 	//ゲームループ
 	while (ProcessMessage() == 0)
 	{
 		//画面の初期化
 		ClearDrawScreen();
- 
+        
 		//ループカウンタの表示
 		DrawFormatString(0, 0, GetColor(255, 128, 0), "LoopCount=%d", g_LoopCount++);
+
+
  
 		//裏画面の内容を表画面に反映
 		ScreenFlip();

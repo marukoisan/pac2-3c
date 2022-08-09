@@ -1,18 +1,28 @@
 #pragma once
 #include"DxLib.h"
 #include"AbstractScene.h"
+#include"GameMain.h"
+
+class AbstractScene;
+class GameMain;
 
 // シーンマネージャークラス
 // 各シーンの切り替えを管理する。
-class SceneManager : public AbstractScene {
+class SceneManager{
 private:
     AbstractScene* mScene;  // 現在のシーン
 
 
 public:
     // コンストラクタ
-    SceneManager(AbstractScene* scene)
-        : mScene(scene) {}
+    SceneManager()
+    {
+        mScene = nullptr;
+
+        //ゲームメインのシーンを作成
+        mScene = new GameMain(this);
+
+    }
 
     // デストラクタ
     ~SceneManager() {
@@ -20,8 +30,10 @@ public:
     }
 
     //描画以外の更新を実装する
-    AbstractScene* Update(XINPUT_STATE* data) override;
+    AbstractScene* Update();
 
     //描画に関することを実装する
-    void Draw() const override;
+    void Draw() const;
+
+   
 };

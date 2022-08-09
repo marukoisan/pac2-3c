@@ -1,20 +1,24 @@
 #pragma once
 #include"AbstractScene.h"
 
+class AbstractScene;
+class SceneManager;
+
 class GameMain : public AbstractScene
 {
 private://変数宣言
-
+	
 public:
-	GameMain()
+	//先に継承元のコンストラクタを呼んでから継承先のコンストラクタを呼んでいる
+	GameMain(SceneManager* sManager) : AbstractScene(sManager)
 	{
 
 	}
 
 	~GameMain() {}
 
-	AbstractScene* Update(XINPUT_STATE* data) override;
+	virtual AbstractScene* Update() override;
 
-	void Draw() const override;
+	virtual void Draw() const override;
 };
 

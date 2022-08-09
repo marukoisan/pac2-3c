@@ -1,8 +1,8 @@
 #include"GameMain.h"
 
-AbstractScene* GameMain::Update(XINPUT_STATE* data)
+AbstractScene* GameMain::Update()
 {
-
+	return this;
 }
 
 void GameMain::Draw() const
