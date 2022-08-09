@@ -1,11 +1,34 @@
-#include"GameMain.h"
+#include "AbstractScene.h"
+#include "GameMain.h"
 
-AbstractScene* GameMain::Update()
+//------------------------
+// コンストラクタ
+//------------------------
+GameMain::GameMain() 
+{
+
+}
+
+//------------------------
+// デストラクタ
+//------------------------
+GameMain::~GameMain() 
+{
+
+}
+
+//-------------------------------
+// シーンの更新
+//-------------------------------
+AbstractScene* GameMain::Update() 
 {
 	return this;
 }
 
-void GameMain::Draw() const
+//------------------------------
+// 描画
+//------------------------------
+void GameMain::Draw()const
 {
 
 }

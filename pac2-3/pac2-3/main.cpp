@@ -2,6 +2,7 @@
 #include"AbstractScene.h"
 #include"SceneManager.h"
 #include"GameMain.h"
+
 //変数の宣言
 int g_LoopCount = 0;
 //プログラムの開始
@@ -18,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	//変数宣言
-	SceneManager sceneManager;
+	SceneManager* sceneManager;
     
 	
 

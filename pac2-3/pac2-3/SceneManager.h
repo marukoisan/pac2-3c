@@ -1,10 +1,5 @@
 #pragma once
-#include"DxLib.h"
-#include"AbstractScene.h"
-#include"GameMain.h"
 
-class AbstractScene;
-class GameMain;
 
 // シーンマネージャークラス
 // 各シーンの切り替えを管理する。
@@ -15,17 +10,10 @@ private:
 
 public:
     // コンストラクタ
-    SceneManager()
-    {
-        mScene = nullptr;
-
-        //ゲームメインのシーンを作成
-        mScene = new GameMain(this);
-
-    }
-
+    SceneManager(AbstractScene* scene) :mScene(scene) {};
     // デストラクタ
-    ~SceneManager() {
+    ~SceneManager() 
+    {
         delete mScene;
     }
 
