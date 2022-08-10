@@ -1,4 +1,5 @@
 #pragma once
+#include"CAbstractScene.h"
 class CAbstractScene;
 class CSceneManager
 {
@@ -6,14 +7,13 @@ private:
 	CAbstractScene* scene;
 public:
 	//コンストラクタ
-	CSceneManager() {}
+	CSceneManager(CAbstractScene* pScene) :scene(pScene) {};
 	//デストラクタ
 	~CSceneManager() {}
 
-	//
+	//更新
 	CAbstractScene* Update();
-
-	//
-	void Draw()const;
+	//描画
+	void Draw()const { scene->Draw(); }
 };
 

@@ -1,4 +1,7 @@
 #include"DxLib.h"
+#include"CSceneManager.h"
+#include"CGameMain.h"
+
 //変数の宣言
 int g_LoopCount = 0;
 //プログラムの開始
@@ -14,6 +17,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	//描画先画面を裏にする
 	SetDrawScreen(DX_SCREEN_BACK);
  
+	//シーンマネージャーの確保
+	CSceneManager* sceneManager = new CSceneManager(new CGameMain);
+
 	//ゲームループ
 	while (ProcessMessage() == 0)
 	{

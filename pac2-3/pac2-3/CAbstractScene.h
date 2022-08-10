@@ -13,7 +13,7 @@ public:
 	//更新
 	virtual CAbstractScene* Update() = 0;
 	//描画
-	virtual void Draw()const = 0;
+	virtual void Draw()const {}
 
 
 	//データの退避

@@ -1,5 +1,10 @@
 #include "CSceneManager.h"
-#include"CAbstractScene.h"
+#include"CGameMain.h"
+
+//-----------------------
+// コンストラクタ
+//-----------------------
+//CSceneManager::CSceneManager() {}
 
 //-------------------------------
 // 更新

@@ -156,11 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAbstractScene.cpp" />
+    <ClCompile Include="CGameMain.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAbstractScene.h" />
+    <ClInclude Include="CGameMain.h" />
     <ClInclude Include="CSceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
