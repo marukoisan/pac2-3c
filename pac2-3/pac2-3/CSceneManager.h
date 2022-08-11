@@ -9,7 +9,11 @@ public:
 	//コンストラクタ
 	CSceneManager(CAbstractScene* pScene) :scene(pScene) {};
 	//デストラクタ
-	~CSceneManager() {}
+	~CSceneManager()
+	{
+		//確保しているシーンの解放
+		delete scene;
+	}
 
 	//更新
 	CAbstractScene* Update();

@@ -1,11 +1,6 @@
 #include "CSceneManager.h"
 #include"CGameMain.h"
 
-//-----------------------
-// コンストラクタ
-//-----------------------
-//CSceneManager::CSceneManager() {}
-
 //-------------------------------
 // 更新
 //-------------------------------
@@ -14,8 +9,11 @@ CAbstractScene* CSceneManager::Update()
 	CAbstractScene* pScene = scene->Update();
 	if (pScene != scene)
 	{
+		int tmp;
+		tmp = scene->GetSaveData();
 		delete scene;
 		scene = pScene;
+		pScene->SetSaveData(tmp);
 	}
 
 	return pScene;

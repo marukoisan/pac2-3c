@@ -1,15 +1,10 @@
 #pragma once
 #include "CAbstractScene.h"
-class CGameMain : public CAbstractScene
+class CTitle : public CAbstractScene
 {
 private:
 
 public:
-	//コンストラクタ
-	CGameMain();
-	//デストラクタ
-	~CGameMain()override;
-
 	//更新
 	CAbstractScene* Update()override;
 	//描画

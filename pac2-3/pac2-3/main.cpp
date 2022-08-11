@@ -1,9 +1,7 @@
 #include"DxLib.h"
 #include"CSceneManager.h"
-#include"CGameMain.h"
+#include"CTitle.h"
 
-//変数の宣言
-int g_LoopCount = 0;
 //プログラムの開始
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
@@ -18,20 +16,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
  
 	//シーンマネージャーの確保
-	CSceneManager* sceneManager = new CSceneManager(new CGameMain);
+	CSceneManager* sceneManager;
+	sceneManager = new CSceneManager(new CTitle);
 
 	//ゲームループ
-	while (ProcessMessage() == 0)
+	while (ProcessMessage() == 0
+			&& sceneManager->Update() != nullptr
+			&& GetJoypadInputState(DX_INPUT_KEY_PAD1) != PAD_INPUT_9/*ESCキー*/)
 	{
 		//画面の初期化
 		ClearDrawScreen();
- 
-		//ループカウンタの表示
-		DrawFormatString(0, 0, GetColor(255, 128, 0), "LoopCount=%d", g_LoopCount++);
+
+		sceneManager->Draw();
  
 		//裏画面の内容を表画面に反映
 		ScreenFlip();
 	}
+
+	//シーンマネージャーの解放
+	delete sceneManager;
+
 	//DXライブラリ使用の終了処理
 	DxLib_End();
 	//ソフトの終了
