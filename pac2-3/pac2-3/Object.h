@@ -11,31 +11,32 @@ protected:
 	float width = 0;
 
 	//îªíËópïœêî
-	bool oldHitFlg = false;
-	bool nowHitFlg = false;
+	//bool oldHitFlg = false;
+	//bool nowHitFlg = false;
 
 public:
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;
-	void UpdateFlg() { oldHitFlg = nowHitFlg; }
+	//void UpdateFlg() { oldHitFlg = nowHitFlg; }
 
 	//ìñÇΩÇ¡ÇΩéûÇÃèàóù
 	virtual void HitAction() = 0;
-	virtual void OverLapAction() {}
-	virtual void ReleaseAction() = 0;
+	//virtual void OverLapAction() {}
+	//virtual void ReleaseAction() = 0;
 
 	//getä÷êî
 	float GetX()const { return x; }
 	float GetY()const { return y; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
-	bool GetOldHitFlg()const { return oldHitFlg; }
-	bool GetNowHitFlg()const { return nowHitFlg; }
+	//bool GetOldHitFlg()const { return oldHitFlg; }
+	//bool GetNowHitFlg()const { return nowHitFlg; }
 
 	//setä÷êî
-	void SetNowFlg(bool flg) { nowHitFlg = flg; }
+	//void SetNowFlg(bool flg) { nowHitFlg = flg; }
 };
 
 //ãÈå`Ç∆ãÈå`ÇÃìñÇΩÇËîªíË
-bool CheckHitBox(CObject* obj1, CObject* obj2);
-bool CheckHitBox_Circle(CObject* box,CObject* circle);
+//bool CheckHitBox(CObject* obj1, CObject* obj2);
+//bool CheckHitBox_Circle(CObject* box,CObject* circle);
+bool CheckHitCircle(CObject* obj1, CObject* obj2);
