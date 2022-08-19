@@ -5,17 +5,16 @@
 #include<stdio.h>
 #define _USE_MATH_DEFINES
 #include<math.h>
+ #include"Player2.h"
+
  //#include"main.h"
- //#include"BaseAP.h"
- //#include"Hitbox.h"
- //#include"MovePlayer.h"
- //#include"MoveApple.h"
- //#define RANKING_DATA 5
+
   /***********************************************
    *変数宣言
-   ***********************************************/
-   //AppleGame applegame;
+  /***********************************************/
+   //MovePlayer moveplayer;
    //BaseAP baseap;
+
 
 int g_OldKey;//前回の入力キー
 int g_NowKey;//今回の入力キー
@@ -28,7 +27,7 @@ int g_GameState = 0;//ゲームモード
 //int g_Mileage;//走行距離
 //int g_EnemyCount1, g_EnemyCount2, g_EnemyCount3;//敵カウント
 //int g_Appleimage;//キャラ画像変数
-int g_Player, /*g_PlayerRight,*/ g_PlayerLeft;          //キャラ画像変数
+int g_PlayerUp, g_PlayerRight,g_PlayerLeft,g_PlayerDawn;          //キャラ画像変数
 //int g_StageImage;
 //int g_PosY;            //スクロール時のY座標
 //int g_HelpImage;
@@ -115,6 +114,7 @@ int LoadImages();
  //	//メニューカーソル
  //	DrawRotaGraph(125, 220 + MenuNo * 35, 0.7f, M_PI / 50, g_Appleimage, TRUE);
  //}
+
  /***********************************************
   *ゲーム初期処理
   ***********************************************/
@@ -144,9 +144,10 @@ void GameMain(void) {
 
 int LoadImages() {
 
-	////タイトル
+	//タイトル
 	//if ((g_TitleImage = LoadGraph("images/Title.png")) == -1)return -1;
-	////敵
+	
+	//敵
 	//if ((g_Appleimage = LoadGraph("images/Apple.png")) == -1)return-1;
 
 	////ステージ背景
@@ -156,18 +157,21 @@ int LoadImages() {
 	//if ((g_EndImage = LoadGraph("images/mori.png")) == -1) return -1;
 
 	//プレイヤー
-	if ((g_Player = LoadGraph("images/sprites/pacman.png")) == -1)return -1;
-	/*if ((g_PlayerLeft = LoadGraph("images/Left.png")) == -1)return -1;*/
+	if ((g_PlayerUp = LoadGraph("images/sprites/pacman.png")) == -1)return -1;//上
+	//if ((g_PlayerRight = LoadGraph("images/sprites/pacman.png")) == -1)return -1;//右
+	//if ((g_PlayerLeft = LoadGraph("images/sprites/pacman.png")) == -1)return -1;//左
+	//if ((g_PlayerDawn = LoadGraph("images/sprites/pacman.png")) == -1)return -1;//下
+	
 
-	////ヘルプ
+	//ヘルプ
 	//if ((g_HelpImage = LoadGraph("images/Gamehelp.png")) == -1)return -1;
 
-	////メニュー
+	//メニュー
 	//if ((g_Menu = LoadGraph("images/menu.png")) == -1) return -1;
 	//if ((g_AppleMenu = LoadGraph("images/Apple.png")) == -1) return-1;
 
 
-	//return 0;
+	return 0;
 }
 
 //int AppleGame::getg_Appleimage() {
