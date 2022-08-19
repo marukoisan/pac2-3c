@@ -1,8 +1,11 @@
 #pragma once
 #include "CAbstractScene.h"
+
+class CField;
 class CGameMain : public CAbstractScene
 {
 private:
+	CField* field;
 
 public:
 	//コンストラクタ

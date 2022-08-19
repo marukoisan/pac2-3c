@@ -22,7 +22,7 @@ public:
 	//“–‚½‚Á‚½‚Ìˆ—
 	virtual void HitAction() = 0;
 	virtual void OverLapAction() {}
-	virtual void ReleaseAction() = 0;
+	virtual void ReleaseAction() {};
 
 	//getŠÖ”
 	float GetX()const { return x; }

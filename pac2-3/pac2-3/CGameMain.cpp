@@ -1,12 +1,14 @@
 #include"DxLib.h"
 #include "CGameMain.h"
 
+#include"CField.h"
+
 //-------------------
 // コンストラクタ
 //-------------------
 CGameMain::CGameMain()
 {
-	;
+	field = new CField();
 }
 
 //-------------------
@@ -14,7 +16,7 @@ CGameMain::CGameMain()
 //-------------------
 CGameMain::~CGameMain()
 {
-	;
+	delete field;
 }
 
 //-------------------
@@ -30,5 +32,6 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
+	field->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 }
