@@ -16,19 +16,12 @@ void HitAction()
         //描画
         DrawGraph(0, 0, pacmanDying[i], FALSE);
 
-        // アニメーションパターンナンバーを変更
-        i++;
-        if (i == 10) i = 0;
-
         //一定時間待つ
         WaitTimer(100);
-	}
 
-    // 読み込んだ画像を削除
-    for (i = 0; i < 11; i++)
-    {
+        // 読み込んだ画像を削除
         DeleteGraph(pacmanDying[i]);
-    }
+	}
 
 }
 

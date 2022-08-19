@@ -32,7 +32,7 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 	//-------------------------------
 	if (obj1->GetOldHitFlg() == false 
 		&& obj2->GetOldHitFlg() == false
-		&&absf(&distanceX) <= rangeX 
+		&& absf(&distanceX) <= rangeX 
 		&& absf(&distanceY) <= rangeY) 
 	{
 		obj1->SetNowFlg(true);

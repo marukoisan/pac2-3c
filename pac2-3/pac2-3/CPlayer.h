@@ -3,9 +3,8 @@
 
 class CPlayer : public CObject 
 {
-protected:
-	//•ªŠ„“Ç‚İ‚İ
-	int pacmanDying[11];
+private:
+
 public:
 	int LoadImage();
 };
