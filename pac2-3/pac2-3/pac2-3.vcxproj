@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAbstractScene.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
     <ClCompile Include="CGameMain.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CTitle.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAbstractScene.h" />
+    <ClInclude Include="CEnemy.h" />
     <ClInclude Include="CGameMain.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTitle.h" />
