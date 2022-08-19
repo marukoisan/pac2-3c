@@ -6,7 +6,7 @@
 class CField : public CObject
 {
 private:
-	int tiles[30];//タイル画像の総数
+	int tileImages[30];//タイル画像の総数
 	int testTiles[4];
 public:
 	//コンストラクタ
@@ -18,7 +18,9 @@ public:
 	void Update() {};
 	//描画
 	void Draw()const;
-
+	
+	//画像の読み込み
+	bool LoadImages();
 
 	void HitAction() {};
 };

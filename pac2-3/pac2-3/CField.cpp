@@ -5,10 +5,10 @@
 // コンストラクタ
 //------------------------------
 CField::CField() {
-	testTiles[0] = LoadGraph("images/tiles/corner_top_left.png");
-	testTiles[1] = LoadGraph("images/tiles/corner_top_right.png");
-	testTiles[2] = LoadGraph("images/tiles/corner_bottom_left.png");
-	testTiles[3] = LoadGraph("images/tiles/corner_bottom_right.png");
+	if ((LoadImages()) == -1) 
+	{
+		;//error
+	}
 }
 
 //-------------------------------
@@ -37,5 +37,28 @@ void CField::Draw()const {
 //-------------------------------
 
 //-------------------------------
-// 
+// 画像の読み込み
 //-------------------------------
+bool CField::LoadImages() {
+	testTiles[0] = LoadGraph("images/tiles/corner_top_left.png");
+	testTiles[1] = LoadGraph("images/tiles/corner_top_right.png");
+	testTiles[2] = LoadGraph("images/tiles/corner_bottom_left.png");
+	testTiles[3] = LoadGraph("images/tiles/corner_bottom_right.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_top_left.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_top_right.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_bottom_left.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_bottom_right.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_narrow_top_left.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_narrow_top_right.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_narrow_bottom_left.png");
+	testTiles[3] = LoadGraph("images/tiles/outercorner_narrow_bottom_right.png");
+	testTiles[] = LoadGraph("images/tiles/outernose_top_right.png");//left
+	testTiles[] = LoadGraph("images/tiles/outernose_top_left.png");//right
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+	testTiles[] = LoadGraph("images/tiles/.png");
+}
