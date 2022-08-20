@@ -503,7 +503,7 @@
 //
 
 #include "DxLib.h"
-#include <fstream>
+//#include <fstream>
 
 #define PI	3.1415926535897932384626433832795f
 
@@ -511,13 +511,15 @@
 int gPacman[10];			// パックマンのグラフィックハンドル
 int gMapChip[10];			// マップチップのハンドル
 int gMap[30][32];			// マップデータ
+//int gScore;					// 得点
+int gBg;					// 背景グラフィックハンドル
 
 // 画像の読み込み
-int LoadData()
+int LoadImages()
 {
 	// 画像の読み込み
 	if (LoadDivGraph("pacman.bmp", 10, 10, 1, 48, 48, gPacman) == -1) {
-		MessageBox(NULL, "pacman.bmp", "ReadError", MB_OK);
+		//MessageBox(NULL, "pacman.bmp", "ReadError", MB_OK);
 		return -1;
 	}
 	if (LoadDivGraph("mapchip1.bmp", 5, 5, 1, 16, 16, gMapChip) == -1) {
@@ -570,18 +572,28 @@ int Init()
 
 	SetDrawScreen(DX_SCREEN_BACK);		// 裏画面に書き込みますよ宣言
 
-	if (LoadData() == -1) {
+	if (LoadImages() == -1) {
 		DxLib_End();
 		return -1;
 	}
 	MapInit();
+
+	// ゲームの設定
+	/*gScore = 0;*/
 	return 0;
 }
+//void ClearEvent()
+//{
+//	MessageBox(NULL, "おめでたう", "Congratulation", MB_OK);
+//	return;
+//}
+// マップ配置（毎フレーム描画）
 int MapSet()
 {
 	int sx, sy, st;
 	int dot = 0;
 
+	DrawGraph(0, 0, gBg, TRUE);
 	for (sy = 0; sy < 30; sy++) {
 		for (sx = 0; sx < 32; sx++) {
 			st = gMap[sy][sx];
@@ -589,47 +601,126 @@ int MapSet()
 			if (st == 1 || st == 2) dot++;
 		}
 	}
-	if (dot == 0) {		// 食べるものが残ってなければ
-//		ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
-		return -1;
-	}
+	//if (dot == 0) {		// 食べるものが残ってなければ
+	//	ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
+	//	return -1;
+	//}
 	return 0;
 }
 
+// 進行方向に壁がないかチェックする
+int CheckWall(int cx, int cy, int mx, int my)
+{
+	int wall = 0;
+	static int dbgx = 0, dbgy = 0;
+	if (mx != 0) {
+		if (gMap[cy - 1][cx + mx * 2] >= 3) wall++;
+		if (gMap[cy][cx + mx * 2] >= 3) wall++;
+		if (gMap[cy + 1][cx + mx * 2] >= 3) wall++;
+		dbgx = mx; dbgy = my;
+	}
+	else if (my != 0) {
+		if (gMap[cy + my * 2][cx - 1] >= 3) wall++;
+		if (gMap[cy + my * 2][cx] >= 3) wall++;
+		if (gMap[cy + my * 2][cx + 1] >= 3) wall++;
+		dbgx = mx; dbgy = my;
+	}
+
+	return wall;
+}
+// パク男が移動する関数
+int PakuoMove()
+{
+	static int key;
+	static int s = 0;			// パク男表示用
+	static int x = 15, y = 19;		// マップ座標
+	static int dx = 0, dy = 0;	// 初期方向は与えない
+	static float Angle = 0.0f;	// 初期　左向き
+	static int mv = 0;			// パク男移動中
+	int mvx = 0, mvy = 0;
+
+	key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+	if (key & PAD_INPUT_START) return -1;		// PAD_INPUT_START  [ESC]Key
+
+	if (mv == 0) {
+		// 足元判定
+		if (gMap[y][x] == 1) {
+			// Sound「ぱくっ！！」
+			/*gScore += 10;*/
+			gMap[y][x] = 0;
+		}
+		if (gMap[y][x] == 2) {
+			// ハイパー化！！
+			/*gScore += 50;*/
+			gMap[y][x] = 0;
+		}
+
+		// ぴしゃりマス目にいるときだけキー入力判定
+		mv = 16;
+		if (key & PAD_INPUT_UP) {
+			if (!CheckWall(x, y, 0, -1)) {
+				dx = 0; dy = -1; Angle = PI / 2;
+			}
+		}
+		else if (key & PAD_INPUT_DOWN) {
+			if (!CheckWall(x, y, 0, 1)) {
+				dx = 0; dy = 1; Angle = -PI / 2;
+			}
+		}
+		else if (key & PAD_INPUT_LEFT) {
+			if (!CheckWall(x, y, -1, 0)) {
+				dx = -1; dy = 0; Angle = 0;
+			}
+		}
+		else if (key & PAD_INPUT_RIGHT) {
+			if (!CheckWall(x, y, 1, 0)) {
+				dx = 1; dy = 0; Angle = PI;
+			}
+		}
+		else {	// キー入力がなかったときも当たり判定
+			if (CheckWall(x, y, dx, dy)) {
+				dx = 0; dy = 0; mv = 0;
+			}
+			else {
+				mv = 16;
+			}
+		}
+	}
+	else {
+		// パク男移動中（マス目の中間にいるとき）
+		mv -= 4;
+		if (mv <= 0) {
+			x += dx;
+			y += dy;
+			mv = 0;//dx=0;dy=0;
+			if (CheckWall(x, y, dx, dy)) {
+				dx = 0; dy = 0;
+				mv = 0;			// 念のため対応。
+			}
+		}
+		else {
+			mvx = (16 - mv) * dx;
+			mvy = (16 - mv) * dy;
+		}
+	}
+	if ((dx + dy) != 0) s = (++s) % 7; // 動いているときだけアニメーション
+
+	DrawRotaGraph((x - 1) * 16 + 24 + mvx, (y - 1) * 16 + 24 + mvy, 1, Angle, gPacman[s], TRUE);
+
+	return 0;
+}
 // メインループ
 void MainLoop()
 {
-	int key;
-	int s = 0;
-	int x = 200, y = 200;
-	int dx = -4, dy = 0;
-	float Angle = 0.0f;	// 初期　左向き
 	while (ProcessMessage() == 0) {
 		ClsDrawScreen();
-		if (MapSet() == -1)return;
-		key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-		if (key & PAD_INPUT_START) break;		// PAD_INPUT_START  [ESC]Key
 
-		if (x <= 0 + 48 || x >= 640 - 48 || y <= 0 + 48 || y >= 480 - 48) {	// 画面の端っこのほう確認
-															// 端っこ近くではキー入力受け付けない
-			if (x <= 0 + 24 || x >= 640 - 24 || y <= 0 + 24 || y >= 480 - 24) {	// 画面の端確認
-				dx *= -1;
-				dy *= -1;									// 端だったら方向転換
-				Angle += PI;								// 進行方向にPI(180度)加算する
-				if (Angle > 2 * PI) Angle -= 2 * PI;				// 360度以上なら360度引く。
-			}												// 下方向は270度でも-90度でも両方対応してるので、そのルーズさに甘える。
-		}
-		else {
-			if (key & PAD_INPUT_UP) { dx = 0; dy = -4; Angle = PI / 2; }
-			if (key & PAD_INPUT_DOWN) { dx = 0; dy = 4; Angle = -PI / 2; }
-			if (key & PAD_INPUT_LEFT) { dx = -4; dy = 0; Angle = 0; }
-			if (key & PAD_INPUT_RIGHT) { dx = 4; dy = 0; Angle = PI; }
-		}
-		x += dx;
-		y += dy;
-		s = (++s) % 7;
+		if (MapSet())return;
+		if (PakuoMove()) return;
 
-		DrawRotaGraph(x, y, 1, Angle, gPacman[s], TRUE);
+		/*DrawFormatString(512, 0, RGB(255, 255, 255), "SCORE:");
+		DrawFormatString(512, 16, RGB(255, 255, 255), "%6d", gScore)*/;
+
 		ScreenFlip();
 	}
 	return;
