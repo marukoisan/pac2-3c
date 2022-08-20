@@ -24,6 +24,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	field->Update();
 	return this;
 }
 
