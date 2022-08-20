@@ -22,18 +22,7 @@ CField::~CField()
 //-------------------------------
 void CField::Update() 
 {
-	if (GetJoypadInputState(DX_INPUT_KEY_PAD1) == PAD_INPUT_1)
-	{
-		if (testImageIndex < D_TILE_IMAGE_MAX - 1) 
-		{
-			testImageIndex++;
-			WaitTimer(120);
-		}
-		else
-		{
-			testImageIndex = 0;
-		}
-	}
+	
 }
 
 //-------------------------------
@@ -41,15 +30,12 @@ void CField::Update()
 //-------------------------------
 void CField::Draw()const 
 {
-	DrawRotaGraphF(640, 360, 1.0 / 100.0 * D_TILE_SIZE, 0, tileImages[testImageIndex], TRUE);
-	DrawFormatString(0, 20, 0xFFFFFF, "%d", testImageIndex);
-
 	for (int i = 0; i < D_FIELD_HEIGHT; i++)
 	{
 		for (int j = 0; j < D_FIELD_WIDTH; j++)
 		{
-			DrawRotaGraphF(360 + j * D_TILE_SIZE, 60, 1.0 / 100.0 * D_TILE_SIZE, 0, tileImages[FEILD_DATA[0][j]], TRUE);
-
+			DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
+				/* 拡大率 */1.0 / D_TILE_IMAGE_SIZE * D_TILE_SIZE, 0, tileImages[FEILD_DATA[i][j]], TRUE);
 		}
 	}
 }
@@ -61,7 +47,8 @@ void CField::Draw()const
 //-------------------------------
 // 画像の読み込み
 //-------------------------------
-void CField::LoadImages() {
+void CField::LoadImages()
+{
 	//カーブ一本
 	tileImages[0] = LoadGraph("images/tiles/corner_top_left.png");
 	tileImages[1] = LoadGraph("images/tiles/corner_top_right.png");
@@ -105,5 +92,10 @@ void CField::LoadImages() {
 	//ゲート
 	tileImages[24] = LoadGraph("images/tiles/gate_left.png");
 	tileImages[25] = LoadGraph("images/tiles/gate_right.png");
+
+	//床
 	tileImages[26] = LoadGraph("images/tiles/floor.png");
+
+	//ドア
+	tileImages[27] = LoadGraph("images/tiles/door.png");
 }
