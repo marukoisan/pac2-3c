@@ -6,7 +6,11 @@ class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
+	//プレイモードかどうか　true：プレイモード　false：スタートモード
+	bool isPlayMode;
 
+	//画像用変数
+	int gameOverImage; //ゲームオーバー画像
 public:
 	//コンストラクタ
 	CGameMain();
