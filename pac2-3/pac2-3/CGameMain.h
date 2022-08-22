@@ -7,7 +7,6 @@ class CGameMain : public CAbstractScene
 private:
 	CPlayer* player;
 
-	bool testisLoop = true;
 public:
 	//コンストラクタ
 	CGameMain();
