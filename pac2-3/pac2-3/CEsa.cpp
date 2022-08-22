@@ -3,6 +3,7 @@
 
 CEsa::CEsa()//コンストラクタ
 {
+	LoadesaImage();
 	 esa = 0;
 	 Bigesa = 0;
 

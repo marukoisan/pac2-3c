@@ -1,7 +1,7 @@
 #pragma once
 #include"Object.h"
 #define ESA_IMAGE_ORIGINNL 100.0
-#define ESA_IMAGE_NEWLY 20.0f
+#define ESA_IMAGE_NEWLY 20.0
 
 
 class CEsa : public CObject

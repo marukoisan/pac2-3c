@@ -2,6 +2,7 @@
 #include"CSceneManager.h"
 #include"CTitle.h"
 
+
 //プログラムの開始
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
