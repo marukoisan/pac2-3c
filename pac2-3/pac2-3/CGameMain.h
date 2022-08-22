@@ -2,10 +2,12 @@
 #include "CAbstractScene.h"
 
 class CField;
+class CEsa;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
+	CEsa* esa;
 
 public:
 	//コンストラクタ

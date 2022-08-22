@@ -1,7 +1,7 @@
 #pragma once
 #include"Object.h"
-#define ESA_IMAGE_HEIGHT 20.0
-#define ESA_IMAGE_WIDTH 20.0
+#define ESA_IMAGE_ORIGINNL 100.0
+#define ESA_IMAGE_NEWLY 20.0f
 
 
 class CEsa : public CObject
@@ -22,6 +22,6 @@ public:
 	void Draw()const;
 	void HitAction() {};
 	void Init();//•Ï”‚Ì‰Šú‰»
-	int LoadesaImage();//‰æ‘œ‚Ì“Ç‚İ
+	void LoadesaImage();//‰æ‘œ‚Ì“Ç‚İ
 };
 

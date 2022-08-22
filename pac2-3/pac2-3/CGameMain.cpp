@@ -2,6 +2,7 @@
 #include "CGameMain.h"
 
 #include"CField.h"
+#include"CEsa.h"
 
 //-------------------
 // コンストラクタ
@@ -9,6 +10,7 @@
 CGameMain::CGameMain()
 {
 	field = new CField();
+	esa = new CEsa();
 }
 
 //-------------------
@@ -17,6 +19,7 @@ CGameMain::CGameMain()
 CGameMain::~CGameMain()
 {
 	delete field;
+	delete esa;
 }
 
 //-------------------
@@ -25,6 +28,7 @@ CGameMain::~CGameMain()
 CAbstractScene* CGameMain::Update()
 {
 	field->Update();
+	esa->Init();
 	return this;
 }
 
@@ -34,5 +38,6 @@ CAbstractScene* CGameMain::Update()
 void CGameMain::Draw()const
 {
 	field->Draw();
+	esa->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 }
