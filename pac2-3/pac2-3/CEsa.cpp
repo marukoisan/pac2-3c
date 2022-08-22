@@ -4,8 +4,8 @@
 CEsa::CEsa()//コンストラクタ
 {
 	LoadesaImage();
-	 esa = 0;
-	 Bigesa = 0;
+	 //esa = 0;
+	 //Bigesa = 0;
 
 	//座標
 	 x = 0.0;

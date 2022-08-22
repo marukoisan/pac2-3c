@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"CSceneManager.h"
 #include"CTitle.h"
+#include"CEsa.h"
 
 
 //プログラムの開始
