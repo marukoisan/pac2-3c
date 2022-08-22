@@ -505,9 +505,7 @@
 #include "DxLib.h"
 //#include <fstream>
 #include "Player2.h"
-
-
-//#define PI	3.1415926535897932384626433832795f
+#define PI	3.1415926535897932384626433832795f
 
 Player2 player2;
 
@@ -615,7 +613,7 @@ int Init()
 //}
 
  //進行方向に壁がないかチェックする
-int CheckWall(int cx, int cy, int mx, int my)
+int Player2::CheckWall(int cx, int cy, int mx, int my)
 {
 	int wall = 0;
 	static int dbgx = 0, dbgy = 0;
@@ -635,11 +633,11 @@ int CheckWall(int cx, int cy, int mx, int my)
 	return wall;
 }
 // プレイヤーが移動する関数
-int PlayerMove()
+int Player2::PlayerMove()
 {
 	static int key;
 	static int s = 0;			// プレイヤー表示用
-	static int x = 15, y = 19;		// マップ座標
+	static int x = 20, y = 14;	// マップ座標
 	static int dx = 0, dy = 0;	// 初期方向は与えない
 	static float Angle = 0.0f;	// 初期　左向き
 	static int mv = 0;			// プレイヤー移動中
@@ -665,22 +663,22 @@ int PlayerMove()
 		mv = 20;
 		if (key & PAD_INPUT_UP) {
 			if (!CheckWall(x, y, 0, -1)) {
-				dx = 0; dy = -1; //Angle = PI / 2;
+				dx = 0; dy = -1; Angle = PI / 2;
 			}
 		}
 		else if (key & PAD_INPUT_DOWN) {
 			if (!CheckWall(x, y, 0, 1)) {
-				dx = 0; dy = 1; //Angle = -PI / 2;
+				dx = 0; dy = 1; Angle = -PI / 2;
 			}
 		}
 		else if (key & PAD_INPUT_LEFT) {
 			if (!CheckWall(x, y, -1, 0)) {
-				dx = -1; dy = 0; //Angle = 0;
+				dx = -1; dy = 0; Angle = 0;
 			}
 		}
 		else if (key & PAD_INPUT_RIGHT) {
 			if (!CheckWall(x, y, 1, 0)) {
-				dx = 1; dy = 0; //Angle = PI;
+				dx = 1; dy = 0; Angle = PI;
 			}
 		}
 		//else {	// キー入力がなかったときも当たり判定
@@ -688,7 +686,7 @@ int PlayerMove()
 		//		dx = 0; dy = 0; mv = 0;
 		//	}
 		//	else {
-		//		mv = 16;
+		//		mv = 20;
 		//	}
 		//}
 	}
@@ -709,10 +707,10 @@ int PlayerMove()
 			mvy = (16 - mv) * dy;
 		}
 	}
-	if ((dx + dy) != 0) s = (++s) % 7; // 動いているときだけアニメーション
+	if ((dx + dy) != 0) s++; // 動いているときだけアニメーション
 
-	DrawRotaGraph((x - 1) * 16 + 32 + mvx, (y - 1) * 16 + 32 + mvy, 1, Angle, gPacman[s], TRUE);
-
+	DrawRotaGraph((x - 1) * 16 + 32 + mvx, (y - 1) * 16 + 32 + mvy, 1, Angle, gPacman[s/5%3+9], TRUE);
+	
 	return 0;
 }
 
@@ -725,7 +723,7 @@ void MainLoop()
 		ClsDrawScreen();
 
 		//if (MapSet())return;
-		if (PlayerMove()) return;
+		if (player2.PlayerMove()) return;
 
 		/*DrawFormatString(512, 0, RGB(255, 255, 255), "SCORE:");
 		DrawFormatString(512, 16, RGB(255, 255, 255), "%6d", gScore)*/;
