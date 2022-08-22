@@ -14,7 +14,7 @@ protected:
 	//bool oldHitFlg = false;
 	//bool nowHitFlg = false;
 
-public:
+public:	
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;
 	//void UpdateFlg() { oldHitFlg = nowHitFlg; }

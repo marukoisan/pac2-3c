@@ -1,12 +1,14 @@
 #include"DxLib.h"
 #include "CGameMain.h"
+#include"CEnemy.h"
 
 //-------------------
 // コンストラクタ
 //-------------------
 CGameMain::CGameMain()
 {
-	;
+	enemy = new CEnemy;//セット
+	enemy->Init();//初期化処理
 }
 
 //-------------------
@@ -14,7 +16,7 @@ CGameMain::CGameMain()
 //-------------------
 CGameMain::~CGameMain()
 {
-	;
+	delete enemy;//セット
 }
 
 //-------------------
@@ -30,5 +32,6 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
-	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
+	enemy->Draw();//描画関数
+	DrawFormatString(100, 100, 0xffffff, "%d", saveData);
 }
