@@ -2,26 +2,27 @@
 #include"DxLib.h"
 #include"CPlayer.h"
 
-int i;
-int pacmanDying[11];
 
-int LoadImage()
+CPlayer::CPlayer()
 {
-	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 20, 20, pacmanDying) == -1)return 1;
+	bool error = false;
+	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDying) == -1)error=true;
 }
 
-void HitAction()
+void CPlayer::Draw()const
 {
-	for (i = 0; i < 11; i++) {
-        //•`‰æ
-        DrawGraph(0, 0, pacmanDying[i], FALSE);
+	static int animTimer = 0;
+	animTimer++;
+	//•`‰æ
+	DrawRotaGraphF(640, 360, 1, 0, pacmanDying[animTimer /9  %11], TRUE);
+	DrawRotaGraphF(640, 360+32, 1, 0, pacmanDying[animTimer /8  %11], TRUE);
+	DrawRotaGraphF(640, 360+64, 1, 0, pacmanDying[animTimer /7  %11], TRUE);
 
-        //ˆê’èŽžŠÔ‘Ò‚Â
-        WaitTimer(100);
+}
 
-        // “Ç‚Ýž‚ñ‚¾‰æ‘œ‚ðíœ
-        DeleteGraph(pacmanDying[i]);
-	}
+void CPlayer::HitAction()
+{
+	
 
 }
 

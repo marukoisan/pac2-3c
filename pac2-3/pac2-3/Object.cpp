@@ -80,5 +80,5 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 // ‰~‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 //--------------------------------
 bool CheckHitBox_Circle(CObject* box, CObject* circle) {
-
+	return true;
 }
