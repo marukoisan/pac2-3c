@@ -17,6 +17,7 @@ private:
 	float width;
 public:
 	CEsa();//コンストラクタ
+	~CEsa();//デストラクタ
 	void Update() {};
 	void Draw()const;
 	void HitAction() {};
