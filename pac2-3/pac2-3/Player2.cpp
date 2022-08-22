@@ -504,65 +504,70 @@
 
 #include "DxLib.h"
 //#include <fstream>
+#include "Player2.h"
 
-#define PI	3.1415926535897932384626433832795f
+
+//#define PI	3.1415926535897932384626433832795f
+
+Player2 player2;
+
 
 // グローバル変数>_<
-int gPacman[10];			// パックマンのグラフィックハンドル
-int gMapChip[10];			// マップチップのハンドル
-int gMap[30][32];			// マップデータ
+int gPacman[12];			// パックマンのグラフィックハンドル
+//int gMapChip[10];			// マップチップのハンドル
+int gMap[31][28];			// マップデータ
 //int gScore;					// 得点
-int gBg;					// 背景グラフィックハンドル
+//int gBg;					// 背景グラフィックハンドル
 
 // 画像の読み込み
 int LoadImages()
 {
 	// 画像の読み込み
-	if (LoadDivGraph("pacman.bmp", 10, 10, 1, 48, 48, gPacman) == -1) {
+	if (LoadDivGraph("images/sprites/pacman.png", 12, 12, 1, 32, 32, gPacman) == -1) {
 		//MessageBox(NULL, "pacman.bmp", "ReadError", MB_OK);
 		return -1;
 	}
-	if (LoadDivGraph("mapchip1.bmp", 5, 5, 1, 16, 16, gMapChip) == -1) {
+	/*if (LoadDivGraph("mapchip1.bmp", 5, 5, 1, 16, 16, gMapChip) == -1) {
 		MessageBox(NULL, "mapchip1.bmp", "ReadError", MB_OK);
 		return -1;
-	}
+	}*/
 
 	return 0;
 }
 
 // マップの読み込み
-int MapInit()
-{
-	int FileHandle = FileRead_open("StageData.txt");		// ファイルのオープン
-	int FileSize = FileRead_size("StageData.txt");			// ファイルサイズを取得して
-	char* FileImage = new char[FileSize];					// その大きさだけ領域確保
-	FileRead_read(FileImage, FileSize, FileHandle);			// 一気読み
-	FileRead_close(FileHandle);								// ファイルを閉じて終了
-
-	const char* d = FileImage;
-	int sx = 0, sy = 0;
-	int o;
-
-	while (*d != '\0') { // NULL文字（終端）ではない間
-		switch (*d) {
-		case ' ':	o = 0; break;
-		case 'o':	o = 1; break;
-		case '@':	o = 2; break;
-		case '#':	o = 3; break;
-		case '=':	o = 4; break;
-		case '\n':
-			sy++;		// 一行下へ、左端へ
-			sx = 0;		// throw down
-		default:	o = 5; break;
-		}
-		d++;
-		if (o != 5) {
-			gMap[sy][sx] = o;	// マップ情報書き込み
-			sx++;
-		}
-	}
-	return 0;
-}
+//int MapInit()
+//{
+//	int FileHandle = FileRead_open("StageData.txt");		// ファイルのオープン
+//	int FileSize = FileRead_size("StageData.txt");			// ファイルサイズを取得して
+//	char* FileImage = new char[FileSize];					// その大きさだけ領域確保
+//	FileRead_read(FileImage, FileSize, FileHandle);			// 一気読み
+//	FileRead_close(FileHandle);								// ファイルを閉じて終了
+//
+//	const char* d = FileImage;
+//	int sx = 0, sy = 0;
+//	int o;
+//
+//	while (*d != '\0') { // NULL文字（終端）ではない間
+//		switch (*d) {
+//		case ' ':	o = 0; break;
+//		case 'o':	o = 1; break;
+//		case '@':	o = 2; break;
+//		case '#':	o = 3; break;
+//		case '=':	o = 4; break;
+//		case '\n':
+//			sy++;		// 一行下へ、左端へ
+//			sx = 0;		// throw down
+//		default:	o = 5; break;
+//		}
+//		d++;
+//		if (o != 5) {
+//			gMap[sy][sx] = o;	// マップ情報書き込み
+//			sx++;
+//		}
+//	}
+//	return 0;
+//}
 
 // 初期化
 int Init()
@@ -576,7 +581,7 @@ int Init()
 		DxLib_End();
 		return -1;
 	}
-	MapInit();
+	//MapInit();
 
 	// ゲームの設定
 	/*gScore = 0;*/
@@ -588,27 +593,28 @@ int Init()
 //	return;
 //}
 // マップ配置（毎フレーム描画）
-int MapSet()
-{
-	int sx, sy, st;
-	int dot = 0;
 
-	DrawGraph(0, 0, gBg, TRUE);
-	for (sy = 0; sy < 30; sy++) {
-		for (sx = 0; sx < 32; sx++) {
-			st = gMap[sy][sx];
-			DrawGraph(sx * 16, sy * 16, gMapChip[st], TRUE);
-			if (st == 1 || st == 2) dot++;
-		}
-	}
-	//if (dot == 0) {		// 食べるものが残ってなければ
-	//	ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
-	//	return -1;
-	//}
-	return 0;
-}
+//int MapSet()
+//{
+//	int sx, sy, st;
+//	int dot = 0;
+//
+//	DrawGraph(0, 0, gBg, TRUE);
+//	for (sy = 0; sy < 30; sy++) {
+//		for (sx = 0; sx < 32; sx++) {
+//			st = gMap[sy][sx];
+//			DrawGraph(sx * 16, sy * 16, gMapChip[st], TRUE);
+//			if (st == 1 || st == 2) dot++;
+//		}
+//	}
+//	//if (dot == 0) {		// 食べるものが残ってなければ
+//	//	ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
+//	//	return -1;
+//	//}
+//	return 0;
+//}
 
-// 進行方向に壁がないかチェックする
+ //進行方向に壁がないかチェックする
 int CheckWall(int cx, int cy, int mx, int my)
 {
 	int wall = 0;
@@ -628,15 +634,15 @@ int CheckWall(int cx, int cy, int mx, int my)
 
 	return wall;
 }
-// パク男が移動する関数
-int PakuoMove()
+// プレイヤーが移動する関数
+int PlayerMove()
 {
 	static int key;
-	static int s = 0;			// パク男表示用
+	static int s = 0;			// プレイヤー表示用
 	static int x = 15, y = 19;		// マップ座標
 	static int dx = 0, dy = 0;	// 初期方向は与えない
 	static float Angle = 0.0f;	// 初期　左向き
-	static int mv = 0;			// パク男移動中
+	static int mv = 0;			// プレイヤー移動中
 	int mvx = 0, mvy = 0;
 
 	key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
@@ -656,38 +662,38 @@ int PakuoMove()
 		}
 
 		// ぴしゃりマス目にいるときだけキー入力判定
-		mv = 16;
+		mv = 20;
 		if (key & PAD_INPUT_UP) {
 			if (!CheckWall(x, y, 0, -1)) {
-				dx = 0; dy = -1; Angle = PI / 2;
+				dx = 0; dy = -1; //Angle = PI / 2;
 			}
 		}
 		else if (key & PAD_INPUT_DOWN) {
 			if (!CheckWall(x, y, 0, 1)) {
-				dx = 0; dy = 1; Angle = -PI / 2;
+				dx = 0; dy = 1; //Angle = -PI / 2;
 			}
 		}
 		else if (key & PAD_INPUT_LEFT) {
 			if (!CheckWall(x, y, -1, 0)) {
-				dx = -1; dy = 0; Angle = 0;
+				dx = -1; dy = 0; //Angle = 0;
 			}
 		}
 		else if (key & PAD_INPUT_RIGHT) {
 			if (!CheckWall(x, y, 1, 0)) {
-				dx = 1; dy = 0; Angle = PI;
+				dx = 1; dy = 0; //Angle = PI;
 			}
 		}
-		else {	// キー入力がなかったときも当たり判定
-			if (CheckWall(x, y, dx, dy)) {
-				dx = 0; dy = 0; mv = 0;
-			}
-			else {
-				mv = 16;
-			}
-		}
+		//else {	// キー入力がなかったときも当たり判定
+		//	if (CheckWall(x, y, dx, dy)) {
+		//		dx = 0; dy = 0; mv = 0;
+		//	}
+		//	else {
+		//		mv = 16;
+		//	}
+		//}
 	}
 	else {
-		// パク男移動中（マス目の中間にいるとき）
+		// プレイヤー移動中（マス目の中間にいるとき）
 		mv -= 4;
 		if (mv <= 0) {
 			x += dx;
@@ -705,18 +711,21 @@ int PakuoMove()
 	}
 	if ((dx + dy) != 0) s = (++s) % 7; // 動いているときだけアニメーション
 
-	DrawRotaGraph((x - 1) * 16 + 24 + mvx, (y - 1) * 16 + 24 + mvy, 1, Angle, gPacman[s], TRUE);
+	DrawRotaGraph((x - 1) * 16 + 32 + mvx, (y - 1) * 16 + 32 + mvy, 1, Angle, gPacman[s], TRUE);
 
 	return 0;
 }
+
+
+
 // メインループ
 void MainLoop()
 {
 	while (ProcessMessage() == 0) {
 		ClsDrawScreen();
 
-		if (MapSet())return;
-		if (PakuoMove()) return;
+		//if (MapSet())return;
+		if (PlayerMove()) return;
 
 		/*DrawFormatString(512, 0, RGB(255, 255, 255), "SCORE:");
 		DrawFormatString(512, 16, RGB(255, 255, 255), "%6d", gScore)*/;
