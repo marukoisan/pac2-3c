@@ -34,8 +34,12 @@ void CField::Draw()const
 	{
 		for (int j = 0; j < D_FIELD_WIDTH; j++)
 		{
+			if (FEILD_DATA[i][j] >= 0)
+			{
 			DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
 				/* Šg‘å—¦ */1.0 / D_TILE_IMAGE_SIZE * D_TILE_SIZE, 0, tileImages[FEILD_DATA[i][j]], TRUE);
+			}
+			
 		}
 	}
 }

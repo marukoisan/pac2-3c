@@ -1,6 +1,11 @@
 #pragma once
 #include "CAbstractScene.h"
 
+#define D_GAMEOVER_POS 21 //ƒ}ƒX–Ú
+#define D_MASS_SIZE 20
+#define D_SCREEN_SIZE_WIDTH 1280
+#define D_SCREEN_SIZE_HEIGHT 720
+
 class CField;
 class CGameMain : public CAbstractScene
 {

@@ -71,7 +71,8 @@ void CGameMain::Draw()const
 
 	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
-		DrawGraph(0, 0, gameOverImage, TRUE);
+		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_MASS_SIZE - (D_MASS_SIZE / 2)//中心座標の為
+							, 1.0 / 8 * D_MASS_SIZE, 0, gameOverImage, TRUE);
 		WaitKey();
 	}
 	if (isPlayMode)
