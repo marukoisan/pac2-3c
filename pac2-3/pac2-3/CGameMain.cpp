@@ -11,6 +11,7 @@ CGameMain::CGameMain()
 {
 	field = new CField();
 	esa = new CEsa();
+	esa->Init();
 }
 
 //-------------------
@@ -28,7 +29,7 @@ CGameMain::~CGameMain()
 CAbstractScene* CGameMain::Update()
 {
 	field->Update();
-	esa->Init();
+	
 	return this;
 }
 
