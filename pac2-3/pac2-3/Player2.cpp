@@ -505,7 +505,7 @@
 #include "DxLib.h"
 //#include <fstream>
 #include "Player2.h"
-#define PI	3.1415926535897932384626433832795f
+//#define PI	3.1415926535897932384626433832795f
 
 Player2 player2;
 
