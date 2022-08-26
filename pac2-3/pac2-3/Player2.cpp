@@ -512,10 +512,13 @@ Player2 player2;
 
 // グローバル変数>_<
 int gPacman[12];			// パックマンのグラフィックハンドル
-//int gMapChip[10];			// マップチップのハンドル
+int gMapChip[10];			// マップチップのハンドル
 int gMap[31][28];			// マップデータ
 //int gScore;					// 得点
-//int gBg;					// 背景グラフィックハンドル
+int gBg;					// 背景グラフィックハンドル
+
+
+
 
 // 画像の読み込み
 int LoadImages()
@@ -525,47 +528,47 @@ int LoadImages()
 		//MessageBox(NULL, "pacman.bmp", "ReadError", MB_OK);
 		return -1;
 	}
-	/*if (LoadDivGraph("mapchip1.bmp", 5, 5, 1, 16, 16, gMapChip) == -1) {
-		MessageBox(NULL, "mapchip1.bmp", "ReadError", MB_OK);
+	if (LoadDivGraph("mapchip1.bmp", 5, 5, 1, 16, 16, gMapChip) == -1) {
+		/*MessageBox(NULL, "mapchip1.bmp", "ReadError", MB_OK);*/
 		return -1;
-	}*/
+	}
 
 	return 0;
 }
 
-// マップの読み込み
-//int MapInit()
-//{
-//	int FileHandle = FileRead_open("StageData.txt");		// ファイルのオープン
-//	int FileSize = FileRead_size("StageData.txt");			// ファイルサイズを取得して
-//	char* FileImage = new char[FileSize];					// その大きさだけ領域確保
-//	FileRead_read(FileImage, FileSize, FileHandle);			// 一気読み
-//	FileRead_close(FileHandle);								// ファイルを閉じて終了
-//
-//	const char* d = FileImage;
-//	int sx = 0, sy = 0;
-//	int o;
-//
-//	while (*d != '\0') { // NULL文字（終端）ではない間
-//		switch (*d) {
-//		case ' ':	o = 0; break;
-//		case 'o':	o = 1; break;
-//		case '@':	o = 2; break;
-//		case '#':	o = 3; break;
-//		case '=':	o = 4; break;
-//		case '\n':
-//			sy++;		// 一行下へ、左端へ
-//			sx = 0;		// throw down
-//		default:	o = 5; break;
-//		}
-//		d++;
-//		if (o != 5) {
-//			gMap[sy][sx] = o;	// マップ情報書き込み
-//			sx++;
-//		}
-//	}
-//	return 0;
-//}
+ //マップの読み込み
+int MapInit()
+{
+	int FileHandle = FileRead_open("StageData.txt");		// ファイルのオープン
+	int FileSize = FileRead_size("StageData.txt");			// ファイルサイズを取得して
+	char* FileImage = new char[FileSize];					// その大きさだけ領域確保
+	FileRead_read(FileImage, FileSize, FileHandle);			// 一気読み
+	FileRead_close(FileHandle);								// ファイルを閉じて終了
+
+	const char* d = FileImage;
+	int sx = 0, sy = 0;
+	int o;
+
+	while (*d != '\0') { // NULL文字（終端）ではない間
+		switch (*d) {
+		case ' ':	o = 0; break;
+		case 'o':	o = 1; break;
+		case '@':	o = 2; break;
+		case '#':	o = 3; break;
+		case '=':	o = 4; break;
+		case '\n':
+			sy++;		// 一行下へ、左端へ
+			sx = 0;		// throw down
+		default:	o = 5; break;
+		}
+		d++;
+		if (o != 5) {
+			gMap[sy][sx] = o;	// マップ情報書き込み
+			sx++;
+		}
+	}
+	return 0;
+}
 
 // 初期化
 int Init()
@@ -592,25 +595,25 @@ int Init()
 //}
 // マップ配置（毎フレーム描画）
 
-//int MapSet()
-//{
-//	int sx, sy, st;
-//	int dot = 0;
-//
-//	DrawGraph(0, 0, gBg, TRUE);
-//	for (sy = 0; sy < 30; sy++) {
-//		for (sx = 0; sx < 32; sx++) {
-//			st = gMap[sy][sx];
-//			DrawGraph(sx * 16, sy * 16, gMapChip[st], TRUE);
-//			if (st == 1 || st == 2) dot++;
-//		}
-//	}
-//	//if (dot == 0) {		// 食べるものが残ってなければ
-//	//	ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
-//	//	return -1;
-//	//}
-//	return 0;
-//}
+int MapSet()
+{
+	int sx, sy, st;
+	int dot = 0;
+
+	DrawGraph(0, 0, gBg, TRUE);
+	for (sy = 0; sy < 30; sy++) {
+		for (sx = 0; sx < 32; sx++) {
+			st = gMap[sy][sx];
+			DrawGraph(sx * 16, sy * 16, gMapChip[st], TRUE);
+			if (st == 1 || st == 2) dot++;
+		}
+	}
+	//if (dot == 0) {		// 食べるものが残ってなければ
+	//	ClearEvent();	// クリアですよ、えらいねえ頑張ったねえ
+	//	return -1;
+	//}
+	return 0;
+}
 
  //進行方向に壁がないかチェックする
 int Player2::CheckWall(int cx, int cy, int mx, int my)
