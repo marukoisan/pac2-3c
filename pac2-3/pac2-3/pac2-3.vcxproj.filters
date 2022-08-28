@@ -66,9 +66,4 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="game_over.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

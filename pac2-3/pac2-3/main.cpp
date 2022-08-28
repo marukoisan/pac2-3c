@@ -2,6 +2,8 @@
 #include"CSceneManager.h"
 #include"CTitle.h"
 
+int loopCount = 0;
+
 //プログラムの開始
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
@@ -24,13 +26,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 			&& sceneManager->Update() != nullptr
 			&& GetJoypadInputState(DX_INPUT_KEY_PAD1) != PAD_INPUT_9/*ESCキー*/)
 	{
+		double nextTime = GetNowCount() + 16.66;
 		//画面の初期化
 		ClearDrawScreen();
+		loopCount++;
+		DrawFormatString(0, 40, 0xFFFFFF, "%d", loopCount);
 
 		sceneManager->Draw();
- 
+
 		//裏画面の内容を表画面に反映
 		ScreenFlip();
+
+		//1フレーム当たり16ミリ秒より早く処理されたら待つ
+		if (nextTime > GetNowCount())
+		{
+			WaitTimer((int)(nextTime - GetNowCount()));
+		}
 	}
 
 	//シーンマネージャーの解放
