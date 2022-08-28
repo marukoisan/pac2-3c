@@ -7,10 +7,12 @@
 #define D_SCREEN_SIZE_HEIGHT 720
 
 class CField;
+class CAbstractEnemy;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
+	CAbstractEnemy* enemy;
 	//プレイモードかどうか　true：プレイモード　false：スタートモード
 	bool isPlayMode;
 

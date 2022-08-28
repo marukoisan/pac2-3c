@@ -1,6 +1,6 @@
 #include"DxLib.h"
 #include "CGameMain.h"
-
+#include"CAbstractEnemy.h"
 #include"CField.h"
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -12,7 +12,8 @@ CGameMain::CGameMain()
 {
 	isPlayMode = true;
 	gameOverImage = LoadGraph("game_over.png");
-	field = new CField();
+	field = new CField;
+	enemy = new CAbstractEnemy;
 }
 
 //-------------------
@@ -21,6 +22,7 @@ CGameMain::CGameMain()
 CGameMain::~CGameMain()
 {
 	delete field;
+	delete enemy;
 }
 
 //-------------------
@@ -66,6 +68,7 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
+	enemy->Draw();
 	field->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
