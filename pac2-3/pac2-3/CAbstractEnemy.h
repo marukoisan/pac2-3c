@@ -3,7 +3,7 @@
 #include"define.h"
 
 #define D_ENEMY_IMAGE_SIZE 32
-#define D_SEPARATE_ANGLE 90@//•ûŒü‚ğ90“x‚¸‚Â‚Å•ª‚¯‚é
+#define D_SEPARATE_ANGLE 90 //•ûŒü‚ğ90“x‚¸‚Â‚Å•ª‚¯‚é
 
 class CAbstractEnemy : public CObject
 {

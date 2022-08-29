@@ -39,12 +39,38 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
-	x++;
+	switch (direction)
+	{
+	case D_DIRECTION_UP:
+		y--;
+		break;
+	case D_DIRECTION_LEFT:
+		x--;
+		break;
+	case D_DIRECTION_DOWN:
+		y++;
+		break;
+	case D_DIRECTION_RIGHT:
+		x++;
+		break;
+	}
+
+	static int timer = 0;
+	timer++;
+	if (timer % 60 == 0) 
+	{
+		direction += D_SEPARATE_ANGLE;
+		if (direction >= 360)
+		{
+			direction -= 360;
+		}
+	}
+
 	MoveToTarget();
 
 	static int animTimer = 0;
 	animTimer++;
-	if (animTimer % 8 == 0)//30はフレーム数
+	if (animTimer % 8 == 0)//8はフレーム数
 	{
 		anim = !anim;
 	}
@@ -72,7 +98,7 @@ void CAbstractEnemy::Draw()const
 		1.0 , 0, enemyImages[anim], TRUE);
 	
 	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-		1.0 , 0, enemyEyes[direction/90-1], TRUE);
+		1.0 , 0, enemyEyes[direction/ D_SEPARATE_ANGLE], TRUE);
 
 	//デバッグ用ターゲット位置の表示
 	DrawBoxAA(D_FIELD_POS_X + targetPosX * D_TILE_SIZE - D_TILE_SIZE / 4
