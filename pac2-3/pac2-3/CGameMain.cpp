@@ -80,7 +80,7 @@ void CGameMain::Draw()const
 	esa->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
-	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//�v���C���[���G�ɓ����������A�c�@��0��������Q�[���I�[�o�[�Ƃ���
+	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_MASS_SIZE - (D_MASS_SIZE / 2)//���S���W�̈�
 							, 1.0 / 8 * D_MASS_SIZE, 0, gameOverImage, TRUE);
