@@ -38,17 +38,18 @@ CAbstractScene* CGameMain::Update()
 		//�f�o�b�O�p
 		
 		GetJoypadXInputState(DX_INPUT_PAD1, &keyState);
-		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//�G�T�̎c��̐����󂯎��A0�̎��ɃQ�[���N���A�Ƃ���
+		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//エサの残りの数を受け取り、0の時にゲームクリアとする
 		{
-			//�Q�[���N���A�̏���
-			// �X�e�[�W�̍X�V
-			// �G�T�̍Ĕz�u
-			//�G�̏�����(��Փx��n��)
-			//�v���C���[�̈ʒu�̏������A��Փx�̍X�V
+
+			//ゲームクリアの処理
+			// ステージの更新
+			// エサの再配置
+			//敵の初期化(難易度を渡す)
+			//プレイヤーの位置の初期化、難易度の更新
 			isPlayMode = false;
 
 
-			if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//�v���C���[���G�ɓ����������A�c�@��0��������Q�[���I�[�o�[�Ƃ���
+			if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 			{
 				
 			}
@@ -58,9 +59,9 @@ CAbstractScene* CGameMain::Update()
 	else
 	{
 
-		//�X�^�[�g���[�h�𗬂�
+		//スタートモードを流す
 
-		//����I�������v���C���[�h�ɕԂ�
+		//流れ終わったらプレイモードに返す
 		isPlayMode = true;
 	}
 
