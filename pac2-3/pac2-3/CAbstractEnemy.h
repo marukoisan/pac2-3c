@@ -3,6 +3,7 @@
 #include"define.h"
 
 #define D_ENEMY_IMAGE_SIZE 32
+#define D_SEPARATE_ANGLE 90@//•ûŒü‚ğ90“x‚¸‚Â‚Å•ª‚¯‚é
 
 class CAbstractEnemy : public CObject
 {
@@ -61,6 +62,11 @@ public:
 
 	virtual void Update()override;
 	virtual void Draw()const override;
-	virtual void HitAction()override {};
+	virtual void HitAction()override;
+
+
+	//ˆÚ“®
+	void MoveToTarget();
+	void ChangeDirection();
 };
 

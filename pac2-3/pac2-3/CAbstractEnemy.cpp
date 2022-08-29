@@ -40,6 +40,8 @@ CAbstractEnemy::~CAbstractEnemy()
 void CAbstractEnemy::Update()
 {
 	x++;
+	MoveToTarget();
+
 	static int animTimer = 0;
 	animTimer++;
 	if (animTimer % 8 == 0)//30はフレーム数
@@ -70,12 +72,47 @@ void CAbstractEnemy::Draw()const
 		1.0 , 0, enemyImages[anim], TRUE);
 	
 	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-		1.0 , 0, enemyEyes[direction], TRUE);
+		1.0 , 0, enemyEyes[direction/90-1], TRUE);
 
 	//デバッグ用ターゲット位置の表示
-	DrawBox(D_FIELD_POS_X + targetPosX * D_TILE_SIZE - D_TILE_SIZE / 4
+	DrawBoxAA(D_FIELD_POS_X + targetPosX * D_TILE_SIZE - D_TILE_SIZE / 4
 		, D_FIELD_POS_Y + targetPosY * D_TILE_SIZE - D_TILE_SIZE / 4
 		, D_FIELD_POS_X + targetPosX * D_TILE_SIZE + D_TILE_SIZE / 4
 		, D_FIELD_POS_Y + targetPosY * D_TILE_SIZE + D_TILE_SIZE / 4,
 		0xFF0000, TRUE);
+
+	//敵位置のフィールド内座標の表示
+	//DrawFormatString(0, 80, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
+	//DrawFormatString(0, 100, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+}
+
+//-------------------------
+// 当たった時の処理
+//-------------------------
+void CAbstractEnemy::HitAction()
+{
+
+}
+
+//-------------------------
+// 移動
+//-------------------------
+void CAbstractEnemy::MoveToTarget()
+{
+	if ((int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH == 0 
+		&& (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT == 0)
+	{
+		if (floor[(int)y % D_FIELD_HEIGHT][(int)x % D_FIELD_WIDTH] == 2)
+		{
+			ChangeDirection();
+		}
+	}
+}
+ 
+//-------------------------
+// 方向転換
+//-------------------------
+void CAbstractEnemy::ChangeDirection()
+{
+	
 }
