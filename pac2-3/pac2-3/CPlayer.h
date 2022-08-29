@@ -4,7 +4,7 @@
 class CPlayer : public CObject 
 {
 private:
-	int pacmanDying[11];
+	int pacmanDyings[11];
 
 public:
 	CPlayer();
