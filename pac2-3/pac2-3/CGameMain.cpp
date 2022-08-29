@@ -30,6 +30,8 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	enemy->Update();
+
 	if (isPlayMode)
 	{
 		//デバッグ用
