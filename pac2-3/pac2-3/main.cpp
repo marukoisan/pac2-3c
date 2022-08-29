@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"CSceneManager.h"
 #include"CTitle.h"
+#include"CEsa.h"
+
 
 //プログラムの開始
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)

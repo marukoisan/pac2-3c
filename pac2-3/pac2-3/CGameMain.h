@@ -1,30 +1,35 @@
 #pragma once
 #include "CAbstractScene.h"
 
-#define D_GAMEOVER_POS 21 //ƒ}ƒX–Ú
+#define D_GAMEOVER_POS 21 //ï¿½}ï¿½Xï¿½ï¿½
 #define D_MASS_SIZE 20
 #define D_SCREEN_SIZE_WIDTH 1280
 #define D_SCREEN_SIZE_HEIGHT 720
 
 class CField;
+class CEsa;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
-	//ƒvƒŒƒCƒ‚[ƒh‚©‚Ç‚¤‚©@trueFƒvƒŒƒCƒ‚[ƒh@falseFƒXƒ^[ƒgƒ‚[ƒh
+
+	//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½@trueï¿½Fï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½hï¿½@falseï¿½Fï¿½Xï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½[ï¿½h
 	bool isPlayMode;
 
-	//‰æ‘œ—p•Ï”
-	int gameOverImage; //ƒQ[ƒ€ƒI[ƒo[‰æ‘œ
+	CEsa* esa;
+
+
+	//ï¿½æ‘œï¿½pï¿½Ïï¿½
+	int gameOverImage; //ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½æ‘œ
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 	CGameMain();
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 	~CGameMain()override;
 
-	//XV
+	//ï¿½Xï¿½V
 	CAbstractScene* Update()override;
-	//•`‰æ
+	//ï¿½`ï¿½ï¿½
 	void Draw()const override;
 };
 
