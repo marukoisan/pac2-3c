@@ -7,7 +7,7 @@
 XINPUT_STATE keyState;//�f�o�b�O�p�@TODO�F����
 
 //-------------------
-// �R���X�g���N�^
+// コンストラクタ
 //-------------------
 CGameMain::CGameMain()
 {
@@ -19,7 +19,7 @@ CGameMain::CGameMain()
 }
 
 //-------------------
-// �f�X�g���N�^
+// デストラクタ
 //-------------------
 CGameMain::~CGameMain()
 {
@@ -28,7 +28,7 @@ CGameMain::~CGameMain()
 }
 
 //-------------------
-// �X�V
+// 更新
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
@@ -72,7 +72,7 @@ CAbstractScene* CGameMain::Update()
 }
 
 //-------------------
-// �`��
+// 描画
 //-------------------
 void CGameMain::Draw()const
 {
