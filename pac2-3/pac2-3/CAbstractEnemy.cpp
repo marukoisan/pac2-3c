@@ -1,14 +1,17 @@
 #include"DxLib.h"
 #include"CAbstractEnemy.h"
 
+#define _USE_MATH_DEFINES
+#include<math.h>
+
 //---------------------------
 // コンストラクタ
 //---------------------------
 CAbstractEnemy::CAbstractEnemy()
 {
 	direction = D_DIRECTION_RIGHT;
-	x = 20;
-	y = 20;
+	x = 20;  //フィールド左上を0としたときのx座標とする
+	y = 20;  //フィールド左上を0としたときのy座標とする
 	height = D_ENEMY_IMAGE_SIZE / 2;
 	width = D_ENEMY_IMAGE_SIZE / 2;
 
@@ -39,7 +42,7 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
-	switch (direction)
+	switch (D_DIRECTION_RIGHT)
 	{
 	case D_DIRECTION_UP:
 		y--;
@@ -110,6 +113,12 @@ void CAbstractEnemy::Draw()const
 	//敵位置のフィールド内座標の表示
 	//DrawFormatString(0, 80, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
 	//DrawFormatString(0, 100, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+
+	if ((int)x % (int)D_TILE_SIZE == 0
+		&& (int)y % (int)D_TILE_SIZE == 0)
+	{
+		DrawString(0, 100, "マスの中心", 0xFFFFF);
+	}
 }
 
 //-------------------------
@@ -125,12 +134,19 @@ void CAbstractEnemy::HitAction()
 //-------------------------
 void CAbstractEnemy::MoveToTarget()
 {
-	if ((int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH == 0 
-		&& (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT == 0)
+	//マス座標
+	int onFieldX = (int)x / (int)D_TILE_SIZE;
+	int onFieldY = (int)y / (int)D_TILE_SIZE;
+
+	//マスの丁度真ん中に来た時
+	if ((int)x % (int)D_TILE_SIZE == 0 
+		&& (int)y % (int)D_TILE_SIZE == 0)
 	{
-		if (floor[(int)y % D_FIELD_HEIGHT][(int)x % D_FIELD_WIDTH] == 2)
+		//そのマスが交差点だった時
+		if (floor[onFieldX][onFieldY] == D_CROSSPOINT)
 		{
-			ChangeDirection();
+			//方向の計算をする
+			ChangeDirection(onFieldX,onFieldY);
 		}
 	}
 }
@@ -138,7 +154,36 @@ void CAbstractEnemy::MoveToTarget()
 //-------------------------
 // 方向転換
 //-------------------------
-void CAbstractEnemy::ChangeDirection()
+void CAbstractEnemy::ChangeDirection(int x,int y)
 {
+	int distance;
+	int tmp;
 	
+	if (floor[y - 1][x] != D_BLOCK)
+	{
+		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
+		direction = D_DIRECTION_UP;
+	}
+
+	if (floor[y][x - 1] != D_BLOCK)
+	{
+		tmp = pow(x - 1 - targetPosX, 2.0) + pow(y - targetPosY, 2.0);
+		if(tmp<direction)
+		{
+			distance = tmp;
+			direction = D_DIRECTION_LEFT;
+		}
+	}
+
+	if (floor[y - 1][x] != D_BLOCK)
+	{
+		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
+		direction = D_DIRECTION_UP;
+	}
+
+	if (floor[y - 1][x] != D_BLOCK)
+	{
+		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
+		direction = D_DIRECTION_UP;
+	}
 }

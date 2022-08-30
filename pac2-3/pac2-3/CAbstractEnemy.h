@@ -2,6 +2,9 @@
 #include"Object.h"
 #include"define.h"
 
+#define D_BLOCK 0
+#define D_FLOOR 1
+#define D_CROSSPOINT 2
 #define D_ENEMY_IMAGE_SIZE 32
 #define D_SEPARATE_ANGLE 90 //•ûŒü‚ğ90“x‚¸‚Â‚Å•ª‚¯‚é
 
@@ -24,6 +27,13 @@ protected:
 
 	int floor[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
 	{
+
+		/*
+		define D_BLOCK 0
+		define D_FLOOR 1
+		define D_CROSSPOINT 2  Œğ·“_
+		*/
+
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,2,1,1,1,1,2,1,1,1,1,1,2,0,0,2,1,1,1,1,1,2,1,1,1,1,2,0},
 		{0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0},
@@ -65,8 +75,9 @@ public:
 	virtual void HitAction()override;
 
 
+private:
 	//ˆÚ“®
 	void MoveToTarget();
-	void ChangeDirection();
+	void ChangeDirection(int x,int y);
 };
 
