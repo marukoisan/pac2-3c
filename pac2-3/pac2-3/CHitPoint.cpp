@@ -10,9 +10,9 @@ CHitPoint::CHitPoint()
 
 void CHitPoint::Draw()const
 {
-	DrawRotaGraphF(100, 460, 1, 0, hitPointImages[10], TRUE);
-	DrawRotaGraphF(140, 460, 1, 0, hitPointImages[10], TRUE);
-	DrawRotaGraphF(180, 460, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(280, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(320, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(360, 700, 1, 0, hitPointImages[10], TRUE);
 }
 
 //リスポーンするときに残機が1減る処理(リスポーンするとき残機が0ならゲームオーバー)

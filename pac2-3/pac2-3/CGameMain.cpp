@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include "CGameMain.h"
 #include"CPlayer.h"
+#include"CHitPoint.h"
 
 
 //-------------------
@@ -9,6 +10,7 @@
 CGameMain::CGameMain()
 {
 	player = new CPlayer;
+	hitPoint = new CHitPoint;
 }
 
 //-------------------
@@ -17,6 +19,7 @@ CGameMain::CGameMain()
 CGameMain::~CGameMain()
 {
 	delete player;
+	delete hitPoint;
 }
 
 //-------------------
@@ -34,6 +37,7 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
+	hitPoint->Draw();
 		player->Draw();
 		DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 }

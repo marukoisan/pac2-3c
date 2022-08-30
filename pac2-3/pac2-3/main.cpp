@@ -19,6 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	CSceneManager* sceneManager;
 	sceneManager = new CSceneManager(new CTitle);
 
+
 	//ƒQ[ƒ€ƒ‹[ƒv
 	while (ProcessMessage() == 0
 			&& sceneManager->Update() != nullptr

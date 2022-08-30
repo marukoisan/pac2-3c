@@ -2,10 +2,12 @@
 #include "CAbstractScene.h"
 
 class CPlayer;
+class CHitPoint;
 class CGameMain : public CAbstractScene
 {
 private:
 	CPlayer* player;
+	CHitPoint* hitPoint;
 
 public:
 	//コンストラクタ
