@@ -7,7 +7,8 @@
 #define D_SCREEN_SIZE_HEIGHT 720
 
 class CField;
-class CEsa;
+class CEsaController;
+
 class CGameMain : public CAbstractScene
 {
 private:
@@ -16,7 +17,8 @@ private:
 	//�v���C���[�h���ǂ����@true�F�v���C���[�h�@false�F�X�^�[�g���[�h
 	bool isPlayMode;
 
-	CEsa* esa;
+	
+	CEsaController* esacontroller;
 
 
 	//�摜�p�ϐ�

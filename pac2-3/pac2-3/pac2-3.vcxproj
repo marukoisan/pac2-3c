@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="CAbstractScene.cpp" />
     <ClCompile Include="CEsa.cpp" />
+    <ClCompile Include="CEsaController.cpp" />
     <ClCompile Include="CField.cpp" />
     <ClCompile Include="CGameMain.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="CAbstractScene.h" />
     <ClInclude Include="CEsa.h" />
+    <ClInclude Include="CEsaController.h" />
     <ClInclude Include="CField.h" />
     <ClInclude Include="CGameMain.h" />
     <ClInclude Include="CSceneManager.h" />

@@ -3,6 +3,8 @@
 
 #include"CField.h"
 #include"CEsa.h"
+#include"CEsaController.h"
+
 
 XINPUT_STATE keyState;//�f�o�b�O�p�@TODO�F����
 
@@ -14,8 +16,9 @@ CGameMain::CGameMain()
 	isPlayMode = true;
 	gameOverImage = LoadGraph("game_over.png");
 	field = new CField();
-	esa = new CEsa();
-	esa->Init();
+	esacontroller = new CEsaController();
+	
+	
 }
 
 //-------------------
@@ -24,7 +27,7 @@ CGameMain::CGameMain()
 CGameMain::~CGameMain()
 {
 	delete field;
-	delete esa;
+	delete esacontroller;
 }
 
 //-------------------
@@ -77,7 +80,8 @@ CAbstractScene* CGameMain::Update()
 void CGameMain::Draw()const
 {
 	field->Draw();
-	esa->Draw();
+	//esa->Draw();
+	esacontroller->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
 	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
