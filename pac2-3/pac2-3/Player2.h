@@ -3,12 +3,15 @@
 
 
 class Player2 {
-	private:
+private:
 
 
-	public:
-		int PlayerMove();
-		int CheckWall(int cx, int cy, int mx, int my);
+public:
+	int PlayerMove();
+	int CheckWall(int cx, int cy, int mx, int my);
+	int LoadImages();
+	int Init();
+
 };
 
 extern Player2 player2;
