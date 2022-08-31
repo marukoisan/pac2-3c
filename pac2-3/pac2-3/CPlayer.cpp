@@ -18,7 +18,10 @@ void CPlayer::Draw()const
 
 void CPlayer::HitAction()
 {
-	
+	static int animTimer = 0;
+	animTimer++;
+	//•`‰æ
+	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
 }
 
 int CPlayer::LoadImage()
