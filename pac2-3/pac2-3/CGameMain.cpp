@@ -80,7 +80,6 @@ CAbstractScene* CGameMain::Update()
 void CGameMain::Draw()const
 {
 	field->Draw();
-	//esa->Draw();
 	esacontroller->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 

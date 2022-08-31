@@ -6,6 +6,10 @@ CEsaController::CEsaController()//コンストラクタ
 	LoadesaImage();
 	
 	esa = new CEsa[244];
+	for (int i = 0; i < 244; i++)
+	{
+		
+	}
 	SetEsa();
 
 
@@ -18,7 +22,7 @@ CEsaController::CEsaController()//コンストラクタ
 
 CEsaController::~CEsaController()//デストラクタ
 {
-	delete esa;//開放します
+	delete[] esa;//開放します
 }
 
 void CEsaController::Draw() const
@@ -29,7 +33,6 @@ void CEsaController::Draw() const
 		{
 			esa[i].Draw();
 		}
-		
 	}
 }
 
@@ -61,12 +64,12 @@ void CEsaController::SetEsa()
 			if (ESA_DATA[i][j] == 0)
 			{
 				esa[esaIndex].Init(ESA_FIELD_POS_X + j * ESA_IMAGE_NEWLY, ESA_FIELD_POS_Y + i * ESA_IMAGE_NEWLY, esaImages, 0);
-				esaIndex++;
+				if(esaIndex<243)esaIndex++;
 			}
 			else if (ESA_DATA[i][j] == 1)
 			{
 				esa[esaIndex].Init(ESA_FIELD_POS_X + j * ESA_IMAGE_NEWLY, ESA_FIELD_POS_Y + i * ESA_IMAGE_NEWLY, esaImages, 1);
-				esaIndex++;
+				if (esaIndex < 243)esaIndex++;
 			}
 		}
 	}

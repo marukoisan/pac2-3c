@@ -27,7 +27,7 @@ CEsa::~CEsa()//デストラクタ
 
 void CEsa::Draw() const//
 {
-	DrawRotaGraphF(x, y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, EsaImage[esaType], 0, TRUE);
+	DrawRotaGraphF(x, y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, 0, EsaImage[esaType], TRUE);
 }
 
 void CEsa::Init(float x, float y,int *EsaImage, bool esaType)
