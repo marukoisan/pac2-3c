@@ -2,15 +2,15 @@
 class CObject
 {
 protected:
-	//�s�{�b�g�ʒu
+	//ピボット位置
 	float x = 0;
 	float y = 0;
 
-	//�����蔻��
+	//当たり判定
 	float height = 0;
 	float width = 0;
 
-	//����p�ϐ�
+	//判定用変数
 	bool oldHitFlg = false;
 	bool nowHitFlg = false;
 
@@ -19,14 +19,14 @@ public:
 	virtual void Draw()const = 0;
 	void UpdateFlg() { oldHitFlg = nowHitFlg; }
 
-	//�����������̏���
+	//当たった時の処理
 	virtual void HitAction() = 0;
 	virtual void OverLapAction() {}
 
 	virtual void ReleaseAction() {}
 
 
-	//get�֐�
+	//get関数
 	float GetX()const { return x; }
 	float GetY()const { return y; }
 	float GetHeight()const { return height; }
@@ -34,10 +34,10 @@ public:
 	bool GetOldHitFlg()const { return oldHitFlg; }
 	bool GetNowHitFlg()const { return nowHitFlg; }
 
-	//set�֐�
+	//set関数
 	void SetNowFlg(bool flg) { nowHitFlg = flg; }
 };
 
-//��`�Ƌ�`�̓����蔻��
+//矩形と矩形の当たり判定
 bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);

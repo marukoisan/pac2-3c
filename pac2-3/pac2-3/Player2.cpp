@@ -4,6 +4,8 @@
 Player2::Player2()
 {
 
+
+	if (LoadDivGraph("images/sprites/pacman.png", 12, 12, 1, 32, 32, gPacman) == -1);
 }
 
 Player2::~Player2()
@@ -69,20 +71,20 @@ void Player2::Draw() const
 // ‰Šú‰»
 int Player2::Init()
 {
-	ChangeWindowMode(TRUE);
-	if (DxLib_Init() == -1) return -1;
-
-	SetDrawScreen(DX_SCREEN_BACK);		// — ‰æ–Ê‚É‘‚«‚İ‚Ü‚·‚æéŒ¾
-
-	if (LoadImages() == -1) {
-		DxLib_End();
-		return -1;
-	}
-	//MapInit();
-
-	// ƒQ[ƒ€‚Ìİ’è
-	/*gScore = 0;*/
-	return 0;
+//	ChangeWindowMode(TRUE);
+//	if (DxLib_Init() == -1) return -1;
+//
+//	SetDrawScreen(DX_SCREEN_BACK);		// — ‰æ–Ê‚É‘‚«‚İ‚Ü‚·‚æéŒ¾
+//
+//	if (LoadImages() == -1) {
+//		DxLib_End();
+//		return -1;
+//	}
+//	//MapInit();
+//
+//	// ƒQ[ƒ€‚Ìİ’è
+//	/*gScore = 0;*/
+//	return 0;
 }
 
 //void ClearEvent()
