@@ -159,11 +159,11 @@
     <ClCompile Include="CField.cpp" />
     <ClCompile Include="CGameMain.cpp" />
     <ClCompile Include="CHitPoint.cpp" />
+    <ClCompile Include="CPacanController.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CTitle.cpp" />
     <ClCompile Include="main.cpp" />
-
     <ClCompile Include="Object.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,16 +171,15 @@
     <ClInclude Include="CField.h" />
     <ClInclude Include="CGameMain.h" />
     <ClInclude Include="CHitPoint.h" />
+    <ClInclude Include="CPacanController.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTitle.h" />
     <ClInclude Include="Object.h" />
-
     <ClCompile Include="Player2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
-
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
