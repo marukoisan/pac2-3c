@@ -16,7 +16,7 @@ CGameMain::CGameMain()
 	gameOverImage = LoadGraph("game_over.png");
 	field = new CField;
 	enemy = new CAbstractEnemy;
-	esacontroller = new CEsaController();
+	esaController = new CEsaController();
 }
 
 //-------------------
@@ -25,7 +25,7 @@ CGameMain::CGameMain()
 CGameMain::~CGameMain()
 {
 	delete field;
-	delete esacontroller;
+	delete esaController;
 	delete enemy;
 }
 
@@ -78,9 +78,9 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
-	enemy->Draw();
 	field->Draw();
-	esacontroller->Draw();
+	esaController->Draw();
+	enemy->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
 	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする

@@ -13,6 +13,7 @@ class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
+	CEsaController* esaController;
 	CAbstractEnemy* enemy;
 	bool isPlayMode;
 
