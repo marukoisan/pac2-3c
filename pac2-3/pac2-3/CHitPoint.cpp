@@ -15,15 +15,11 @@ void CHitPoint::Draw()const
 {
 
 	DrawRotaGraphF(100, 0, 1, 0, HitPoint[10], TRUE);
-}
-
-//���X�|�[������Ƃ��Ɏc�@��1���鏈��
-void CHitPoint::Respawn()
-{
 	DrawRotaGraphF(280, 700, 1, 0, hitPointImages[10], TRUE);
 	DrawRotaGraphF(320, 700, 1, 0, hitPointImages[10], TRUE);
 	DrawRotaGraphF(360, 700, 1, 0, hitPointImages[10], TRUE);
 }
+
 
 //���X�|�[������Ƃ��Ɏc�@��1���鏈��(���X�|�[������Ƃ��c�@��0�Ȃ�Q�[���I�[�o�[)
 void CHitPoint::Respawn()
