@@ -9,7 +9,7 @@
 //---------------------------
 CAbstractEnemy::CAbstractEnemy()
 {
-	direction = D_DIRECTION_RIGHT;
+	direction = D_DIRECTION_DOWN;
 	x = 20;  //フィールド左上を0としたときのx座標とする
 	y = 20;  //フィールド左上を0としたときのy座標とする
 	height = D_ENEMY_IMAGE_SIZE / 2;
@@ -22,7 +22,6 @@ CAbstractEnemy::CAbstractEnemy()
 
 	} while (floor[targetPosY][targetPosX] == 0);
 	
-
 	anim = false;
 	LoadDivGraph("images/testNum.png", 10, 10, 1, 20, 20, testNums);
 	LoadDivGraph("images/sprites/monster.png", 2, 2, 1, 32, 32, enemyImages);
@@ -42,34 +41,21 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
-	switch (D_DIRECTION_RIGHT)
-	{
-	case D_DIRECTION_UP:
-		y--;
-		break;
-	case D_DIRECTION_LEFT:
-		x--;
-		break;
-	case D_DIRECTION_DOWN:
-		y++;
-		break;
-	case D_DIRECTION_RIGHT:
-		x++;
-		break;
-	}
-
-	static int timer = 0;
-	timer++;
-	if (timer % 60 == 0) 
-	{
-		direction += D_SEPARATE_ANGLE;
-		if (direction >= 360)
-		{
-			direction -= 360;
-		}
-	}
-
 	MoveToTarget();
+
+
+	//デバッグ用ターゲットの位置更新
+	if ((int)x / (int)D_TILE_SIZE == targetPosX &&
+		(int)y / (int)D_TILE_SIZE == targetPosY)
+	{
+		do
+		{
+			targetPosX = GetRand(D_FIELD_WIDTH - 1);
+			targetPosY = GetRand(D_FIELD_HEIGHT - 1);
+
+		} while (floor[targetPosY][targetPosX] == 0);
+	}
+	//----------------
 
 	static int animTimer = 0;
 	animTimer++;
@@ -84,17 +70,18 @@ void CAbstractEnemy::Update()
 //----------------------------
 void CAbstractEnemy::Draw()const
 {
-	for (int i = 0; i < D_FIELD_HEIGHT; i++)
-	{
-		for (int j = 0; j < D_FIELD_WIDTH; j++)
-		{
-			if (floor[i][j] > 0)
-			{
-				DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
-					/* 拡大率 */1.0 , 0, testNums[floor[i][j]], TRUE);
-			}
-		}
-	}
+	//デバッグ用フィールドの数値
+	//for (int i = 0; i < D_FIELD_HEIGHT; i++)
+	//{
+	//	for (int j = 0; j < D_FIELD_WIDTH; j++)
+	//	{
+	//		if (floor[i][j] > 0)
+	//		{
+	//			DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
+	//				/* 拡大率 */1.0 , 0, testNums[floor[i][j]], TRUE);
+	//		}
+	//	}
+	//}
 
 	
 	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
@@ -110,15 +97,13 @@ void CAbstractEnemy::Draw()const
 		, D_FIELD_POS_Y + targetPosY * D_TILE_SIZE + D_TILE_SIZE / 4,
 		0xFF0000, TRUE);
 
-	//敵位置のフィールド内座標の表示
-	//DrawFormatString(0, 80, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
-	//DrawFormatString(0, 100, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+	DrawLine(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+		D_FIELD_POS_X + targetPosX * D_TILE_SIZE, 
+		D_FIELD_POS_Y + targetPosY * D_TILE_SIZE, 0xFF0000);
 
-	if ((int)x % (int)D_TILE_SIZE == 0
-		&& (int)y % (int)D_TILE_SIZE == 0)
-	{
-		DrawString(0, 100, "マスの中心", 0xFFFFF);
-	}
+	//敵位置のフィールド内座標の表示
+	//DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
+	//DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
 }
 
 //-------------------------
@@ -143,12 +128,80 @@ void CAbstractEnemy::MoveToTarget()
 		&& (int)y % (int)D_TILE_SIZE == 0)
 	{
 		//そのマスが交差点だった時
-		if (floor[onFieldX][onFieldY] == D_CROSSPOINT)
+		if (floor[onFieldY][onFieldX] == D_CROSSPOINT)
 		{
 			//方向の計算をする
 			ChangeDirection(onFieldX,onFieldY);
 		}
 	}
+
+	MoveStraight(onFieldX, onFieldY);
+
+}
+
+//------------------------
+// 直進移動
+//------------------------
+void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
+{
+	/*
+	各case文での処理
+	・方向に応じた値の更新
+	・移動先に（1マス先）壁が見えたら、
+		自分がいるマスの中心の座標より壁側によらないようにする
+	*/
+	
+	switch (direction)
+	{
+	case D_DIRECTION_UP:
+		y--;
+		if (floor[onFieldY - 1][onFieldX] == D_BLOCK)
+		{
+			if (y < onFieldY * D_TILE_SIZE)
+			{
+				y = onFieldY * D_TILE_SIZE;
+			}
+		}
+		break;
+
+	case D_DIRECTION_LEFT:
+		x--;
+		if (floor[onFieldY][onFieldX - 1] == D_BLOCK)
+		{
+			if (x < onFieldX * D_TILE_SIZE)
+			{
+				x = onFieldX * D_TILE_SIZE;
+			}
+		}
+		break;
+
+	case D_DIRECTION_DOWN:
+		y++;
+		if (floor[onFieldY + 1][onFieldX] == D_BLOCK)
+		{
+			if (y > onFieldY * D_TILE_SIZE)
+			{
+				y = onFieldY * D_TILE_SIZE;
+			}
+		}
+		break;
+
+	case D_DIRECTION_RIGHT:
+		x++;
+		if (floor[onFieldY][onFieldX + 1] == D_BLOCK)
+		{
+			if (x > onFieldX * D_TILE_SIZE)
+			{
+				x = onFieldX * D_TILE_SIZE;
+			}
+		}
+		break;
+
+
+	default:
+		;
+	}
+
 }
  
 //-------------------------
@@ -156,34 +209,77 @@ void CAbstractEnemy::MoveToTarget()
 //-------------------------
 void CAbstractEnemy::ChangeDirection(int x,int y)
 {
-	int distance;
-	int tmp;
-	
-	if (floor[y - 1][x] != D_BLOCK)
+	int distance = D_DISTANCE_MAX;
+	int tmp = 0;
+	int directionBack;
+	directionBack = direction + 180;//後ろの情報のため、180度加算する
+	if (directionBack > D_DIRECTION_RIGHT)
 	{
-		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
-		direction = D_DIRECTION_UP;
+		directionBack -= 360;//処理できる右方向までを超えたら一周戻す
+	}
+	
+	/*
+	上下左右のマスが壁でないことを確認して、
+	先のマスから目標までの距離を計算し、
+	いちばん近い方向を通る。
+	また、値が同じ場合は、優先のものから 上左下右 とする。
+	*/
+
+	//上
+	if (directionBack != D_DIRECTION_UP) 
+	{
+		if (floor[y - 1][x] != D_BLOCK)
+		{
+			distance = pow(((double)x - targetPosX), 2.0) + 
+				pow((double)y - 1 - targetPosY, 2.0);
+			direction = D_DIRECTION_UP;
+		}
+
 	}
 
-	if (floor[y][x - 1] != D_BLOCK)
+	//左
+	if (directionBack != D_DIRECTION_LEFT)
 	{
-		tmp = pow(x - 1 - targetPosX, 2.0) + pow(y - targetPosY, 2.0);
-		if(tmp<direction)
+		if (floor[y][x - 1] != D_BLOCK)
 		{
-			distance = tmp;
-			direction = D_DIRECTION_LEFT;
+			tmp = pow((double)x - 1 - targetPosX, 2.0) +
+				pow((double)y - targetPosY, 2.0);
+			if (tmp < distance)
+			{
+				distance = tmp;
+				direction = D_DIRECTION_LEFT;
+			}
 		}
 	}
 
-	if (floor[y - 1][x] != D_BLOCK)
+	//下
+	if (directionBack != D_DIRECTION_DOWN)
 	{
-		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
-		direction = D_DIRECTION_UP;
+		if (floor[y + 1][x] != D_BLOCK)
+		{
+			tmp = pow((double)x - targetPosX, 2.0) +
+				pow((double)y + 1 - targetPosY, 2.0);
+
+			if (tmp < distance)
+			{
+				distance = tmp;
+				direction = D_DIRECTION_DOWN;
+			}
+		}
 	}
 
-	if (floor[y - 1][x] != D_BLOCK)
+	//右
+	if (directionBack != D_DIRECTION_RIGHT)
 	{
-		distance = pow(x - targetPosX, 2.0) + pow(y - 1 - targetPosY, 2.0);
-		direction = D_DIRECTION_UP;
+		if (floor[y][x + 1] != D_BLOCK)
+		{
+			tmp = pow((double)x + 1 - targetPosX, 2.0) +
+				pow((double)y - targetPosY, 2.0);
+			if (tmp < distance)
+			{
+				distance = tmp;
+				direction = D_DIRECTION_RIGHT;
+			}
+		}
 	}
 }
