@@ -8,6 +8,7 @@
 #define D_SCREEN_SIZE_HEIGHT 720
 
 class CField;
+class CPlayer;
 class CGameMain : public CAbstractScene
 {
 private:
@@ -15,9 +16,9 @@ private:
 	//�v���C���[�h���ǂ����@true�F�v���C���[�h�@false�F�X�^�[�g���[�h
 	bool isPlayMode;
 
-class CPlayer;
-class CGameMain : public CAbstractScene
-{
+
+
+
 private:
 	CPlayer* player;
 

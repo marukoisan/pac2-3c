@@ -71,7 +71,7 @@ CAbstractScene* CGameMain::Update()
 
 	
 	player->Update();
->
+
 	return this;
 }
 
