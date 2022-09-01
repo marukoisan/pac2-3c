@@ -6,9 +6,9 @@ Player2 player2;
 
 
 // グローバル変数>_<
-int gPacman[12];			// パックマンのグラフィックハンドル
+//int gPacman[12];			// パックマンのグラフィックハンドル
 //int gMapChip[10];			// マップチップのハンドル
-int gMap[31][28];			// マップデータ
+//int gMap[31][28];			// マップデータ
 //int gScore;				// 得点
 //int gBg;					// 背景グラフィックハンドル
 
