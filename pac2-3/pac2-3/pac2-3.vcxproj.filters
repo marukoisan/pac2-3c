@@ -11,7 +11,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player2.cpp" />
-    <ClCompile Include="CPacanController.cpp" />
+    <ClCompile Include="CPacmanController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAbstractScene.h" />
@@ -23,6 +23,6 @@
     <ClInclude Include="CTitle.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player2.h" />
-    <ClInclude Include="CPacanController.h" />
+    <ClInclude Include="CPacmanController.h" />
   </ItemGroup>
 </Project>
