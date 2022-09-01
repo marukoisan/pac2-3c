@@ -124,7 +124,7 @@ int Player2::PlayerMove()
 	static float Angle = 0.0f;	// 初期　左向き
 	static int mv = 0;			// プレイヤー移動中
 	int mvx = 0, mvy = 0;
-	static float speed = 1.0f;
+	static float speed = 1.0;
 
 	key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	if (key & PAD_INPUT_START) return -1;		// PAD_INPUT_START  [ESC]Key
