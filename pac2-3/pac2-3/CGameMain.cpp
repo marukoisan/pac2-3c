@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include "CGameMain.h"
 #include"CPlayer.h"
+#include"CHitPoint.h"
 
 
 #include"CField.h"
@@ -18,6 +19,10 @@ CGameMain::CGameMain()
 	field = new CField();
 	player = new CPlayer;
 
+
+
+	hitPoint = new CHitPoint;
+
 }
 
 //-------------------
@@ -29,6 +34,10 @@ CGameMain::~CGameMain()
 	delete field;
 
 	delete player;
+
+
+
+	delete hitPoint;
 
 }
 
@@ -81,6 +90,7 @@ CAbstractScene* CGameMain::Update()
 void CGameMain::Draw()const
 {
 
+
 	field->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
@@ -98,6 +108,9 @@ void CGameMain::Draw()const
 	{
 		DrawString(0, 0, "StartMode", 0xFFFFFF);
 	}
+
+
+	hitPoint->Draw();
 
 		player->Draw();
 		DrawFormatString(0, 0, 0xffffff, "%d", saveData);

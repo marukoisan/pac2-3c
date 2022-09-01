@@ -9,6 +9,7 @@
 
 class CField;
 class CPlayer;
+class CHitPoint;
 class CGameMain : public CAbstractScene
 {
 private:
@@ -21,6 +22,7 @@ private:
 
 private:
 	CPlayer* player;
+	CHitPoint* hitPoint;
 
 
 	//�摜�p�ϐ�

@@ -4,6 +4,10 @@ class CHitPoint
 {
 private:
 	int HitPoint[12];
+
+	int hitPointImages[12];
+	int playerLife = 3;
+
 public:
 	CHitPoint();
 	~CHitPoint() {}

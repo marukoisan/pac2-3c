@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	sceneManager = new CSceneManager(new CTitle);
 
 	//�Q�[�����[�v
+
 	while (ProcessMessage() == 0
 			&& sceneManager->Update() != nullptr
 			&& GetJoypadInputState(DX_INPUT_KEY_PAD1) != PAD_INPUT_9/*ESC�L�[*/)

@@ -6,21 +6,43 @@ CHitPoint::CHitPoint()
 {
 	bool error = false;
 	if (LoadDivGraph("images/sprites/dying.png", 12, 12, 1, 32, 32, HitPoint) == -1)error = true;
+
+	if (LoadDivGraph("images/sprites/pacman.png", 12, 12, 1, 32, 32, hitPointImages) == -1)error = true;
+
 }
 
 void CHitPoint::Draw()const
 {
+
 	DrawRotaGraphF(100, 0, 1, 0, HitPoint[10], TRUE);
 }
 
-//ƒŠƒXƒ|[ƒ“‚·‚é‚Æ‚«‚Éc‹@‚ª1Œ¸‚éˆ—
+//ï¿½ï¿½ï¿½Xï¿½|ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Écï¿½@ï¿½ï¿½1ï¿½ï¿½ï¿½éˆï¿½ï¿½
 void CHitPoint::Respawn()
 {
+	DrawRotaGraphF(280, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(320, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(360, 700, 1, 0, hitPointImages[10], TRUE);
+}
+
+//ï¿½ï¿½ï¿½Xï¿½|ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Écï¿½@ï¿½ï¿½1ï¿½ï¿½ï¿½éˆï¿½ï¿½(ï¿½ï¿½ï¿½Xï¿½|ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½cï¿½@ï¿½ï¿½0ï¿½È‚ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[)
+void CHitPoint::Respawn()
+{
+	if (playerLife == 0)
+	{
+		//ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+	}
+	playerLife--;
 
 }
 
-//ƒXƒRƒA‚ğ10000‰Ò‚¢‚¾‚Éc‹@‚ğ1‘‚â‚·ˆ—(c‹@‚ª3‹@‚ ‚éê‡‚Í‘‚¦‚È‚¢)
+//ï¿½Xï¿½Rï¿½Aï¿½ï¿½10000ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Écï¿½@ï¿½ï¿½1ï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½ï¿½(ï¿½cï¿½@ï¿½ï¿½3ï¿½@ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‘ï¿½ï¿½ï¿½ï¿½È‚ï¿½)
 void CHitPoint::Recovery()
 {
-	
+
+	if (playerLife < 3)
+	{
+		playerLife++;
+	}
+
 }
