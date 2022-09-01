@@ -142,31 +142,31 @@ int Player2::PlayerMove()
 			gMap[(int)y][(int)x] = 0;
 		}
 
-		/*if (KEY_INPUT_B) {
+		if (KEY_INPUT_B & PAD_INPUT_A) {
 			speed = 1.0 * 5 / 16;
 		}
 
-		if (KEY_INPUT_V) {
+		if (KEY_INPUT_V & PAD_INPUT_B) {
 			speed = 1.0 * 15 / 16;
 		}
 
-		if (KEY_INPUT_C) {
+		if (KEY_INPUT_C & PAD_INPUT_Y) {
 			speed = 1.0 * 16 / 16;
 		}
 
-		if (KEY_INPUT_X) {
+		if (KEY_INPUT_X & PAD_INPUT_X) {
 			speed = 1.0 * 17 / 16;
 		}
 
-		if (KEY_INPUT_Z) {
+		if (KEY_INPUT_Z & PAD_INPUT_START) {
 			speed = 1.0 * 18 / 16;
-		}*/
+		}
 
 		// ぴしゃりマス目にいるときだけキー入力判定
 		mv = 20;
 		if (key & PAD_INPUT_UP) {
 			if (!CheckWall(x, y, 0, -1)) {
-				dx = 0; dy = -1.0 * 15 / 16; Angle = PI / 2;//speed; 
+				dx = 0; dy = -speed; Angle = PI / 2;//speed; 
 			}
 		}
 		else if (key & PAD_INPUT_DOWN) {
@@ -214,7 +214,7 @@ int Player2::PlayerMove()
 
 	DrawRotaGraph((x - 1) * 16 + 32 + mvx, (y - 1) * 16 + 32 + mvy, 1, Angle, gPacman[s / 5 % 3 + 9], TRUE);
 
-
+	DrawFormatString(0, 0, 0xffffff, "speed:%f", speed);
 
 	return 0;
 }
