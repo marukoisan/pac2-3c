@@ -13,7 +13,7 @@ XINPUT_STATE keyState;//デバッグ用　TODO：消す
 CGameMain::CGameMain()
 {
 	isPlayMode = true;
-	gameOverImage = LoadGraph("game_over.png");
+	gameOverImage = LoadGraph("images/game_over.png");
 	field = new CField;
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
@@ -87,7 +87,6 @@ void CGameMain::Draw()const
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_TILE_SIZE - (D_TILE_SIZE / 2)//中心座標の為
 							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
-		WaitKey();
 	}
 	if (isPlayMode)
 	{
