@@ -158,6 +158,8 @@
     <ClCompile Include="CAbstractScene.cpp" />
     <ClCompile Include="CField.cpp" />
     <ClCompile Include="CGameMain.cpp" />
+    <ClCompile Include="CHitPoint.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CTitle.cpp" />
     <ClCompile Include="main.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="CAbstractScene.h" />
     <ClInclude Include="CField.h" />
     <ClInclude Include="CGameMain.h" />
+    <ClInclude Include="CHitPoint.h" />
+    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTitle.h" />
     <ClInclude Include="Object.h" />

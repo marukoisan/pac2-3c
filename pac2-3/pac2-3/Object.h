@@ -2,15 +2,15 @@
 class CObject
 {
 protected:
-	//ƒsƒ{ƒbƒgˆÊ’u
+	//ï¿½sï¿½{ï¿½bï¿½gï¿½Ê’u
 	float x = 0;
 	float y = 0;
 
-	//“–‚½‚è”»’è
+	//ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
 	float height = 0;
 	float width = 0;
 
-	//”»’è—p•Ï”
+	//ï¿½ï¿½ï¿½ï¿½pï¿½Ïï¿½
 	bool oldHitFlg = false;
 	bool nowHitFlg = false;
 
@@ -19,12 +19,14 @@ public:
 	virtual void Draw()const = 0;
 	void UpdateFlg() { oldHitFlg = nowHitFlg; }
 
-	//“–‚½‚Á‚½‚Ìˆ—
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 	virtual void HitAction() = 0;
 	virtual void OverLapAction() {}
-	virtual void ReleaseAction() {};
 
-	//getŠÖ”
+	virtual void ReleaseAction() {}
+
+
+	//getï¿½Öï¿½
 	float GetX()const { return x; }
 	float GetY()const { return y; }
 	float GetHeight()const { return height; }
@@ -32,10 +34,10 @@ public:
 	bool GetOldHitFlg()const { return oldHitFlg; }
 	bool GetNowHitFlg()const { return nowHitFlg; }
 
-	//setŠÖ”
+	//setï¿½Öï¿½
 	void SetNowFlg(bool flg) { nowHitFlg = flg; }
 };
 
-//‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
+//ï¿½ï¿½`ï¿½Æ‹ï¿½`ï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
 bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);
