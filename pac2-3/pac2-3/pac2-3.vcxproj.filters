@@ -18,6 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+
     <ClCompile Include="CAbstractScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -41,10 +42,14 @@
     </ClCompile>
     <ClCompile Include="CHitPoint.cpp">
 
+
+    <ClCompile Include="Player2.cpp">
+
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+
     <ClInclude Include="CAbstractScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -69,6 +74,10 @@
     <ClInclude Include="CHitPoint.h">
 
  <Filter>ヘッダー ファイル</Filter>
+
+    <ClInclude Include="Player2.h">
+      <Filter>ソース ファイル</Filter>
+
     </ClInclude>
   </ItemGroup>
 </Project>

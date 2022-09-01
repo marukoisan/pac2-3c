@@ -1,44 +1,61 @@
 #include"DxLib.h"
+
 #include"CSceneManager.h"
 #include"CTitle.h"
 
-//ƒvƒƒOƒ‰ƒ€‚ÌŠJn
+
+#include"Player2.h"
+//ï¿½Ïï¿½ï¿½ÌéŒ¾
+//int g_LoopCount = 0;
+
+//ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌŠJï¿½n
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
-	//ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å‹N“®‚·‚é
+	//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½[ï¿½hï¿½Å‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ChangeWindowMode(TRUE);
 	SetGraphMode(1280, 720, 32);
  
-	//DXƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»ˆ—:ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+	//DXï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ç’¼ï¿½ï¿½ï¿½ÉIï¿½ï¿½
 	if (DxLib_Init() == -1)return-1;
  
-	//•`‰ææ‰æ–Ê‚ğ— ‚É‚·‚é
+	//ï¿½`ï¿½ï¿½ï¿½ï¿½Ê‚ğ— ‚É‚ï¿½ï¿½ï¿½
 	SetDrawScreen(DX_SCREEN_BACK);
  
-	//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚ÌŠm•Û
+	//ï¿½Vï¿½[ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½ÌŠmï¿½ï¿½
 	CSceneManager* sceneManager;
 	sceneManager = new CSceneManager(new CTitle);
 
-	//ƒQ[ƒ€ƒ‹[ƒv
+	//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 	while (ProcessMessage() == 0
 			&& sceneManager->Update() != nullptr
-			&& GetJoypadInputState(DX_INPUT_KEY_PAD1) != PAD_INPUT_9/*ESCƒL[*/)
+			&& GetJoypadInputState(DX_INPUT_KEY_PAD1) != PAD_INPUT_9/*ESCï¿½Lï¿½[*/)
 	{
-		//‰æ–Ê‚Ì‰Šú‰»
+		//ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½ï¿½ï¿½
 		ClearDrawScreen();
 
+
 		sceneManager->Draw();
+
+		
+		player2.Init();
+		player2.LoadImages();
+		player2.PlayerMove();
+
+		////ï¿½ï¿½ï¿½[ï¿½vï¿½Jï¿½Eï¿½ï¿½ï¿½^ï¿½Ì•\ï¿½ï¿½
+		//DrawFormatString(0, 0, GetColor(255, 128, 0), "LoopCount=%d", g_LoopCount++);
+
  
-		//— ‰æ–Ê‚Ì“à—e‚ğ•\‰æ–Ê‚É”½‰f
+		//ï¿½ï¿½ï¿½ï¿½Ê‚Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½Ê‚É”ï¿½ï¿½f
 		ScreenFlip();
 	}
 
-	//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚Ì‰ğ•ú
+	//ï¿½Vï¿½[ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½Ì‰ï¿½ï¿½
 	delete sceneManager;
 
-	//DXƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+	//DXï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	DxLib_End();
-	//ƒ\ƒtƒg‚ÌI—¹
+	//ï¿½\ï¿½tï¿½gï¿½ÌIï¿½ï¿½
 	return 0;
 
 }
+
