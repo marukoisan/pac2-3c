@@ -2,31 +2,31 @@
 #include"define.h"
 #include "CAbstractScene.h"
 
-#define D_GAMEOVER_POS 21 //ƒ}ƒX–Ú
+#define D_GAMEOVER_POS 21 //ãƒã‚¹ç›®
 #define D_SCREEN_SIZE_WIDTH 1280
 #define D_SCREEN_SIZE_HEIGHT 720
 
 class CField;
+class CEsaController;
 class CAbstractEnemy;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
 	CAbstractEnemy* enemy;
-	//ƒvƒŒƒCƒ‚[ƒh‚©‚Ç‚¤‚©@trueFƒvƒŒƒCƒ‚[ƒh@falseFƒXƒ^[ƒgƒ‚[ƒh
 	bool isPlayMode;
 
-	//‰æ‘œ—p•Ï”
-	int gameOverImage; //ƒQ[ƒ€ƒI[ƒo[‰æ‘œ
+	//ç”»åƒç”¨å¤‰æ•°
+	int gameOverImage; //ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»åƒ
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	CGameMain();
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~CGameMain()override;
 
-	//XV
+	//æ›´æ–°
 	CAbstractScene* Update()override;
-	//•`‰æ
+	//æç”»
 	void Draw()const override;
 };
 

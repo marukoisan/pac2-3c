@@ -2,11 +2,13 @@
 #include "CGameMain.h"
 #include"CAbstractEnemy.h"
 #include"CField.h"
+#include"CEsa.h"
+#include"CEsaController.h"
 
-XINPUT_STATE keyState;//ƒfƒoƒbƒO—p@TODOFÁ‚·
+XINPUT_STATE keyState;//ãƒ‡ãƒãƒƒã‚°ç”¨ã€€TODOï¼šæ¶ˆã™
 
 //-------------------
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //-------------------
 CGameMain::CGameMain()
 {
@@ -14,19 +16,21 @@ CGameMain::CGameMain()
 	gameOverImage = LoadGraph("game_over.png");
 	field = new CField;
 	enemy = new CAbstractEnemy;
+	esacontroller = new CEsaController();
 }
 
 //-------------------
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //-------------------
 CGameMain::~CGameMain()
 {
 	delete field;
+	delete esacontroller;
 	delete enemy;
 }
 
 //-------------------
-// XV
+// æ›´æ–°
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
@@ -34,20 +38,20 @@ CAbstractScene* CGameMain::Update()
 
 	if (isPlayMode)
 	{
-		//ƒfƒoƒbƒO—p
+		//ãƒ‡ãƒãƒƒã‚°ç”¨
 		
 		GetJoypadXInputState(DX_INPUT_PAD1, &keyState);
-		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//ƒGƒT‚ÌŽc‚è‚Ì”‚ðŽó‚¯Žæ‚èA0‚ÌŽž‚ÉƒQ[ƒ€ƒNƒŠƒA‚Æ‚·‚é
+		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//ã‚¨ã‚µã®æ®‹ã‚Šã®æ•°ã‚’å—ã‘å–ã‚Šã€0ã®æ™‚ã«ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã¨ã™ã‚‹
 		{
-			//ƒQ[ƒ€ƒNƒŠƒA‚Ìˆ—
-			// ƒXƒe[ƒW‚ÌXV
-			// ƒGƒT‚ÌÄ”z’u
-			//“G‚Ì‰Šú‰»(“ïˆÕ“x‚ð“n‚·)
-			//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ì‰Šú‰»A“ïˆÕ“x‚ÌXV
+			//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã®å‡¦ç†
+			// ã‚¹ãƒ†ãƒ¼ã‚¸ã®æ›´æ–°
+			// ã‚¨ã‚µã®å†é…ç½®
+			//æ•µã®åˆæœŸåŒ–(é›£æ˜“åº¦ã‚’æ¸¡ã™)
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®åˆæœŸåŒ–ã€é›£æ˜“åº¦ã®æ›´æ–°
 			isPlayMode = false;
 
 
-			if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//ƒvƒŒƒCƒ„[‚ª“G‚É“–‚½‚Á‚½ŽžAŽc‹@‚ª0‚¾‚Á‚½‚çƒQ[ƒ€ƒI[ƒo[‚Æ‚·‚é
+			if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ•µã«å½“ãŸã£ãŸæ™‚ã€æ®‹æ©ŸãŒ0ã ã£ãŸã‚‰ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã¨ã™ã‚‹
 			{
 				
 			}
@@ -57,26 +61,31 @@ CAbstractScene* CGameMain::Update()
 	else
 	{
 
-		//ƒXƒ^[ƒgƒ‚[ƒh‚ð—¬‚·
+		//ã‚¹ã‚¿ãƒ¼ãƒˆãƒ¢ãƒ¼ãƒ‰ã‚’æµã™
 
-		//—¬‚êI‚í‚Á‚½‚çƒvƒŒƒCƒ‚[ƒh‚É•Ô‚·
+		//æµã‚Œçµ‚ã‚ã£ãŸã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¢ãƒ¼ãƒ‰ã«è¿”ã™
 		isPlayMode = true;
 	}
+
+	field->Update();
+	
+
 	return this;
 }
 
 //-------------------
-// •`‰æ
+// æç”»
 //-------------------
 void CGameMain::Draw()const
 {
 	enemy->Draw();
 	field->Draw();
+	esacontroller->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
-	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//ƒvƒŒƒCƒ„[‚ª“G‚É“–‚½‚Á‚½ŽžAŽc‹@‚ª0‚¾‚Á‚½‚çƒQ[ƒ€ƒI[ƒo[‚Æ‚·‚é
+	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ•µã«å½“ãŸã£ãŸæ™‚ã€æ®‹æ©ŸãŒ0ã ã£ãŸã‚‰ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã¨ã™ã‚‹
 	{
-		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_TILE_SIZE - (D_TILE_SIZE / 2)//’†SÀ•W‚Ìˆ×
+		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_TILE_SIZE - (D_TILE_SIZE / 2)//ä¸­å¿ƒåº§æ¨™ã®ç‚º
 							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 		WaitKey();
 	}

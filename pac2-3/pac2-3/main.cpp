@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"CSceneManager.h"
 #include"CTitle.h"
+#include"CEsa.h"
+
 
 int loopCount = 0;
 
