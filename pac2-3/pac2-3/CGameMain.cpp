@@ -5,40 +5,6 @@
 #include"CEsa.h"
 #include"CEsaController.h"
 
-XINPUT_STATE keyState;//デバッグ用　TODO：消す
-
-//-------------------
-// コンストラクタ
-//-------------------
-CGameMain::CGameMain()
-{
-	isPlayMode = true;
-	gameOverImage = LoadGraph("images/game_over.png");
-	field = new CField;
-	enemy = new CAbstractEnemy;
-	esaController = new CEsaController();
-}
-
-//-------------------
-// デストラクタ
-//-------------------
-CGameMain::~CGameMain()
-{
-	delete field;
-	delete esaController;
-	delete enemy;
-}
-
-//-------------------
-// 更新
-//-------------------
-CAbstractScene* CGameMain::Update()
-{
-	enemy->Update();
-
-	if (isPlayMode)
-	{
-		//デバッグ用
 		
 		GetJoypadXInputState(DX_INPUT_PAD1, &keyState);
 		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//エサの残りの数を受け取り、0の時にゲームクリアとする
