@@ -6,10 +6,6 @@ CEsaController::CEsaController()//コンストラクタ
 	LoadesaImage();
 	
 	esa = new CEsa[244];
-	for (int i = 0; i < 244; i++)
-	{
-		
-	}
 	SetEsa();
 
 

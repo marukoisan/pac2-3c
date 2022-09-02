@@ -12,12 +12,17 @@
 class CAbstractEnemy : public CObject
 {
 protected:
+	//向き
 	int direction;
+	//目標座標
 	int targetPosX;//MAX:27,min:0
 	int targetPosY;	//MAX:30,min:0
 
+	//スピード
 	int speed = 0;
+	//攻撃中か、休息中か
 	bool isAttack = false;
+	//巣の中にいるか
 	bool inEnemyroom = true;
 
 	//描画用変数
