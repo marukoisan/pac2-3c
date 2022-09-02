@@ -37,6 +37,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	esaController->Update();
 	player->Update();
 	enemy->Update();
 

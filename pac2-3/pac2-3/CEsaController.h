@@ -19,6 +19,7 @@ private:
 	int esaImages[ESA_IMAGE_MAX];  //エサの画像
 	
 	
+	
 
 
 	const int ESA_DATA[ESA_FIELD_HEIGHT][ESA_FIELD_WIDTH] =
@@ -62,14 +63,13 @@ private:
 public:
 	CEsaController();  //コンストラクタ
 	~CEsaController();  //デストラクタ
-	void Update() {};
+	void Update();
 	void Draw()const;
 	void HitAction() {};
 
 	void Init(); //初期化処理
 	void LoadesaImage();//画像の読込み
 	void SetEsa();//エサを配置する関数
-
 	
 
 };
