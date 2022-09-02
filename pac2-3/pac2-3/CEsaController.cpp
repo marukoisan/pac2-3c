@@ -7,6 +7,7 @@ CEsaController::CEsaController()//コンストラクタ
 	
 	esa = new CEsa[244];
 	SetEsa();
+	
 
 
 	//esaFlg = 0; //エサのフラグ
@@ -19,6 +20,14 @@ CEsaController::CEsaController()//コンストラクタ
 CEsaController::~CEsaController()//デストラクタ
 {
 	delete[] esa;//開放します
+}
+
+void CEsaController::Update()
+{
+	for (int i = 0; i < 244; i++)//縦
+	{
+		esa[i].ImageBlinking();
+	}
 }
 
 void CEsaController::Draw() const
@@ -70,3 +79,5 @@ void CEsaController::SetEsa()
 		}
 	}
 }
+
+

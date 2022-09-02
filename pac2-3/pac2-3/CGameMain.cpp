@@ -34,6 +34,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	esaController->Update();
 	enemy->Update();
 
 	if (isPlayMode)
