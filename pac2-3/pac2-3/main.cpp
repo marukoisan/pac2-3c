@@ -4,6 +4,7 @@
 #include"CEsa.h"
 
 
+
 int loopCount = 0;
 
 //プログラムの開始

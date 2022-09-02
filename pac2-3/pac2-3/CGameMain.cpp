@@ -4,6 +4,7 @@
 #include"CField.h"
 #include"CEsa.h"
 #include"CEsaController.h"
+#include"CPlayer.h"
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
 
@@ -17,6 +18,7 @@ CGameMain::CGameMain()
 	field = new CField;
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
+	player = new CPlayer();
 }
 
 //-------------------
@@ -27,6 +29,7 @@ CGameMain::~CGameMain()
 	delete field;
 	delete esaController;
 	delete enemy;
+	delete player;
 }
 
 //-------------------
@@ -34,6 +37,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	player->Update();
 	enemy->Update();
 
 	if (isPlayMode)
@@ -80,6 +84,7 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
+	player->Draw();
 	enemy->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 

@@ -9,12 +9,14 @@
 class CField;
 class CEsaController;
 class CAbstractEnemy;
+class CPlayer;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
 	CEsaController* esaController;
 	CAbstractEnemy* enemy;
+	CPlayer* player;
 	bool isPlayMode;
 
 	//画像用変数
