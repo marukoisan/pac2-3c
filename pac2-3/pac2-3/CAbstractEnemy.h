@@ -25,6 +25,9 @@ protected:
 	//巣の中にいるか
 	bool inEnemyroom = true;
 
+	//イジケ常態か？
+	bool isSurprising = false;
+
 	//描画用変数
 	bool anim;
 	int testNums[10] = {};
@@ -79,6 +82,8 @@ public:
 	virtual void Update()override;
 	virtual void Draw()const override;
 	virtual void HitAction()override;
+
+	void Surprised();
 
 
 private:

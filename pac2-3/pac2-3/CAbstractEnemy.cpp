@@ -43,6 +43,13 @@ void CAbstractEnemy::Update()
 {
 	MoveToTarget();
 
+	static int timer = 0;
+	timer++;
+	if (timer > 60 * 3)
+	{
+		Surprised();
+	}
+
 
 	//デバッグ用ターゲットの位置更新
 	if ((int)x / (int)D_TILE_SIZE == targetPosX &&
@@ -104,6 +111,11 @@ void CAbstractEnemy::Draw()const
 	//敵位置のフィールド内座標の表示
 	//DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
 	//DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+
+	if (isSurprising == true)
+	{
+		DrawString(0, 300, "イジケ状態", 0xFFFFFF);
+	}
 }
 
 //-------------------------
@@ -112,6 +124,14 @@ void CAbstractEnemy::Draw()const
 void CAbstractEnemy::HitAction()
 {
 
+}
+
+//-------------------------
+// イジケ状態への遷移
+//-------------------------
+void CAbstractEnemy::Surprised()
+{
+	isSurprising = true;
 }
 
 //-------------------------
