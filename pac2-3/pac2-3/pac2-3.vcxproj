@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="CAbstractEnemy.cpp" />
     <ClCompile Include="CAbstractScene.cpp" />
+    <ClCompile Include="CController.cpp" />
     <ClCompile Include="CEsa.cpp" />
     <ClCompile Include="CEsaController.cpp" />
     <ClCompile Include="CField.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="CAbstractEnemy.h" />
     <ClInclude Include="CAbstractScene.h" />
+    <ClInclude Include="CController.h" />
     <ClInclude Include="CEsa.h" />
     <ClInclude Include="CEsaController.h" />
     <ClInclude Include="CField.h" />

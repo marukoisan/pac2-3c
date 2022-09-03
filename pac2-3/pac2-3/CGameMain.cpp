@@ -43,10 +43,7 @@ CAbstractScene* CGameMain::Update()
 
 	if (isPlayMode)
 	{
-		//デバッグ用
-		
-		GetJoypadXInputState(DX_INPUT_PAD1, &keyState);
-		if (keyState.Buttons[XINPUT_BUTTON_START] == TRUE)//エサの残りの数を受け取り、0の時にゲームクリアとする
+		if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)//エサの残りの数を受け取り、0の時にゲームクリアとする
 		{
 			//ゲームクリアの処理
 			// ステージの更新
@@ -56,7 +53,7 @@ CAbstractScene* CGameMain::Update()
 			isPlayMode = false;
 
 
-			if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
+			if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 			{
 				
 			}
@@ -89,7 +86,7 @@ void CGameMain::Draw()const
 	enemy->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
-	if (keyState.Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
+	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_TILE_SIZE - (D_TILE_SIZE / 2)//中心座標の為
 							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
