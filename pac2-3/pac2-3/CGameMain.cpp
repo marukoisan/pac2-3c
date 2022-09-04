@@ -18,7 +18,7 @@ CGameMain::CGameMain()
 	field = new CField;
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
-	player = new CPlayer();
+	player = new CPlayer(controller);
 }
 
 //-------------------
@@ -88,7 +88,7 @@ void CGameMain::Draw()const
 
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
-		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * D_TILE_SIZE - (D_TILE_SIZE / 2)//中心座標の為
+		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
 							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 	}
 	if (isPlayMode)

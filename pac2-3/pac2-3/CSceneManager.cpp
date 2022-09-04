@@ -6,13 +6,14 @@
 //-------------------------------
 CAbstractScene* CSceneManager::Update()
 {
+
 	scene->ControllerUpdate();
+	CAbstractScene* pScene = scene->Update();	
+
 	if (scene->GetKeyFlgStateButton() == TRUE)
 	{
 		return nullptr;
 	}
-
-	CAbstractScene* pScene = scene->Update();
 
 	if (pScene != scene)
 	{

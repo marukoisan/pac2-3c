@@ -2,14 +2,18 @@
 #define _USE_MATH_DEFINES
 #include<math.h>
 #include"CPlayer.h"
+#include"CController.h"
+
 
 //--------------------
 // コンストラクタ
 //--------------------
-CPlayer::CPlayer()
+CPlayer::CPlayer(CController* pController)
 {
+	controller = pController;
+	keyState = controller->GetKeyState();
 	direction = D_PLAYER_RIGHT;
-	angle = M_PI / 2;
+	angle = M_PI / 2;//右向き
 
 	animTimer = 0;
 	
@@ -39,34 +43,8 @@ CPlayer::~CPlayer()
 void CPlayer::Update()
 {
 	animTimer++;
-	float directions[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
-	static int timer = 0;
-	timer++;/*
-	if (timer == 60 * 3) {
-		direction = D_PLAYER_DOWN;
-		angle = directions[direction];
-	}
-	if (timer == 60 * 6) {
-		direction = D_PLAYER_LEFT;
-		angle = directions[direction];
-	}
-	if (timer == 60 * 9) {
-		direction = D_PLAYER_UP;
-		angle = directions[direction];
-	}
-	if (timer == 60 * 12) {
-		direction = D_PLAYER_RIGHT;
-		angle = directions[direction];
-	}*/
 
-	if (GetJoypadInputState(DX_INPUT_KEY_PAD1) == PAD_INPUT_2)
-	{
-		direction = D_PLAYER_DOWN;
-		angle = directions[direction];
-	}
-
-
+	Control();
 	Move();
 }
 
@@ -119,5 +97,38 @@ void CPlayer::MoveStraight()
 
 	default:
 		;
+	}
+}
+
+//---------------------
+// コントロール
+//---------------------
+void CPlayer::Control() 
+{
+	float directions[4] =
+	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
+	{
+		direction = D_PLAYER_UP;
+		angle = directions[direction];
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
+	{
+		direction = D_PLAYER_RIGHT;
+		angle = directions[direction];
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
+	{
+		direction = D_PLAYER_DOWN;
+		angle = directions[direction];
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
+	{
+		direction = D_PLAYER_LEFT;
+		angle = directions[direction];
 	}
 }
