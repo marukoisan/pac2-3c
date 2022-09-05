@@ -110,9 +110,14 @@ void CGameMain::Draw()const
 		DrawString(0, 0, "StartMode", 0xFFFFFF);
 	}
 
-	if (esaController->GetIsClear() == true)
+
+	//デバッグ数値表示用
 	{
-		DrawString(0, 500, "gameClear", 0xFFFFF0);
+		int i = 0;
+		if (esaController->GetIsClear() == true)
+		{
+			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
+		}
 	}
 }
 
@@ -130,8 +135,16 @@ void CGameMain::HitCheck()
 //-------------------------------
 void CGameMain::HitCheck_PlayerAndFeed()
 {
-	for (int i = 0; i < D_ESA_MAX; i++)
+	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+	int x = (player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE;
+	int y = (player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE;
+	int index = esaController->GetEsaIndex(x, y);
+	if (index > -1)
 	{
-		CheckHitBox(player, &esa[i]);
+		if (esa[index].GetFlg() == true)
+		{
+			CheckHitBox(player, &esa[index]);
+		}
 	}
+	
 }

@@ -22,7 +22,7 @@ private:
 	
 
 
-	const int ESA_DATA[ESA_FIELD_HEIGHT][ESA_FIELD_WIDTH] =
+	int esaData[ESA_FIELD_HEIGHT][ESA_FIELD_WIDTH] =
 	{
 	{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 	{-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1},
@@ -72,6 +72,7 @@ public:
 	void SetEsa();//エサを配置する関数
 	bool GetIsClear() { return isClear; }
 	CEsa* GetEsa() { return esa; }
+	int GetEsaIndex(int x, int y) { return esaData[y][x]; }
 	
 	//デバッグ用
 	void DeleteFeed()

@@ -71,14 +71,16 @@ void CEsaController::SetEsa()
 	{
 		for (int j = 0; j < ESA_FIELD_WIDTH; j++)//‰¡
 		{
-			if (ESA_DATA[i][j] == 0)
+			if (esaData[i][j] == 0)
 			{
 				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 0);
+				esaData[i][j] = esaIndex;
 				if(esaIndex< D_ESA_MAX-1)esaIndex++;
 			}
-			else if (ESA_DATA[i][j] == 1)
+			else if (esaData[i][j] == 1)
 			{
 				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1);
+				esaData[i][j] = esaIndex;
 				if (esaIndex < D_ESA_MAX-1)esaIndex++;
 			}
 		}
