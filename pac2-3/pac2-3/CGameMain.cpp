@@ -64,6 +64,10 @@ CAbstractScene* CGameMain::Update()
 				
 			}
 		}
+		else
+		{
+			HitCheck();
+		}
 
 	}
 	else
@@ -109,5 +113,25 @@ void CGameMain::Draw()const
 	if (esaController->GetIsClear() == true)
 	{
 		DrawString(0, 500, "gameClear", 0xFFFFF0);
+	}
+}
+
+
+//-----------------------------
+// 当たり判定
+//-----------------------------
+void CGameMain::HitCheck()
+{
+	HitCheck_PlayerAndFeed();
+}
+
+//-------------------------------
+// 当たり判定　プレイヤー：エサ
+//-------------------------------
+void CGameMain::HitCheck_PlayerAndFeed()
+{
+	for (int i = 0; i < D_ESA_MAX; i++)
+	{
+		CheckHitBox(player, &esa[i]);
 	}
 }

@@ -15,6 +15,9 @@ CEsa::CEsa()//コンストラクタ
 	esaIsShow = true; //エサの描画フラグ
 
 
+	height = 3;
+	width = 3;
+
 }
 
 CEsa::~CEsa()//デストラクタ
@@ -31,7 +34,7 @@ void CEsa::Draw() const//
 {
 	if (esaIsShow)
 	{
-		DrawRotaGraphF(x, y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, 0, EsaImage[esaType], TRUE);
+		DrawRotaGraphF(D_FIELD_POS_X + x,D_FIELD_POS_Y + y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, 0, EsaImage[esaType], TRUE);
 	}
 }
 
