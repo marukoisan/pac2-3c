@@ -2,6 +2,7 @@
 #include"Object.h"
 #define ESA_IMAGE_ORIGINNL 100.0 //エサ画像の元の大きさ
 #define ESA_IMAGE_NEWLY 20.0 //エサ画像の大きさにするサイズ
+#define D_ESA_MAX 244
 
 class CEsa : public CObject
 {
@@ -37,6 +38,9 @@ public:
 	bool GetFlg() { return esaFlg; }//エサの表示フラグ
 	void ImageBlinking(void);//点滅処理
 	void toggle(void) { esaIsShow = !(esaIsShow); }//描画フラグ
+
+	//デバッグ用　TODO:消す
+	void DeleteFeed() { esaFlg = false; }
 
 };
 

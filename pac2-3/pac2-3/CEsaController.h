@@ -18,7 +18,7 @@ private:
 
 	int esaImages[ESA_IMAGE_MAX];  //エサの画像
 	
-	
+	bool isClear = false;
 	
 
 
@@ -70,6 +70,17 @@ public:
 	void Init(); //初期化処理
 	void LoadesaImage();//画像の読込み
 	void SetEsa();//エサを配置する関数
+	bool GetIsClear() { return isClear; }
+	CEsa* GetEsa() { return esa; }
+	
+	//デバッグ用
+	void DeleteFeed()
+	{
+		for (int i = 0; i < D_ESA_MAX - 1; i++)
+		{
+			esa[i].DeleteFeed();
+		}
+	}
 	
 
 };

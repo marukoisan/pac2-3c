@@ -8,6 +8,7 @@
 
 class CField;
 class CEsaController;
+class CEsa;
 class CAbstractEnemy;
 class CPlayer;
 class CGameMain : public CAbstractScene
@@ -15,6 +16,7 @@ class CGameMain : public CAbstractScene
 private:
 	CField* field;
 	CEsaController* esaController;
+	CEsa* esa;
 	CAbstractEnemy* enemy;
 	CPlayer* player;
 	bool isPlayMode;

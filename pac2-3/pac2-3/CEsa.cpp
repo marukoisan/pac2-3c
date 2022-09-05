@@ -4,16 +4,16 @@
 CEsa::CEsa()//コンストラクタ
 {
 	
-	 //esa = 0;
-	 //Bigesa = 0;
-	//esaFlg = 0; //エサのフラグ
-	EsaImage = 0; 
-	 esaType = 0;  //エサ画像の判別
-	 esaFlg = true;  //エサの表示フラグ
-	 esaScore = 0;  //エサのスコア
-	 esaTime = 0;   //エサの点滅させるため用の時間変数
-	 esaIsShow = true; //エサの描画フラグ
-	
+	//esa = 0;
+	//Bigesa = 0;
+   //esaFlg = 0; //エサのフラグ
+	EsaImage = 0;
+	esaType = 0;  //エサ画像の判別
+	esaFlg = true;  //エサの表示フラグ
+	esaScore = 0;  //エサのスコア
+	esaTime = 0;   //エサの点滅させるため用の時間変数
+	esaIsShow = true; //エサの描画フラグ
+
 
 }
 

@@ -18,6 +18,7 @@ CGameMain::CGameMain()
 	field = new CField;
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
+	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
 }
 
@@ -41,9 +42,14 @@ CAbstractScene* CGameMain::Update()
 	player->Update();
 	enemy->Update();
 
+	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
+	{
+		esaController->DeleteFeed();
+	}
+
 	if (isPlayMode)
 	{
-		if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)//エサの残りの数を受け取り、0の時にゲームクリアとする
+		if (esaController->GetIsClear() == true)//エサの残りの数を受け取り、0の時にゲームクリアとする
 		{
 			//ゲームクリアの処理
 			// ステージの更新
@@ -98,5 +104,10 @@ void CGameMain::Draw()const
 	else
 	{
 		DrawString(0, 0, "StartMode", 0xFFFFFF);
+	}
+
+	if (esaController->GetIsClear() == true)
+	{
+		DrawString(0, 500, "gameClear", 0xFFFFF0);
 	}
 }
