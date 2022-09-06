@@ -37,5 +37,6 @@ public:
 	//当たり判定全般
 	void HitCheck();
 	void HitCheck_PlayerAndFeed();
+	void HitCheck_PlayerAndEnemy();
 };
 

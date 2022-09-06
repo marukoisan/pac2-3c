@@ -118,6 +118,11 @@ void CGameMain::Draw()const
 		{
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
+		
+		if (CheckHitBox(player, enemy))
+		{
+			DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
+		}
 	}
 }
 
@@ -128,6 +133,7 @@ void CGameMain::Draw()const
 void CGameMain::HitCheck()
 {
 	HitCheck_PlayerAndFeed();
+	HitCheck_PlayerAndEnemy();
 }
 
 //-------------------------------
@@ -147,4 +153,12 @@ void CGameMain::HitCheck_PlayerAndFeed()
 		}
 	}
 	
+}
+
+//------------------------------------
+// 当たり判定　プレイヤー：敵
+//------------------------------------
+void CGameMain:: HitCheck_PlayerAndEnemy()
+{
+	CheckHitBox(player, enemy);
 }
