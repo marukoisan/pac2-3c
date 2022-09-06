@@ -15,8 +15,8 @@ protected:
 	//向き
 	int direction;
 	//目標座標
-	int targetPosX;//MAX:27,min:0
-	int targetPosY;	//MAX:30,min:0
+	float targetPosX;
+	float targetPosY;
 
 	//スピード
 	int speed = 0;
