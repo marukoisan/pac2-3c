@@ -1,12 +1,22 @@
 #include"DxLib.h"
 #include "CField.h"
 
+
 //------------------------------
 // コンストラクタ
 //------------------------------
 CField::CField() {
 	LoadImages();
-	testImageIndex = 0;
+
+	for (int i = 0; i < D_FIELD_HEIGHT; i++)
+	{
+		for (int j = 0; j < D_FIELD_WIDTH; j++)
+		{
+			tile[i][j].
+				Init(j * D_TILE_SIZE, i * D_TILE_SIZE,
+					tileImages[FIELD_DATA[i][j]]);
+		}
+	}
 }
 
 //-------------------------------
@@ -17,13 +27,6 @@ CField::~CField()
 	;
 }
 
-//-------------------------------
-// 更新
-//-------------------------------
-void CField::Update() 
-{
-	
-}
 
 //-------------------------------
 // 描画
@@ -34,19 +37,10 @@ void CField::Draw()const
 	{
 		for (int j = 0; j < D_FIELD_WIDTH; j++)
 		{
-			if (FEILD_DATA[i][j] >= 0)
-			{
-			DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
-				/* 拡大率 */1.0 / D_TILE_IMAGE_SIZE * D_TILE_SIZE, 0, tileImages[FEILD_DATA[i][j]], TRUE);
-			}
-			
+			tile[i][j].Draw();
 		}
 	}
 }
-
-//-------------------------------
-// 
-//-------------------------------
 
 //-------------------------------
 // 画像の読み込み

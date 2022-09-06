@@ -77,10 +77,7 @@ CAbstractScene* CGameMain::Update()
 
 		//流れ終わったらプレイモードに返す
 		isPlayMode = true;
-	}
-
-	field->Update();
-	
+	}	
 
 	return this;
 }
@@ -142,8 +139,8 @@ void CGameMain::HitCheck()
 void CGameMain::HitCheck_PlayerAndFeed()
 {
 	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
-	int x = (player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE;
-	int y = (player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE;
+	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int index = esaController->GetEsaIndex(x, y);
 	if (index > -1)
 	{
