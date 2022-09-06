@@ -1,17 +1,19 @@
 #pragma once
-#include"Object.h"
 #include"define.h"
+#include"CTile.h"
+
 
 #define D_TILE_IMAGE_MAX 28
-#define D_TILE_IMAGE_SIZE 100.0
+#define D_FIELD_FLOOR 26
 
-class CField : public CObject
+class CField
 {
 private:
 	int tileImages[D_TILE_IMAGE_MAX];//タイル画像の総数
-	int testImageIndex;
 
-	const int FEILD_DATA[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
+	CTile tile[D_FIELD_HEIGHT][D_FIELD_WIDTH];
+
+	const int FIELD_DATA[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
 	{
 		{ 4,18,18,18,18,18,18,18,18,18,18,18,18,12,13,18,18,18,18,18,18,18,18,18,18,18,18, 5},
 		{20,26,26,26,26,26,26,26,26,26,26,26,26,22,22,26,26,26,26,26,26,26,26,26,26,26,26,21},
@@ -52,14 +54,11 @@ public:
 	//デストラクタ
 	~CField();
 
-	//更新
-	void Update();
 	//描画
 	void Draw()const;
 	
 	//画像の読み込み
 	void LoadImages();
 
-	void HitAction() {};
 };
 

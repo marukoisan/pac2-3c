@@ -5,8 +5,9 @@ CEsaController::CEsaController()//コンストラクタ
 {
 	LoadesaImage();
 	
-	esa = new CEsa[244];
+	esa = new CEsa[D_ESA_MAX];
 	SetEsa();
+	
 
 
 	//esaFlg = 0; //エサのフラグ
@@ -21,9 +22,22 @@ CEsaController::~CEsaController()//デストラクタ
 	delete[] esa;//開放します
 }
 
+void CEsaController::Update()
+{
+	isClear = true;//clear判定を入れて、エサが一つでものこっていれば消す
+	for (int i = 0; i < D_ESA_MAX; i++)
+	{
+		if (esa[i].GetFlg() == true)
+		{
+			isClear = false;
+			esa[i].ImageBlinking();
+		}
+	}
+}
+
 void CEsaController::Draw() const
 {
-	for (int i = 0; i < 244; i++)//縦
+	for (int i = 0; i < D_ESA_MAX; i++)
 	{
 		if (esa[i].GetFlg() == true)
 		{
@@ -57,16 +71,20 @@ void CEsaController::SetEsa()
 	{
 		for (int j = 0; j < ESA_FIELD_WIDTH; j++)//横
 		{
-			if (ESA_DATA[i][j] == 0)
+			if (esaData[i][j] == 0)
 			{
-				esa[esaIndex].Init(ESA_FIELD_POS_X + j * ESA_IMAGE_NEWLY, ESA_FIELD_POS_Y + i * ESA_IMAGE_NEWLY, esaImages, 0);
-				if(esaIndex<243)esaIndex++;
+				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 0);
+				esaData[i][j] = esaIndex;
+				if(esaIndex< D_ESA_MAX-1)esaIndex++;
 			}
-			else if (ESA_DATA[i][j] == 1)
+			else if (esaData[i][j] == 1)
 			{
-				esa[esaIndex].Init(ESA_FIELD_POS_X + j * ESA_IMAGE_NEWLY, ESA_FIELD_POS_Y + i * ESA_IMAGE_NEWLY, esaImages, 1);
-				if (esaIndex < 243)esaIndex++;
+				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1);
+				esaData[i][j] = esaIndex;
+				if (esaIndex < D_ESA_MAX-1)esaIndex++;
 			}
 		}
 	}
 }
+
+

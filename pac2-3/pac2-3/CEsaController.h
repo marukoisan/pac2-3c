@@ -18,10 +18,11 @@ private:
 
 	int esaImages[ESA_IMAGE_MAX];  //エサの画像
 	
+	bool isClear = false;
 	
 
 
-	const int ESA_DATA[ESA_FIELD_HEIGHT][ESA_FIELD_WIDTH] =
+	int esaData[ESA_FIELD_HEIGHT][ESA_FIELD_WIDTH] =
 	{
 	{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 	{-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1},
@@ -62,14 +63,25 @@ private:
 public:
 	CEsaController();  //コンストラクタ
 	~CEsaController();  //デストラクタ
-	void Update() {};
+	void Update();
 	void Draw()const;
 	void HitAction() {};
 
 	void Init(); //初期化処理
 	void LoadesaImage();//画像の読込み
 	void SetEsa();//エサを配置する関数
-
+	bool GetIsClear() { return isClear; }
+	CEsa* GetEsa() { return esa; }
+	int GetEsaIndex(int x, int y) { return esaData[y][x]; }
+	
+	//デバッグ用
+	void DeleteFeed()
+	{
+		for (int i = 0; i < D_ESA_MAX - 1; i++)
+		{
+			esa[i].DeleteFeed();
+		}
+	}
 	
 
 };

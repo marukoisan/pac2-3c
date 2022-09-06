@@ -4,14 +4,19 @@
 CEsa::CEsa()//コンストラクタ
 {
 	
-	 //esa = 0;
-	 //Bigesa = 0;
-	//esaFlg = 0; //エサのフラグ
-	EsaImage = 0; 
-	 esaType = 0;  //エサ画像の判別
-	 esaFlg = true;  //エサの表示フラグ
-	 esaScore = 0;  //エサのスコア
-	
+	//esa = 0;
+	//Bigesa = 0;
+   //esaFlg = 0; //エサのフラグ
+	EsaImage = 0;
+	esaType = 0;  //エサ画像の判別
+	esaFlg = true;  //エサの表示フラグ
+	esaScore = 0;  //エサのスコア
+	esaTime = 0;   //エサの点滅させるため用の時間変数
+	esaIsShow = true; //エサの描画フラグ
+
+
+	height = 3;
+	width = 3;
 
 }
 
@@ -27,7 +32,10 @@ CEsa::~CEsa()//デストラクタ
 
 void CEsa::Draw() const//
 {
-	DrawRotaGraphF(x, y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, 0, EsaImage[esaType], TRUE);
+	if (esaIsShow)
+	{
+		DrawRotaGraphF(D_FIELD_POS_X + x,D_FIELD_POS_Y + y, 1.0 / ESA_IMAGE_ORIGINNL * ESA_IMAGE_NEWLY, 0, EsaImage[esaType], TRUE);
+	}
 }
 
 void CEsa::Init(float x, float y,int *EsaImage, bool esaType)
@@ -37,6 +45,22 @@ void CEsa::Init(float x, float y,int *EsaImage, bool esaType)
 	this->EsaImage = EsaImage;   //エサの画像
 	this->esaType = esaType;  //エサ画像の判別
 
+}
+
+
+
+void CEsa::ImageBlinking(void)
+{
+	esaTime++;
+	if (esaType == 1)
+	{
+		if (esaTime % 15 == 0)//2秒間に一回って処理
+		{
+			toggle();
+		}
+		
+	}
+	
 }
 
 void CEsa::LoadesaImage()

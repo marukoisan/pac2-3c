@@ -8,13 +8,17 @@
 
 class CField;
 class CEsaController;
+class CEsa;
 class CAbstractEnemy;
+class CPlayer;
 class CGameMain : public CAbstractScene
 {
 private:
 	CField* field;
 	CEsaController* esaController;
+	CEsa* esa;
 	CAbstractEnemy* enemy;
+	CPlayer* player;
 	bool isPlayMode;
 
 	//画像用変数
@@ -29,5 +33,10 @@ public:
 	CAbstractScene* Update()override;
 	//描画
 	void Draw()const override;
+
+	//当たり判定全般
+	void HitCheck();
+	void HitCheck_PlayerAndFeed();
+	void HitCheck_PlayerAndEnemy();
 };
 
