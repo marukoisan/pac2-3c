@@ -132,3 +132,30 @@ void CPlayer::Control()
 		angle = directions[direction];
 	}
 }
+
+void CPlayer::CPlayeranim()
+{
+	bool error = false;
+	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings) == -1)error = true;
+}
+
+void CPlayer::Drawanim()const
+{
+	static int animTimer = 0;
+	animTimer++;
+	//•`‰æ
+	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+}
+
+void CPlayer::HitActionanim()
+{
+	static int animTimer = 0;
+	animTimer++;
+	//•`‰æ
+	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+}
+
+int CPlayer::LoadImage()
+{
+	return 0;
+}

@@ -26,6 +26,8 @@ private:
 	int direction;
 	float angle;
 
+	int pacmanDyings[11];
+
 public:
 	CPlayer(CController* pController);
 	~CPlayer();
@@ -40,5 +42,14 @@ public:
 	void Move();
 	void MoveStraight();
 	void Control();
+
+	
+	void CPlayeranim();
+
+	int LoadImage();
+
+	void Drawanim()const;
+
+	void HitActionanim();
 };
 
