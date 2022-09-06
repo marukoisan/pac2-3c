@@ -25,11 +25,20 @@ protected:
 	//巣の中にいるか
 	bool inEnemyroom = true;
 
+	//イジケ状態
+	int surprisingTime = 60 * 3;
+	int surprisingTimer = 0;
+	bool isSurprising = false;
+
+	//食べられた
+	bool isEaten = false;
+
 	//描画用変数
 	bool anim;
 	int testNums[10] = {};
 	int enemyImages[2] = {};
 	int enemyEyes[4] = {};
+	int surprisingImages[2][2] = {};
 
 	int floor[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
 	{
@@ -80,8 +89,15 @@ public:
 	virtual void Draw()const override;
 	virtual void HitAction()override;
 
+	void Surprised();
+
+	//当たった時（プレイヤー）
+	void HitAction_Player();
+
 
 private:
+	//画像読み込み
+	void LoadImages();
 	//移動
 	void MoveToTarget();
 	void MoveStraight(int onFieldX,int onFieldY);

@@ -9,6 +9,7 @@
 //---------------------------
 CAbstractEnemy::CAbstractEnemy()
 {
+	LoadImages();
 	direction = D_DIRECTION_DOWN;
 	x = 20;  //フィールド左上を0としたときのx座標とする
 	y = 20;  //フィールド左上を0としたときのy座標とする
@@ -29,9 +30,6 @@ CAbstractEnemy::CAbstractEnemy()
 	targetPosY = floorY * D_TILE_SIZE;
 	
 	anim = false;
-	LoadDivGraph("images/testNum.png", 10, 10, 1, 20, 20, testNums);
-	LoadDivGraph("images/sprites/monster.png", 2, 2, 1, 32, 32, enemyImages);
-	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
 }
 
 //---------------------------
@@ -49,11 +47,23 @@ void CAbstractEnemy::Update()
 {
 	MoveToTarget();
 
+	if (isSurprising)
+	{
+		surprisingTimer--;
+		if (!surprisingTimer)
+		{
+			isSurprising = false;
+		}
+	}
 
 	//デバッグ用ターゲットの位置更新
 	if ((double)x == targetPosX &&
 		(double)y == targetPosY)
 	{
+		if (isEaten)
+		{
+			isEaten = false;
+		}
 		int floorX;
 		int floorY;
 		do
@@ -94,13 +104,29 @@ void CAbstractEnemy::Draw()const
 	//	}
 	//}
 
-	
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-		1.0 , 0, enemyImages[anim], TRUE);
-	
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-		1.0 , 0, enemyEyes[direction/ D_SEPARATE_ANGLE], TRUE);
+	if (isEaten)
+	{
+		DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+			1.0, 0, enemyEyes[direction], TRUE);
+	}
+	else
+	{
+		if (isSurprising)
+		{
+			//イジケ状態時の描画
+			DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+				1.0, 0, surprisingImages[0][anim], TRUE);
+		}
+		else
+		{
+			//通常時の描画
+			DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+				1.0, 0, enemyImages[anim], TRUE);
 
+			DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+				1.0, 0, enemyEyes[direction], TRUE);
+		}
+	}
 	//デバッグ用ターゲット位置の表示
 	DrawBoxAA(D_FIELD_POS_X + targetPosX - D_TILE_SIZE / 4
 		, D_FIELD_POS_Y + targetPosY - D_TILE_SIZE / 4
@@ -115,6 +141,13 @@ void CAbstractEnemy::Draw()const
 	//敵位置のフィールド内座標の表示
 	//DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
 	//DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+	{
+		int i = 0;
+		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][0], TRUE);
+		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
+		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
+		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
+	}
 }
 
 //-------------------------
@@ -122,6 +155,50 @@ void CAbstractEnemy::Draw()const
 //-------------------------
 void CAbstractEnemy::HitAction()
 {
+
+}
+
+//---------------------------
+// イジケ状態への遷移
+//---------------------------
+void CAbstractEnemy::Surprised()
+{
+	isSurprising = true;
+	surprisingTimer = surprisingTime;
+	direction = (direction + 2) % 4;
+}
+
+//--------------------------------
+// 当たった時（プレイヤー）
+//--------------------------------
+void CAbstractEnemy::HitAction_Player()
+{
+	if (isSurprising)
+	{
+		isEaten = true;
+
+		//巣の目の前
+		targetPosX = 13 * D_TILE_SIZE + 10;
+		targetPosY = 11 * D_TILE_SIZE;
+	}
+}
+
+//-------------------------
+// 画像読み込み
+//-------------------------
+void CAbstractEnemy::LoadImages()
+{
+	int* images = new int[20];
+
+	LoadDivGraph("images/testNum.png", 10, 10, 1, 20, 20, testNums);
+	LoadDivGraph("images/sprites/monster.png", 2, 2, 1, 32, 32, enemyImages);
+	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
+	LoadDivGraph("images/sprites/monster.png", 20, 20, 1, 32, 32, images);
+	surprisingImages[0][0] = images[20 - 4];
+	surprisingImages[0][1] = images[20 - 3];
+	surprisingImages[1][0] = images[20 - 2];
+	surprisingImages[1][1] = images[20 - 1];
+	delete[] images;
 
 }
 
@@ -225,11 +302,7 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 
 	//後ろに反転しない処理のための準備
 	int directionBack;
-	directionBack = direction + 180;//後ろの情報のため、180度加算する
-	if (directionBack > D_DIRECTION_RIGHT)
-	{
-		directionBack -= 360;//処理できる右方向までを超えたら一周戻す
-	}
+	directionBack = (direction + 2) % 4;//2回正の方向に動かす（反転）
 	
 	/*
 	上下左右のマスが壁でないことを確認して、

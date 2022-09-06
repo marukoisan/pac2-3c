@@ -47,6 +47,16 @@ CAbstractScene* CGameMain::Update()
 		esaController->DeleteFeed();
 	}
 
+	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
+	{
+		enemy->Surprised();
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
+	{
+		enemy->HitAction_Player();
+	}
+
 	if (isPlayMode)
 	{
 		if (esaController->GetIsClear() == true)//エサの残りの数を受け取り、0の時にゲームクリアとする
