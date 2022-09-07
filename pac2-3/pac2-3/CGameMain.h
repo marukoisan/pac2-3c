@@ -11,6 +11,7 @@ class CEsaController;
 class CEsa;
 class CAbstractEnemy;
 class CPlayer;
+class CUi;
 class CGameMain : public CAbstractScene
 {
 private:
@@ -19,6 +20,7 @@ private:
 	CEsa* esa;
 	CAbstractEnemy* enemy;
 	CPlayer* player;
+	CUi* ui;//uiの奴
 	bool isPlayMode;
 
 	//画像用変数
