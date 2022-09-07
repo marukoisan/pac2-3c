@@ -251,7 +251,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 			}
 		}
 		break;
-
+		
 	case D_DIRECTION_LEFT:
 		x--;
 		if (floor[onFieldY][onFieldX - 1] == D_BLOCK)

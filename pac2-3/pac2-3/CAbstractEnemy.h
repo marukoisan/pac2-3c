@@ -94,7 +94,6 @@ public:
 	//当たった時（プレイヤー）
 	void HitAction_Player();
 
-
 private:
 	//画像読み込み
 	void LoadImages();
@@ -102,5 +101,7 @@ private:
 	void MoveToTarget();
 	void MoveStraight(int onFieldX,int onFieldY);
 	void ChangeDirection(int x,int y);
+	//巣からの解放
+	virtual void LeaveTheNest();
 };
 
