@@ -33,6 +33,7 @@ CGameMain::~CGameMain()
 	delete esaController;
 	delete enemy;
 	delete player;
+	delete ui;
 }
 
 //-------------------

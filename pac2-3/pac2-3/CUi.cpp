@@ -24,6 +24,8 @@ void CUi::Draw() const
 	{
 		DrawGraph(100, 100, oneupImage, TRUE);
 	}
+
+	DrawFormatString(100, 130, 0x00000, "%06d", scoreImage);
 	
 }
 
