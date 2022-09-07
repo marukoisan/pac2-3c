@@ -165,6 +165,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CTitle.cpp" />
+    <ClCompile Include="CUi.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTitle.h" />
+    <ClInclude Include="CUi.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Object.h" />
   </ItemGroup>

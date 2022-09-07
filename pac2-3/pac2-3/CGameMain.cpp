@@ -5,6 +5,7 @@
 #include"CEsa.h"
 #include"CEsaController.h"
 #include"CPlayer.h"
+#include"CUi.h"
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
 
@@ -20,6 +21,7 @@ CGameMain::CGameMain()
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
+	ui = new CUi;//uiの動的確保
 }
 
 //-------------------
@@ -41,6 +43,7 @@ CAbstractScene* CGameMain::Update()
 	esaController->Update();
 	player->Update();
 	enemy->Update();
+	ui->Update();
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -95,6 +98,7 @@ void CGameMain::Draw()const
 	player->Draw();
 	enemy->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
+	ui->Draw();
 
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
