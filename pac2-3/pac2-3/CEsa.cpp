@@ -38,12 +38,13 @@ void CEsa::Draw() const//
 	}
 }
 
-void CEsa::Init(float x, float y,int *EsaImage, bool esaType)
+void CEsa::Init(float x, float y,int *EsaImage, bool esaType, int esaScore)
 {
 	this->x = x;  //座標
 	this->y = y;  //座標
 	this->EsaImage = EsaImage;   //エサの画像
 	this->esaType = esaType;  //エサ画像の判別
+	this->esaScore = esaScore; //エサのスコア
 
 }
 

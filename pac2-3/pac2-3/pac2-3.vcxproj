@@ -167,6 +167,7 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTitle.cpp" />
     <ClCompile Include="CUi.cpp" />
+    <ClCompile Include="CHitPoint.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <ClInclude Include="CEsaController.h" />
     <ClInclude Include="CField.h" />
     <ClInclude Include="CGameMain.h" />
+    <ClInclude Include="CHitPoint.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTile.h" />

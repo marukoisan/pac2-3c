@@ -34,11 +34,12 @@ public:
 	void Update() {};
 	void Draw()const;
 	void HitAction() { esaFlg = false; }
-	void Init(float x, float y,int *EsaImage, bool esaType);//変数の初期化
+	void Init(float x, float y,int *EsaImage, bool esaType,int esaScore);//変数の初期化
 	void LoadesaImage();//画像の読込み
 	bool GetFlg() { return esaFlg; }//エサの表示フラグ
 	void ImageBlinking(void);//点滅処理
 	void toggle(void) { esaIsShow = !(esaIsShow); }//描画フラグ
+	int GetScore() { return esaScore; }//エサのスコアを貰う
 
 	//デバッグ用　TODO:消す
 	void DeleteFeed() { esaFlg = false; }
