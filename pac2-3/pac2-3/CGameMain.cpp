@@ -205,6 +205,9 @@ void CGameMain:: HitCheck_PlayerAndEnemy()
 	{
 		//敵に当たったらリスポーン位置に移動
 		hitPoint->Respawn();
-		/*player->Respawn();*/
+		if (player->CheckAnimflg() == FALSE)
+		{
+			player->Respawn();
+		}
 	}
 }
