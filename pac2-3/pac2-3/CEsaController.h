@@ -1,6 +1,6 @@
 #pragma once
 #include"CEsa.h"
-
+#include "CSpeed.h"
 
 #define ESA_IMAGE_MAX 2 //ƒGƒT‰æ‘œ‚Ì”z—ñ‚ÌÅ‘å”
 #define ESA_FIELD_WIDTH 28
