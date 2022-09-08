@@ -5,6 +5,8 @@
 #include"CEsa.h"
 #include"CEsaController.h"
 #include"CPlayer.h"
+#include"CHitPoint.h"
+
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
 
@@ -20,6 +22,7 @@ CGameMain::CGameMain()
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
+	hitPoint = new CHitPoint();
 }
 
 //-------------------
@@ -31,6 +34,7 @@ CGameMain::~CGameMain()
 	delete esaController;
 	delete enemy;
 	delete player;
+	delete hitPoint;
 }
 
 //-------------------
@@ -39,8 +43,15 @@ CGameMain::~CGameMain()
 CAbstractScene* CGameMain::Update()
 {
 	esaController->Update();
+
+	if (player->CheckAnimflg() == TRUE) 
+	{
 	player->Update();
 	enemy->Update();
+	}
+	
+
+	player->CPlayeranim();
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -92,8 +103,13 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
-	player->Draw();
-	enemy->Draw();
+
+	if (player->CheckAnimflg() == TRUE)
+	{
+		player->Draw();
+		enemy->Draw();
+	}
+
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
@@ -121,9 +137,20 @@ void CGameMain::Draw()const
 		
 		if (CheckHitBox(player, enemy))
 		{
-			DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
+			//敵に当たったときアニメーション再生
+			
+				player->AnimFlg();
+				player->HitActionanim();
+				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
+			
 		}
+
+		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
+
+		
 	}
+
+
 }
 
 
@@ -160,5 +187,10 @@ void CGameMain::HitCheck_PlayerAndFeed()
 //------------------------------------
 void CGameMain:: HitCheck_PlayerAndEnemy()
 {
-	CheckHitBox(player, enemy);
+	if (CheckHitBox(player, enemy))
+	{
+		//敵に当たったらリスポーン位置に移動
+		hitPoint->Respawn();
+		/*player->Respawn();*/
+	}
 }

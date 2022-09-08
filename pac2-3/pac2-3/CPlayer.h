@@ -28,6 +28,10 @@ private:
 
 	int pacmanDyings[11];
 
+	bool Animflg = FALSE;
+
+	bool Checkanimflg;
+
 public:
 	CPlayer(CController* pController);
 	~CPlayer();
@@ -51,5 +55,11 @@ public:
 	void Drawanim()const;
 
 	void HitActionanim();
+
+	int Respawn();
+
+	bool AnimFlg();
+
+	bool CheckAnimflg();
 };
 

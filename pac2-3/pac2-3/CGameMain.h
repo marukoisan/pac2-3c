@@ -11,6 +11,7 @@ class CEsaController;
 class CEsa;
 class CAbstractEnemy;
 class CPlayer;
+class CHitPoint;
 class CGameMain : public CAbstractScene
 {
 private:
@@ -19,7 +20,9 @@ private:
 	CEsa* esa;
 	CAbstractEnemy* enemy;
 	CPlayer* player;
+	CHitPoint* hitPoint;
 	bool isPlayMode;
+	
 
 	//画像用変数
 	int gameOverImage; //ゲームオーバー画像

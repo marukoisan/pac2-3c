@@ -21,8 +21,8 @@ CPlayer::CPlayer(CController* pController)
 		3, 1, 32, 32, images);
 
 	//ƒsƒ{ƒbƒgˆÊ’u
-	x = 20;
-	y = 20;
+	x = 260;
+	y = 340;
 
 	//“–‚½‚è”»’è
 	height = 10;
@@ -139,23 +139,52 @@ void CPlayer::CPlayeranim()
 	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings) == -1)error = true;
 }
 
-void CPlayer::Drawanim()const
-{
-	static int animTimer = 0;
-	animTimer++;
-	//•`‰æ
-	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-}
+//void CPlayer::Drawanim()const
+//{
+//	static int animTimer = 0;
+//	animTimer++;
+//	//•`‰æ
+//	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+//}
 
 void CPlayer::HitActionanim()
 {
+	Animflg = TRUE;
+	
 	static int animTimer = 0;
 	animTimer++;
 	//•`‰æ
-	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+	DrawRotaGraphF(x+360, y+80, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
 }
 
 int CPlayer::LoadImage()
 {
 	return 0;
+}
+
+int CPlayer::Respawn() 
+{
+	x = 260;
+	y = 340;
+
+	return x, y;
+}
+
+bool CPlayer::AnimFlg()
+{
+	Animflg = TRUE;
+
+	return Animflg;
+}
+
+bool CPlayer::CheckAnimflg()
+{
+	if (Animflg == FALSE)
+	{
+		Checkanimflg = TRUE;
+	}
+	else {
+		Checkanimflg = FALSE;
+	}
+	return Checkanimflg;
 }
