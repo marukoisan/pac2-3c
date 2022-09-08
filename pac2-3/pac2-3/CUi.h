@@ -1,11 +1,13 @@
 #pragma once
 #include"DxLib.h"
 #define SCORE_MAX 10
+#define ONEUP_ORIGINNL  22.0
+#define ONEUP_NEWSIZE   45.0 
 
 class CUi
 {
 private:
-	int scoreImage[SCORE_MAX];//画像用変数
+	int scoreImage[SCORE_MAX] = {};//画像用変数
 	int oneupImage;//画像用変数
 
 	int oneupTime;//1UPのための時間用変数

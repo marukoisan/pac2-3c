@@ -38,6 +38,8 @@ CGameMain::~CGameMain()
 	delete enemy;
 	delete player;
 	delete hitPoint;
+	delete ui;
+
 }
 
 //-------------------

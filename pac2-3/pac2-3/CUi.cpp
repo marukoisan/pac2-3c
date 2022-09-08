@@ -2,7 +2,7 @@
 
 CUi::CUi()
 {
-	LoadDivGraph("images/numbers.png", 10, 10, 1, 97, 7, scoreImage);//スコア画像変数
+	LoadDivGraph("images/numbers.png", SCORE_MAX, 10, 1, 9, 7, scoreImage);//スコア画像変数
 	oneupImage = LoadGraph("images/oneup.png");
 	oneupTime = 0;//1UP用の時間
 	uiIsShow = true;  //1UPの描画フラグ
@@ -22,8 +22,11 @@ void CUi::Draw() const
 {
 	if (uiIsShow)
 	{
-		DrawGraph(100, 100, oneupImage, TRUE);
+		DrawRotaGraphF(100, 100, 1.0/ ONEUP_ORIGINNL* ONEUP_NEWSIZE, 0, oneupImage, TRUE);//1UPの画像の表示(点滅処理も)
+		
 	}
+
+	DrawRotaGraphF(100, 130, 1.5, 0, scoreImage[3], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
 	
 }
 
