@@ -33,7 +33,7 @@ public:
 	~CEsa();//デストラクタ
 	void Update() {};
 	void Draw()const;
-	void HitAction() { esaFlg = false; }
+	void HitAction(){ esaFlg = false; }
 	void Init(float x, float y,int *EsaImage, bool esaType,int esaScore);//変数の初期化
 	void LoadesaImage();//画像の読込み
 	bool GetFlg() { return esaFlg; }//エサの表示フラグ

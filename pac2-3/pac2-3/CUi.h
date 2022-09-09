@@ -3,6 +3,8 @@
 #define SCORE_MAX 10
 #define ONEUP_ORIGINNL  22.0
 #define ONEUP_NEWSIZE   45.0 
+#define MAX_DIGIT  6 //桁数
+
 
 class CUi
 {
@@ -13,6 +15,7 @@ private:
 	int oneupTime;//1UPのための時間用変数
 	bool uiIsShow; //1か0か描画フラグ
 
+	int totalScore;//スコアの合計を格納する変数
 
 public:
 	CUi();//コンストラクタ
@@ -21,8 +24,9 @@ public:
 	void Update();//アップデート
 	void Draw()const;//描画関数
 
-	void Score();
-	void OneUp();
+	void karikannsuu() const;//名前は後で変更する Draw関数に入れる関数
+	int GetScore() { return totalScore; }
+	void AddScore(int Addscore);
 	void uiImageBlinking(void);//点滅処理
 	void uitoggle(void) { uiIsShow = !(uiIsShow); }//描画フラグ
 	//void karikansuu3();
