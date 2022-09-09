@@ -369,3 +369,19 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 		}
 	}
 }
+
+//-----------------------------------
+// ‘ƒ‚©‚ç‚Ì‰ð•ú
+//-----------------------------------
+void CAbstractEnemy::LeaveTheNest()
+{
+	if (y != D_ENEMY_ROOM_Y)
+	{
+		y = (y - D_ENEMY_ROOM_Y);//////////////////////////////////////////
+	}
+
+	if (x != D_ENEMY_ROOM_X)
+	{
+
+	}
+}
