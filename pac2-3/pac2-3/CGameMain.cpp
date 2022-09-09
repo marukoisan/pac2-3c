@@ -49,7 +49,7 @@ CAbstractScene* CGameMain::Update()
 	player->Update();
 	enemy->Update();
 	ui->Update();
-	speed->SetEsa();
+	speed->speed15();
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -170,7 +170,27 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			CheckHitBox(player, &esa[index]);
 		}
 	}
-	
+	if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed15();
+	}
+	if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed13();
+	}
+	if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed18();
+	}
+	if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed17();
+	}
+	if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed15p();
+	}
+
 }
 
 //------------------------------------
