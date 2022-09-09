@@ -12,6 +12,7 @@ class CEsa;
 class CAbstractEnemy;
 class CPlayer;
 class CUi;
+class CSpeed;
 class CGameMain : public CAbstractScene
 {
 private:
@@ -21,6 +22,7 @@ private:
 	CAbstractEnemy* enemy;
 	CPlayer* player;
 	CUi* ui;//uiの奴
+	CSpeed* speed;
 	bool isPlayMode;
 
 	//画像用変数

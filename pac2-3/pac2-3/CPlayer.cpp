@@ -83,7 +83,7 @@ void CPlayer::MoveStraight()
 		break;
 
 	case D_PLAYER_RIGHT:
-		x++;
+		x+=5;
 		break;
 
 	case D_PLAYER_DOWN:

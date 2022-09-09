@@ -14,7 +14,7 @@ private:
 public:
 
 	void SetEsa();//エサを配置する関数
-
+	void HitCheck_PlayerAndFeed();
 
 };
 

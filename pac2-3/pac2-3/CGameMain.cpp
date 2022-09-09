@@ -6,6 +6,7 @@
 #include"CEsaController.h"
 #include"CPlayer.h"
 #include"CUi.h"
+#include "CSpeed.h"
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
 
@@ -22,6 +23,8 @@ CGameMain::CGameMain()
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
+	speed = new CSpeed;
+
 }
 
 //-------------------
@@ -33,6 +36,8 @@ CGameMain::~CGameMain()
 	delete esaController;
 	delete enemy;
 	delete player;
+	delete speed;
+
 }
 
 //-------------------
@@ -44,6 +49,7 @@ CAbstractScene* CGameMain::Update()
 	player->Update();
 	enemy->Update();
 	ui->Update();
+	speed->SetEsa();
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -106,6 +112,7 @@ void CGameMain::Draw()const
 	enemy->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
+
 
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
