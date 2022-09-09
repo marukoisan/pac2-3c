@@ -12,7 +12,7 @@ CAbstractEnemy::CAbstractEnemy()
 	LoadImages();
 	direction = D_DIRECTION_DOWN;
 	x = 20;  //フィールド左上を0としたときのx座標とする
-	y = 20;  //フィールド左上を0としたときのy座標とする
+	y = 400;  //フィールド左上を0としたときのy座標とする
 	height = D_ENEMY_IMAGE_SIZE / 2;
 	width = D_ENEMY_IMAGE_SIZE / 2;
 
@@ -45,7 +45,16 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
-	MoveToTarget();
+
+	if (inEnemyroom)
+	{
+		LeaveTheNest();
+	}
+	else
+	{
+		MoveToTarget();
+	}
+
 
 	if (isSurprising)
 	{
@@ -147,6 +156,7 @@ void CAbstractEnemy::Draw()const
 		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
 		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
 		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
+		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", y);
 	}
 }
 
@@ -370,18 +380,35 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 	}
 }
 
-//-----------------------------------
-// 巣からの解放
-//-----------------------------------
+//----------------------------------------------------
+// 巣からの解放  ：目標地点に達したら、trueを返す
+//----------------------------------------------------
 void CAbstractEnemy::LeaveTheNest()
 {
-	if (y != D_ENEMY_ROOM_Y)
+
+	if (y > 720 - D_FIELD_POS_Y || x > 1280 - D_FIELD_POS_X)
 	{
-		y = (y - D_ENEMY_ROOM_Y);//////////////////////////////////////////
+		y=360;
 	}
 
-	if (x != D_ENEMY_ROOM_X)
+	if (floorf(y) != D_ENEMY_ROOM_Y)
 	{
+		y += -0.5f * ((y - D_ENEMY_ROOM_Y) / abs((int)(y - D_ENEMY_ROOM_Y)));
+	}
+	else if (x != D_ENEMY_ROOM_X)
+	{
+		x += -0.5f * (y - D_ENEMY_ROOM_X) / abs((int)(x - D_ENEMY_ROOM_X));
+	}
+	
 
+	if (x == D_ENEMY_ROOM_X) {
+		if (y == D_ENEMY_LEAVE_Y)
+		{
+			y += -0.5f * (y - D_ENEMY_LEAVE_Y) / fabs(y - D_ENEMY_LEAVE_Y);
+		}
+		else
+		{
+			inEnemyroom = false;
+		}
 	}
 }

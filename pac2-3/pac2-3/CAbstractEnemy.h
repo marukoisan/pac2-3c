@@ -8,8 +8,9 @@
 #define D_DISTANCE_MAX D_FIELD_WIDTH * D_FIELD_WIDTH + D_FIELD_HEIGHT * D_FIELD_HEIGHT
 #define D_ENEMY_IMAGE_SIZE 32
 #define D_SEPARATE_ANGLE 90 //•ûŒü‚ð90“x‚¸‚Â‚Å•ª‚¯‚é
-#define D_ENEMY_ROOM_X 13*D_TILE_SIZE+10
-#define D_ENEMY_ROOM_Y 15*D_TILE_SIZE
+#define D_ENEMY_ROOM_X 13.0f * D_TILE_SIZE + 10.0f
+#define D_ENEMY_ROOM_Y 14.0f * D_TILE_SIZE
+#define D_ENEMY_LEAVE_Y 12.0f * D_TILE_SIZE 
 
 class CAbstractEnemy : public CObject
 {
