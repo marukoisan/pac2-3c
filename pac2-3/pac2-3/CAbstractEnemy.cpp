@@ -11,8 +11,8 @@ CAbstractEnemy::CAbstractEnemy()
 {
 	LoadImages();
 	direction = D_DIRECTION_DOWN;
-	x = 20;  //フィールド左上を0としたときのx座標とする
-	y = 400;  //フィールド左上を0としたときのy座標とする
+	x = 240;  //フィールド左上を0としたときのx座標とする
+	y = 280;  //フィールド左上を0としたときのy座標とする
 	height = D_ENEMY_IMAGE_SIZE / 2;
 	width = D_ENEMY_IMAGE_SIZE / 2;
 
@@ -71,7 +71,11 @@ void CAbstractEnemy::Update()
 	{
 		if (isEaten)
 		{
+			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
+			inEnemyroom = true;
 			isEaten = false;
+			isSurprising = false;
 		}
 		int floorX;
 		int floorY;
@@ -152,11 +156,12 @@ void CAbstractEnemy::Draw()const
 	//DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
 	{
 		int i = 0;
-		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][0], TRUE);
-		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
-		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
-		DrawRotaGraphF(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
+		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][0], TRUE);
+		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
+		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
+		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
 		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", y);
+		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", x);
 	}
 }
 
@@ -187,9 +192,12 @@ void CAbstractEnemy::HitAction_Player()
 	{
 		isEaten = true;
 
-		//巣の目の前
+		floor[D_DOOR_Y][D_DOOR_X] = D_FLOOR;
+		floor[D_DOOR_Y][D_DOOR_X + 1] = D_FLOOR;
+
+		//巣の中
 		targetPosX = 13 * D_TILE_SIZE + 10;
-		targetPosY = 11 * D_TILE_SIZE;
+		targetPosY = 14 * D_TILE_SIZE;
 	}
 }
 
@@ -222,11 +230,13 @@ void CAbstractEnemy::MoveToTarget()
 	int onFieldY = (int)y / (int)D_TILE_SIZE;
 
 	//マスの丁度真ん中に来た時
-	if ((int)x % (int)D_TILE_SIZE == 0 
-		&& (int)y % (int)D_TILE_SIZE == 0)
+	if ((int)y % (int)D_TILE_SIZE == 0
+		&& (int)x % (int)D_TILE_SIZE == 0 
+		||(int)x==D_ENEMY_ROOM_X)
 	{
 		//そのマスが交差点だった時
-		if (floor[onFieldY][onFieldX] == D_CROSSPOINT)
+		if (floor[onFieldY][onFieldX] == D_CROSSPOINT
+			|| (int)x == D_ENEMY_ROOM_X)
 		{
 			//方向の計算をする
 			ChangeDirection(onFieldX,onFieldY);
@@ -385,30 +395,64 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 //----------------------------------------------------
 void CAbstractEnemy::LeaveTheNest()
 {
+	static int step = 0;
 
-	if (y > 720 - D_FIELD_POS_Y || x > 1280 - D_FIELD_POS_X)
-	{
-		y=360;
-	}
 
-	if (floorf(y) != D_ENEMY_ROOM_Y)
+	if (step == 0)
 	{
-		y += -0.5f * ((y - D_ENEMY_ROOM_Y) / abs((int)(y - D_ENEMY_ROOM_Y)));
-	}
-	else if (x != D_ENEMY_ROOM_X)
-	{
-		x += -0.5f * (y - D_ENEMY_ROOM_X) / abs((int)(x - D_ENEMY_ROOM_X));
-	}
-	
-
-	if (x == D_ENEMY_ROOM_X) {
-		if (y == D_ENEMY_LEAVE_Y)
+		if (y > D_ENEMY_ROOM_Y)
 		{
-			y += -0.5f * (y - D_ENEMY_LEAVE_Y) / fabs(y - D_ENEMY_LEAVE_Y);
+			direction = D_DIRECTION_UP;
+			y -= 0.5f;
+		}
+		else if (y < D_ENEMY_ROOM_Y)
+		{
+			direction = D_DIRECTION_DOWN;
+			y += 0.5f;
+		}
+		else if (y == D_ENEMY_ROOM_Y)
+		{
+			step++;
 		}
 		else
 		{
-			inEnemyroom = false;
+			;
+		}
+	}
+
+	if (step == 1)
+	{
+		if (x > D_ENEMY_ROOM_X)
+		{
+			direction = D_DIRECTION_LEFT;
+			x -= 0.5f;
+		}
+		else if (x < D_ENEMY_ROOM_X)
+		{
+			direction = D_DIRECTION_RIGHT;
+			x += 0.5f;
+		}
+		else if (x == D_ENEMY_ROOM_X)
+		{
+			step++;
+		}
+		else
+		{
+			;
+		}
+	}
+
+	if (step == 2)
+	{
+		if (y > D_ENEMY_LEAVE_Y)
+		{
+			direction = D_DIRECTION_UP;
+			y -= 0.5f;
+			if (y == D_ENEMY_LEAVE_Y)
+			{
+				inEnemyroom = false;
+				step = 0;
+			}
 		}
 	}
 }
