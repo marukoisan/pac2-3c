@@ -25,8 +25,6 @@ protected:
 
 	//スピード
 	int speed = 0;
-	//攻撃中か、休息中か
-	bool isAttack = false;
 	//巣の中にいるか
 	bool inEnemyroom = true;
 
@@ -44,6 +42,23 @@ protected:
 	int enemyImages[2] = {};
 	int enemyEyes[4] = {};
 	int surprisingImages[2][2] = {};
+
+	//波状攻撃用タイマー
+	int attackInterval[7] =
+	{
+		 7 * 60,
+		20 * 60,
+		 7 * 60,
+		20 * 60,
+		 5 * 60,
+		20 * 60,
+		 5 * 60
+	};
+	//攻撃中か、休息中か
+	bool isAttack = false;
+
+	const int REST_AREA_X = 26;
+	const int REST_AREA_Y = 1;
 
 	int floor[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
 	{
@@ -99,6 +114,9 @@ public:
 	//当たった時（プレイヤー）
 	void HitAction_Player();
 
+	//ターゲット位置の変更
+	virtual void ChangeTargetPos();
+
 private:
 	//画像読み込み
 	void LoadImages();
@@ -106,6 +124,8 @@ private:
 	void MoveToTarget();
 	void MoveStraight(int onFieldX,int onFieldY);
 	void ChangeDirection(int x,int y);
+	//波状攻撃
+	void AttackInterval();
 	//巣からの解放
 	void LeaveTheNest();
 };

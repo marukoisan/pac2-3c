@@ -46,6 +46,7 @@ CAbstractEnemy::~CAbstractEnemy()
 void CAbstractEnemy::Update()
 {
 
+	//移動パターンの制御
 	if (inEnemyroom)
 	{
 		LeaveTheNest();
@@ -55,7 +56,7 @@ void CAbstractEnemy::Update()
 		MoveToTarget();
 	}
 
-
+	//イジケ状態制御用変数の更新
 	if (isSurprising)
 	{
 		surprisingTimer--;
@@ -65,32 +66,22 @@ void CAbstractEnemy::Update()
 		}
 	}
 
-	//デバッグ用ターゲットの位置更新
+	//目標地点についたら目標を更新する
 	if ((double)x == targetPosX &&
 		(double)y == targetPosY)
 	{
-		if (isEaten)
-		{
-			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
-			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
-			inEnemyroom = true;
-			isEaten = false;
-			isSurprising = false;
-		}
-		int floorX;
-		int floorY;
-		do
-		{
-			floorX = GetRand(D_FIELD_WIDTH - 1);
-			floorY = GetRand(D_FIELD_HEIGHT - 1);
-
-		} while (floor[floorY][floorX] == 0);
-
-		targetPosX = floorX * D_TILE_SIZE;
-		targetPosY = floorY * D_TILE_SIZE;
+		ChangeTargetPos();
 	}
-	//----------------
 
+	//波状攻撃用処理
+	AttackInterval();
+	if (!isAttack)
+	{
+		targetPosX = REST_AREA_X * D_TILE_SIZE;
+		targetPosY = REST_AREA_Y * D_TILE_SIZE;
+	}
+
+	//アニメーション制御用変数の更新
 	static int animTimer = 0;
 	animTimer++;
 	if (animTimer % 8 == 0)//8はフレーム数
@@ -201,6 +192,33 @@ void CAbstractEnemy::HitAction_Player()
 	}
 }
 
+//----------------------------------------
+// ターゲット位置の変更
+//----------------------------------------
+void CAbstractEnemy::ChangeTargetPos()
+{
+	if (isEaten)
+	{
+		floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+		floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
+		inEnemyroom = true;
+		isEaten = false;
+		isSurprising = false;
+	}
+
+	int floorX;
+	int floorY;
+	do
+	{
+		floorX = GetRand(D_FIELD_WIDTH - 1);
+		floorY = GetRand(D_FIELD_HEIGHT - 1);
+
+	} while (floor[floorY][floorX] == 0);
+
+	targetPosX = floorX * D_TILE_SIZE;
+	targetPosY = floorY * D_TILE_SIZE;
+}
+
 //-------------------------
 // 画像読み込み
 //-------------------------
@@ -262,7 +280,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 	switch (direction)
 	{
 	case D_DIRECTION_UP:
-		y--;
+		y-=1.0*16/16;
 		if (floor[onFieldY - 1][onFieldX] == D_BLOCK)
 		{
 			if (y < onFieldY * D_TILE_SIZE)
@@ -386,6 +404,25 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 				distance = tmp;
 				direction = D_DIRECTION_RIGHT;
 			}
+		}
+	}
+}
+
+//-------------------------
+// 波状攻撃
+//-------------------------
+void CAbstractEnemy::AttackInterval()
+{
+	static int cycle;
+	attackInterval[cycle]--;
+	if (cycle < 7)
+	{
+		if (attackInterval[cycle] <= 0)
+		{
+			cycle++;
+			isAttack = !isAttack;
+			direction = (direction + 2) % 4;
+			ChangeTargetPos();
 		}
 	}
 }
