@@ -7,6 +7,7 @@ CUi::CUi()
 	oneupTime = 0;//1UP用の時間
 	uiIsShow = true;  //1UPの描画フラグ
 	totalScore = 0;
+	
 }
 
 CUi::~CUi()
@@ -54,15 +55,15 @@ void CUi::karikannsuu() const//名前は後で変更する
 
 		weight = i * 10 ^ digit;
 
-		DrawRotaGraphF(100, 130, 1.0, 0, scoreImage[totalScore / weight], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
+		DrawRotaGraphF(100, 130, 1.0, 0, scoreImage[GetScore() / weight], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
 
 	}
 
 }
 
-void CUi::AddScore(int Addscore)//引数に値を入れて完成させる
+void CUi::AddScore(int nowScore)//引数に値を入れて完成させる
 {
-	totalScore += Addscore;
+	totalScore += nowScore;
 }
 
 void CUi::uiImageBlinking(void)
