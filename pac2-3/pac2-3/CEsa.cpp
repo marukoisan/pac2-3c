@@ -3,7 +3,6 @@
 
 CEsa::CEsa()//コンストラクタ
 {
-	
 	//esa = 0;
 	//Bigesa = 0;
    //esaFlg = 0; //エサのフラグ

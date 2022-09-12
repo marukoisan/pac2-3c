@@ -79,7 +79,7 @@ void CEsaController::SetEsa()
 			}
 			else if (esaData[i][j] == 1)
 			{
-				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1,50);//最後の数字がスコアの予定
+				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1, 50);//最後の数字がスコアの予定
 				esaData[i][j] = esaIndex;
 				if (esaIndex < D_ESA_MAX-1)esaIndex++;
 			}
