@@ -4,7 +4,7 @@ class CHitPoint
 {
 private:
 	int hitPointImages[12];
-	
+	int images[3] = { 0 };
 public:
 	CHitPoint();
 	~CHitPoint() {}
