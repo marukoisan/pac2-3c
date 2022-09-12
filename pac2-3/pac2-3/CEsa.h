@@ -43,7 +43,6 @@ public:
 
 	//デバッグ用　TODO:消す
 	void DeleteFeed() { esaFlg = false; }
-
 };
 
 

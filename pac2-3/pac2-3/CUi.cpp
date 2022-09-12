@@ -1,3 +1,4 @@
+#include<math.h>
 #include"CUi.h"
 
 CUi::CUi()
@@ -24,7 +25,7 @@ void CUi::Draw() const
 {
 	if (uiIsShow)
 	{
-		DrawRotaGraphF(100, 100, 1.0/ ONEUP_ORIGINNL* ONEUP_NEWSIZE, 0, oneupImage, TRUE);//1UPの画像の表示(点滅処理も)
+		DrawRotaGraphF(370, 10, 1.0/ ONEUP_ORIGINNL* ONEUP_NEWSIZE, 0, oneupImage, TRUE);//1UPの画像の表示(点滅処理も)
 		
 	}
 
@@ -39,24 +40,14 @@ void CUi::karikannsuu() const//名前は後で変更する
 {
 	int digit;//桁数という意味  //weight
 
-	for (digit = 0; digit < MAX_DIGIT; digit++)
+	int w = totalScore;  //totalScoreに何もないため
+
+	int i = 0;
+	while (w > 0)
 	{
-		int w = totalScore;  //totalScoreに何もないため
-		
+		DrawRotaGraphF(POSX - i * NUM, POSY, 1.0 / ONEUP_ORIGINNL * ONEUP_NEWSIZE, 0, scoreImage[w % 10], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
 		w /= 10;
-
-		if (totalScore == 0)break;
-
-	}
-
-	for (int i = 0; i < digit; i++)
-	{
-		int weight;
-
-		weight = i * 10 ^ digit;
-
-		DrawRotaGraphF(100, 130, 1.0, 0, scoreImage[GetScore() / weight], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
-
+		i++;
 	}
 
 }

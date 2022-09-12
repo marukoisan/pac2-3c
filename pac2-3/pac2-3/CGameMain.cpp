@@ -156,7 +156,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 		{
 			if (CheckHitBox(player, &esa[index]))//プレイヤーとエサが当たった時
 			{
-				ui->AddScore(esa->GetScore());//uiの合計のスコアにesaのスコアを入れる処理
+				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
 			}
 		}
 	}

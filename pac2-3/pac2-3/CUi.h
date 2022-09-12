@@ -4,6 +4,9 @@
 #define ONEUP_ORIGINNL  22.0
 #define ONEUP_NEWSIZE   45.0 
 #define MAX_DIGIT  6 //Œ…”
+#define POSX 460 //ˆÊ’u
+#define POSY 40 //ˆÊ’u
+#define NUM  20  //ˆÊ’u‚ğ‚¸‚ç‚·‚½‚ß‚Ì‚à‚Ì
 
 
 class CUi
