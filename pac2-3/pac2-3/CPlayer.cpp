@@ -89,7 +89,7 @@ void CPlayer::MoveStraight()
 	case D_PLAYER_DOWN:
 		y++;
 		break;
-
+		
 	case D_PLAYER_LEFT:
 		x--;
 		break;

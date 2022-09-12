@@ -50,6 +50,11 @@ CAbstractScene* CGameMain::Update()
 	enemy->Update();
 	ui->Update();
 	speed->speed15();
+	speed-> speed13();
+	speed-> speed18();
+	speed-> speed17();
+	speed-> speed15p();
+
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
