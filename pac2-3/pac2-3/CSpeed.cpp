@@ -5,30 +5,35 @@
 //#include "CPlayer.h"
 
 //スピードレベルA
+//void CSpeed::speed16()//通常時
+//{
+//	speed = (1.0 * 16) / 16;
+//}
+
 void CSpeed::speed15()//餌食時
 {
-	speed = 1.0 * 15 / 16;
+	speed = (1.0 * 15) / 16;
 }
 
-void CSpeed::speed13()//パワー餌食時
-{
-	speed = 1.0 * 13 / 16;
-}
+//void CSpeed::speed13()//パワー餌食時
+//{
+//	speed = (1.0 * 13) / 16;
+//}
 
-void CSpeed::speed18()//パワー餌食直後
-{
-	speed = 1.0 * 18 / 18;
-}
-
-void CSpeed::speed17()//逆転餌食時
-{
-	speed = 1.0 * 17 / 18;
-}
-
-void CSpeed::speed15p()//逆転パワー餌食時
-{
-	speed = 1.0 * 15 / 18;
-}
+//void CSpeed::speed18()//パワー餌食直後
+//{
+//	speed = 1.0 * 18 / 18;
+//}
+//
+//void CSpeed::speed17()//逆転餌食時
+//{
+//	speed = 1.0 * 17 / 18;
+//}
+//
+//void CSpeed::speed15p()//逆転パワー餌食時
+//{
+//	speed = 1.0 * 15 / 18;
+//}
 
 
 //void CSpeed::SetEsa()

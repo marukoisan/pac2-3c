@@ -40,5 +40,9 @@ public:
 	void Move();
 	void MoveStraight();
 	void Control();
+
+
+
+
 };
 

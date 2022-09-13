@@ -49,11 +49,12 @@ CAbstractScene* CGameMain::Update()
 	player->Update();
 	enemy->Update();
 	ui->Update();
+	//speed->speed16();
 	speed->speed15();
-	speed-> speed13();
-	speed-> speed18();
+	//speed-> speed13();
+	/*speed-> speed18();
 	speed-> speed17();
-	speed-> speed15p();
+	speed-> speed15p();*/
 
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
@@ -168,6 +169,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int index = esaController->GetEsaIndex(x, y);
+
 	if (index > -1)
 	{
 		if (esa[index].GetFlg() == true)
@@ -175,15 +177,20 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			CheckHitBox(player, &esa[index]);
 		}
 	}
+
+	/*if (CheckHitBox(player, &esa[index]))
+	{
+		speed->speed16();
+	}*/
 	if (CheckHitBox(player, &esa[index]))
 	{
 		speed->speed15();
 	}
-	if (CheckHitBox(player, &esa[index]))
+	/*if (CheckHitBox(player, &esa[index]))
 	{
 		speed->speed13();
-	}
-	if (CheckHitBox(player, &esa[index]))
+	}*/
+	/*if (CheckHitBox(player, &esa[index]))
 	{
 		speed->speed18();
 	}
@@ -194,7 +201,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 	if (CheckHitBox(player, &esa[index]))
 	{
 		speed->speed15p();
-	}
+	}*/
 
 }
 
@@ -205,3 +212,4 @@ void CGameMain:: HitCheck_PlayerAndEnemy()
 {
 	CheckHitBox(player, enemy);
 }
+

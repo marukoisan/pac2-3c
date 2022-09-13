@@ -8,16 +8,20 @@ class CSpeed
 {
 
 private:
+
 	float speed;
 
 	//bool esaType;  //エサ画像の判別
 
 public:
+
+	//void speed16();
 	void speed15();
-	void speed13();
-	void speed18();
+	//void speed13();
+
+	/*void speed18();
 	void speed17();
-	void speed15p();
+	void speed15p();*/
 
 	//void SetEsa();//エサを配置する関数
 	//void HitCheck_PlayerAndFeed();
