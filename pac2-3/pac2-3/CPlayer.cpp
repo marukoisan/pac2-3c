@@ -149,7 +149,6 @@ void CPlayer::CPlayeranim()
 
 void CPlayer::HitActionanim()
 {
-	Animflg = TRUE;
 	
 	static int animTimer = 0;
 	animTimer++;
