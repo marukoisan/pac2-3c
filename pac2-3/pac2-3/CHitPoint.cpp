@@ -6,17 +6,13 @@ CHitPoint::CHitPoint()
 {
 	bool error = false;
 	if (LoadDivGraph("images/sprites/pacman.png", 12, 12, 1, 32, 32, hitPointImages) == -1)error = true;
-
-	images[0] = hitPointImages[10];
-	images[1] = hitPointImages[10];
-	images[2] = hitPointImages[10];
 }
 
 void CHitPoint::Draw()const
 {
-	DrawRotaGraphF(280, 700, 1, 0, images[0], TRUE);
-	DrawRotaGraphF(320, 700, 1, 0, images[1], TRUE);
-	DrawRotaGraphF(360, 700, 1, 0, images[2], TRUE);
+	DrawRotaGraphF(280, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(320, 700, 1, 0, hitPointImages[10], TRUE);
+	DrawRotaGraphF(360, 700, 1, 0, hitPointImages[10], TRUE);
 
 	//残機数に応じて表示している残機の上に重ねて見えなくする
 	if (playerLife < 3)

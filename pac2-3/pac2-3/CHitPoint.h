@@ -4,7 +4,6 @@ class CHitPoint
 {
 private:
 	int hitPointImages[12];
-	int images[3] = { 0 };
 	int Color = GetColor(0, 0, 0);
 public:
 	CHitPoint();
