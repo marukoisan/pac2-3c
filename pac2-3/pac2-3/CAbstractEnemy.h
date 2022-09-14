@@ -14,6 +14,8 @@
 #define D_DOOR_X 13
 #define D_DOOR_Y 12
 
+
+
 class CAbstractEnemy : public CObject
 {
 protected:
@@ -128,5 +130,6 @@ private:
 	void AttackInterval();
 	//‘ƒ‚©‚ç‚Ì‰ð•ú
 	void LeaveTheNest();
+
 };
 

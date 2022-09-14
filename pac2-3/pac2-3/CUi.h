@@ -27,7 +27,7 @@ public:
 	void Update();//アップデート
 	void Draw()const;//描画関数
 
-	void karikannsuu() const;//名前は後で変更する Draw関数に入れる関数
+	void DigitCalculation() const;//桁計算 Draw関数に入れる関数
 	int GetScore()const { return totalScore; }
 	void AddScore(int nowScore);
 	void uiImageBlinking(void);//点滅処理

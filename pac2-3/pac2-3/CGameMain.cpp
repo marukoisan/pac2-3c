@@ -66,7 +66,7 @@ CAbstractScene* CGameMain::Update()
 		esaController->DeleteFeed();
 	}
 
-	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
+	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 	{
 		enemy->Surprised();
 	}
@@ -195,6 +195,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			if (CheckHitBox(player, &esa[index]))//プレイヤーとエサが当たった時
 			{
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
+				esa->AddEsaGetType(esa[index].EsaGetType());//エサタイプの値を入れる処理
 			}
 		}
 	}
