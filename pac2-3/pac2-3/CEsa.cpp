@@ -13,7 +13,7 @@ CEsa::CEsa()//コンストラクタ
 	esaTime = 0;   //エサの点滅させるため用の時間変数
 	esaIsShow = true; //エサの描画フラグ
 
-	a = 0;//名前は後で変更します
+
 
 	height = 3;
 	width = 3;
@@ -64,10 +64,7 @@ void CEsa::ImageBlinking(void)
 	
 }
 
-void CEsa::AddEsaGetType(bool esaType)
-{
-	a = esaType;
-}
+
 
 void CEsa::LoadesaImage()
 {

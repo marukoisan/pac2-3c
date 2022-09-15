@@ -20,8 +20,6 @@ private:
 	int esaTime;  //エサの点滅用の時間を入れる変数
 	bool esaIsShow; //1か0か描画フラグ
 	
-	int a;//名前は後で変更します
-	
 	////座標
 	//float x;
 	//float y;
@@ -42,7 +40,7 @@ public:
 	void toggle(void) { esaIsShow = !(esaIsShow); }//描画フラグ
 	int GetScore() { return esaScore; }//エサのスコアを貰う
 	int EsaGetType() { return esaType; }//エサのタイプを貰う
-	void  AddEsaGetType(bool esaType); //
+	
 
 	//デバッグ用　TODO:消す
 	void DeleteFeed() { esaFlg = false; }
