@@ -121,6 +121,7 @@ void CGameMain::Draw()const
 	{
 		player->Draw();
 		enemy->Draw();
+		hitPoint->Draw();
 	}
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
