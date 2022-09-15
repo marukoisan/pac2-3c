@@ -7,6 +7,7 @@
 #include"CPlayer.h"
 #include"CUi.h"
 #include"CHitPoint.h"
+#include"CFruit.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -25,7 +26,8 @@ CGameMain::CGameMain()
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
-
+	fruit = new CFruit();
+	
 }
 
 //-------------------
@@ -39,7 +41,7 @@ CGameMain::~CGameMain()
 	delete player;
 	delete hitPoint;
 	delete ui;
-
+	delete fruit;
 }
 
 //-------------------
@@ -118,6 +120,7 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
+	fruit->Draw();
 
 	if (player->CheckAnimflg() == TRUE)
 	{

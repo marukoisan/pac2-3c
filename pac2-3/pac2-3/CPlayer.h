@@ -41,7 +41,7 @@ public:
 	//•`‰æ
 	void Draw()const override;
 	//“–‚½‚Á‚½‚Ìˆ—
-	void HitAction()override {}
+	void HitAction()override {};
 
 	void Move();
 	void MoveStraight();

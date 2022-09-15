@@ -1,9 +1,15 @@
+#include<stdio.h>
 #include"DxLib.h"
 #include "CFruit.h"
 
 CFruit::CFruit()//コンストラクタ
 {
+	bool error = false;
+	if (LoadDivGraph("images/sprites/fruit.png", FRUIT_MAX, 13, 1, 32, 32, FruitImage) == -1)error = true;
+	
+}
 
-	int FruitImage = 0;
-	LoadDivGraph("images/sprites/fruit.png", 13, 13, 1, 32, 32, FruitImage);
+void CFruit::Draw()const
+{
+	DrawGraph(0, 100, FruitImage[0], TRUE);
 }
