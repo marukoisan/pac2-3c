@@ -27,7 +27,7 @@ CGameMain::CGameMain()
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
 	fruit = new CFruit();
-	
+
 }
 
 //-------------------
@@ -51,17 +51,17 @@ CAbstractScene* CGameMain::Update()
 {
 	esaController->Update();
 
-	if (player->CheckAnimflg() == TRUE) 
+	if (player->CheckAnimflg() == TRUE)
 	{
-	player->Update();
-	enemy->Update();
+		player->Update();
+		enemy->Update();
 
-	player->CPlayeranim();
+		player->CPlayeranim();
 
 	}
 	ui->Update();
 
-	
+
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -92,7 +92,7 @@ CAbstractScene* CGameMain::Update()
 
 			if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 			{
-				
+
 			}
 		}
 		else
@@ -108,7 +108,7 @@ CAbstractScene* CGameMain::Update()
 
 		//流れ終わったらプレイモードに返す
 		isPlayMode = true;
-	}	
+	}
 
 	return this;
 }
@@ -134,7 +134,7 @@ void CGameMain::Draw()const
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
+			, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 	}
 	if (isPlayMode)
 	{
@@ -153,20 +153,20 @@ void CGameMain::Draw()const
 		{
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
-		
+
 		if (CheckHitBox(player, enemy))
 		{
 			//敵に当たったときアニメーション再生
-			
-				player->AnimFlg();
-				player->HitActionanim();
-				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
-			
+
+			player->AnimFlg();
+			player->HitActionanim();
+			DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
+
 		}
 
-		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
+		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d", hitPoint->playerLife);
 
-		
+
 	}
 
 
@@ -199,15 +199,18 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			{
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
 			}
+
 		}
+
 	}
-	
+
 }
+
 
 //------------------------------------
 // 当たり判定　プレイヤー：敵
 //------------------------------------
-void CGameMain:: HitCheck_PlayerAndEnemy()
+void CGameMain::HitCheck_PlayerAndEnemy()
 {
 	if (CheckHitBox(player, enemy))
 	{
