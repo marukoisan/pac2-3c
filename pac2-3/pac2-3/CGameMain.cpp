@@ -61,6 +61,7 @@ CAbstractScene* CGameMain::Update()
 	}
 	ui->Update();
 
+	coffeebreak3->Update();
 	
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
@@ -215,6 +216,6 @@ void CGameMain:: HitCheck_PlayerAndEnemy()
 	{
 		//敵に当たったらリスポーン位置に移動
 		hitPoint->Respawn();
-		/*player->Respawn();*/
+		//player->Respawn();
 	}
 }
