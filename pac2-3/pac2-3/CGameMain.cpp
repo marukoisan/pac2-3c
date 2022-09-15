@@ -120,6 +120,7 @@ void CGameMain::Draw()const
 	{
 		player->Draw();
 		enemy->Draw();
+		hitPoint->Draw();
 	}
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
@@ -212,6 +213,9 @@ void CGameMain:: HitCheck_PlayerAndEnemy()
 	{
 		//敵に当たったらリスポーン位置に移動
 		hitPoint->Respawn();
-		/*player->Respawn();*/
+		if (player->CheckAnimflg() == FALSE)
+		{
+			player->Respawn();
+		}
 	}
 }
