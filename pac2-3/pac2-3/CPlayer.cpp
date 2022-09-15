@@ -149,12 +149,16 @@ void CPlayer::CPlayeranim()
 
 void CPlayer::HitActionanim()
 {
-	Animflg = TRUE;
 	
 	static int animTimer = 0;
 	animTimer++;
 	//•`‰æ
-	DrawRotaGraphF(x+360, y+80, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+	DrawRotaGraphF(x+D_FIELD_POS_X, y+ D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+
+	if (animTimer / 9 % 11 == 0)
+	{
+		Animflg = FALSE;
+	}
 }
 
 int CPlayer::LoadImage()
