@@ -27,6 +27,8 @@ public:
 	//getŠÖ”
 	float GetX()const { return x; }
 	float GetY()const { return y; }
+	void AddX(float addX) { x += addX; }
+	void AddY(float addY) { y += addY; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
 	bool GetOldHitFlg()const { return oldHitFlg; }
@@ -39,3 +41,5 @@ public:
 //‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);
+void PreventOverlapBox(CObject* obj1, CObject* obj2);
+void PreventOverlapCircle_Box(CObject* circle, CObject* box);

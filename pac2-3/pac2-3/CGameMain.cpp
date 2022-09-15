@@ -19,6 +19,7 @@ CGameMain::CGameMain()
 	isPlayMode = true;
 	gameOverImage = LoadGraph("images/game_over.png");
 	field = new CField;
+	tiles = field->GetTiles();
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
@@ -52,6 +53,14 @@ CAbstractScene* CGameMain::Update()
 	if (player->CheckAnimflg() == TRUE) 
 	{
 	player->Update();
+	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	if (field->GetTileData(y-1,x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
+	if (field->GetTileData(y+1,x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y+1][x]);
+	if (field->GetTileData(y,x-1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x-1]);
+	if (field->GetTileData(y,x+1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x+1]);
+
 	enemy->Update();
 
 	player->CPlayeranim();

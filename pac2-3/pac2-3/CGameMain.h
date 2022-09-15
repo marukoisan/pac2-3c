@@ -6,6 +6,7 @@
 #define D_SCREEN_SIZE_WIDTH 1280
 #define D_SCREEN_SIZE_HEIGHT 720
 
+class CTile;
 class CField;
 class CEsaController;
 class CEsa;
@@ -17,6 +18,7 @@ class CHitPoint;
 class CGameMain : public CAbstractScene
 {
 private:
+	CTile** tiles;
 	CField* field;
 	CEsaController* esaController;
 	CEsa* esa;
