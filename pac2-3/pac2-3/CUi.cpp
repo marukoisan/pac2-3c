@@ -31,12 +31,12 @@ void CUi::Draw() const
 
 	//DrawRotaGraphF(100, 130, 1.5, 0, scoreImage[3], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
 
-	karikannsuu();
+	DigitCalculation();//桁計算
 	
 }
 
 
-void CUi::karikannsuu() const//名前は後で変更する
+void CUi::DigitCalculation() const//桁計算
 {
 	int digit;//桁数という意味  //weight
 

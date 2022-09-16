@@ -1,8 +1,10 @@
 #include"DxLib.h"
 #include"CAbstractEnemy.h"
 
+
 #define _USE_MATH_DEFINES
 #include<math.h>
+
 
 //---------------------------
 // コンストラクタ
@@ -30,6 +32,7 @@ CAbstractEnemy::CAbstractEnemy()
 	targetPosY = floorY * D_TILE_SIZE;
 	
 	anim = false;
+
 }
 
 //---------------------------
@@ -59,6 +62,7 @@ void CAbstractEnemy::Update()
 	//イジケ状態制御用変数の更新
 	if (isSurprising)
 	{
+		
 		surprisingTimer--;
 		if (!surprisingTimer)
 		{

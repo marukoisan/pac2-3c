@@ -25,8 +25,8 @@ CPlayer::CPlayer(CController* pController)
 	y = 340;
 
 	//“–‚½‚è”»’è
-	height = 10;
-	width = 10;
+	height = 20;
+	width = 20;
 }
 
 //--------------------

@@ -14,6 +14,7 @@ CEsa::CEsa()//コンストラクタ
 	esaIsShow = true; //エサの描画フラグ
 
 
+
 	height = 3;
 	width = 3;
 
@@ -62,6 +63,8 @@ void CEsa::ImageBlinking(void)
 	}
 	
 }
+
+
 
 void CEsa::LoadesaImage()
 {
