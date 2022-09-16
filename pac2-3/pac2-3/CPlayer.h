@@ -28,9 +28,9 @@ private:
 
 	int pacmanDyings[11];
 
-	bool Animflg = FALSE;
+	bool isAlive = FALSE;
 
-	bool Checkanimflg;
+	bool checkAnimFlg;
 
 public:
 	CPlayer(CController* pController);
@@ -47,19 +47,12 @@ public:
 	void MoveStraight();
 	void Control();
 
-	
-	void CPlayeranim();
-
-	int LoadImage();
-
-	void Drawanim()const;
-
 	void HitActionanim();
 
-	int Respawn();
+	void Respawn();
 
-	bool AnimFlg();
+	bool GetAnimFlg();
 
-	bool CheckAnimflg();
+	bool GetisAlive();
 };
 

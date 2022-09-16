@@ -50,24 +50,22 @@ CAbstractScene* CGameMain::Update()
 {
 	esaController->Update();
 
-	if (player->CheckAnimflg() == TRUE) 
-	{
 	player->Update();
-	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
-	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
-	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
-	if (field->GetTileData(y-1,x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
-	if (field->GetTileData(y+1,x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y+1][x]);
-	if (field->GetTileData(y,x-1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x-1]);
-	if (field->GetTileData(y,x+1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x+1]);
-
-	enemy->Update();
-
-	player->CPlayeranim();
-
-	}
 	ui->Update();
 
+	if (player->GetisAlive() == true)
+	{
+		//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+		int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+		int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+		if (field->GetTileData(y - 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
+		if (field->GetTileData(y + 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y + 1][x]);
+		if (field->GetTileData(y, x - 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x - 1]);
+		if (field->GetTileData(y, x + 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x + 1]);
+
+		enemy->Update();
+
+	}
 	
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
@@ -124,13 +122,11 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
+	
+	player->Draw();
+	enemy->Draw();
 
-	if (player->CheckAnimflg() == TRUE)
-	{
-		player->Draw();
-		enemy->Draw();
-		hitPoint->Draw();
-	}
+	hitPoint->Draw();
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
@@ -159,13 +155,8 @@ void CGameMain::Draw()const
 		}
 		
 		if (CheckHitBox(player, enemy))
-		{
-			//敵に当たったときアニメーション再生
-			
-				player->AnimFlg();
-				player->HitActionanim();
-				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
-			
+		{		
+			DrawString(D_FIELD_POS_X+player->GetX(), D_FIELD_POS_Y+player->GetY() + i++ * 20, "HIT", 0x3355FF);	
 		}
 
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
@@ -220,11 +211,6 @@ void CGameMain:: HitCheck_PlayerAndEnemy()
 {
 	if (CheckHitBox(player, enemy))
 	{
-		//敵に当たったらリスポーン位置に移動
-		hitPoint->Respawn();
-		if (player->CheckAnimflg() == FALSE)
-		{
-			player->Respawn();
-		}
+
 	}
 }

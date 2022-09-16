@@ -20,9 +20,11 @@ CPlayer::CPlayer(CController* pController)
 	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX,
 		3, 1, 32, 32, images);
 
+	LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings);
+
 	//ピボット位置
-	x = 260;
-	y = 340;
+	x = 270;
+	y = 460;
 
 	//当たり判定
 	height = 20;
@@ -133,23 +135,11 @@ void CPlayer::Control()
 	}
 }
 
-void CPlayer::CPlayeranim()
-{
-	bool error = false;
-	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings) == -1)error = true;
-}
 
-//void CPlayer::Drawanim()const
-//{
-//	static int animTimer = 0;
-//	animTimer++;
-//	//描画
-//	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-//}
 
 void CPlayer::HitActionanim()
 {
-	
+	isAlive = TRUE;
 	static int animTimer = 0;
 	animTimer++;
 	//描画
@@ -157,38 +147,30 @@ void CPlayer::HitActionanim()
 
 	if (animTimer / 9 % 11 == 0)
 	{
-		Animflg = FALSE;
+		isAlive = FALSE;
 	}
 }
 
-int CPlayer::LoadImage()
+void CPlayer::Respawn() 
 {
-	return 0;
+	x = 270;
+	y = 460;
+
 }
 
-int CPlayer::Respawn() 
+bool CPlayer::GetAnimFlg()
 {
-	x = 260;
-	y = 340;
-
-	return x, y;
+	return isAlive;
 }
 
-bool CPlayer::AnimFlg()
+bool CPlayer::GetisAlive()
 {
-	Animflg = TRUE;
-
-	return Animflg;
-}
-
-bool CPlayer::CheckAnimflg()
-{
-	if (Animflg == FALSE)
+	if (isAlive == FALSE)
 	{
-		Checkanimflg = TRUE;
+		checkAnimFlg = TRUE;
 	}
 	else {
-		Checkanimflg = FALSE;
+		checkAnimFlg = FALSE;
 	}
-	return Checkanimflg;
+	return checkAnimFlg;
 }
