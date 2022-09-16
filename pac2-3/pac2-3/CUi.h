@@ -6,7 +6,7 @@
 #define MAX_DIGIT  6 //桁数
 #define POSX 460 //位置
 #define POSY 40 //位置
-#define NUM  20  //位置をずらすためのもの
+#define NUM  15  //位置をずらすためのもの
 
 
 class CUi
