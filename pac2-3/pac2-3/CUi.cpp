@@ -3,7 +3,7 @@
 
 CUi::CUi()
 {
-	LoadDivGraph("images/numbers.png", SCORE_MAX, 10, 1, 9, 7, scoreImage);//スコア画像変数
+	LoadDivGraph("images/numbers.png", SCORE_MAX, 10, 1, 7, 7, scoreImage);//スコア画像変数
 	oneupImage = LoadGraph("images/oneup.png");
 	oneupTime = 0;//1UP用の時間
 	uiIsShow = true;  //1UPの描画フラグ
@@ -45,7 +45,7 @@ void CUi::DigitCalculation() const//桁計算
 	int i = 0;
 	while (w > 0)
 	{
-		DrawRotaGraphF(POSX - i * NUM, POSY, 1.0 / ONEUP_ORIGINNL * ONEUP_NEWSIZE, 0, scoreImage[w % 10], TRUE);//スコアを表示するためのDrawすべてやるにはまだ足りない
+		DrawRotaGraphF(POSX - i * NUM, POSY, 1.0 / ONEUP_ORIGINNL * ONEUP_NEWSIZE, 0, scoreImage[w % 10], FALSE);//スコアを表示するためのDrawすべてやるにはまだ足りない
 		w /= 10;
 		i++;
 	}
