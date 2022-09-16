@@ -28,6 +28,7 @@ public:
 	float GetX()const { return x; }
 	float GetY()const { return y; }
 	void AddX(float addX) { x += addX; }
+	void SetX(float x) { this->x = x; }//ワープトンネル用
 	void AddY(float addY) { y += addY; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
