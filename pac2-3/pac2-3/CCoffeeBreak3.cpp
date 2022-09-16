@@ -5,8 +5,10 @@ CCoffeeBreak3::CCoffeeBreak3()
 {
 	LoadImages();
 	anim = false;
+	anime = false;
 	animpacman = 0;
 	x = 0;
+	y = 0;
 }
 
 
@@ -23,12 +25,15 @@ void CCoffeeBreak3::Update()
 	animpacman++;//パックマン用の処理
 
 	x++;
-
-	if (animTimer % 8 == 0)//8はフレーム数
+	y--;
+	if (animTimer % 3 == 0)//8はフレーム数
 	{
 		anim = !anim;
 	}
-
+	if (animTimer % 5 == 0)
+	{
+		anime = !anime;
+	}
 }
 
 void CCoffeeBreak3::Draw() const
@@ -37,23 +42,26 @@ void CCoffeeBreak3::Draw() const
 	DrawGraph(200, 250, tugihagi[1], TRUE);*/
 
 	//つぎはぎくんの描画
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y,
+	DrawRotaGraphF(TUGIHAGI_POSX + y, D_FIELD_POS_Y,
 		1.0 / 14 * 32, 0, tugihagi[anim], TRUE);
 
 	//いもむしくんの描画
 	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + 30,
-		1.0 / 22 * 32, 0, imomusi[anim], TRUE);
+		1.0 / 22 * 32, 0, imomusi[anime], TRUE);
 
 	/*DrawGraph(200, 300, imomusi[0], TRUE);
 	DrawGraph(200, 350, imomusi[1], TRUE);*/
 
 	//パックマン用の描画
-	DrawRotaGraphF(D_FIELD_POS_X + 60, D_FIELD_POS_Y + 60,
-		1.0, 0, pacman[animpacman / 5 % 3 + 9], TRUE);
+	DrawRotaGraphF(PACMAN_POSX + y, D_FIELD_POS_Y + 60,
+		1.0, 0, pacman[animpacman / 3 % 3 + 9], TRUE);
 
 	/*DrawGraph(200, 370, pacman[9 + 0 % 3], TRUE);
 	DrawGraph(200, 400, pacman[9 + 1 % 3], TRUE);
 	DrawGraph(200, 430, pacman[9 + 2 % 3], TRUE);*/
+
+	DrawBox(0, 0, 369, 720, 0x0000ff, TRUE);
+	DrawBox(910, 0, 1280, 720, 0x00ff00, TRUE);
 
 	DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);
 }

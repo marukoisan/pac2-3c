@@ -3,7 +3,8 @@
 #define TUGIHAGI_MAX 2
 #define IMOMUSI_MAX 2
 #define PACMAN_MAX 12
-
+#define TUGIHAGI_POSX 1020
+#define PACMAN_POSX 930
 class CCoffeeBreak3
 {
 private:
@@ -12,8 +13,10 @@ private:
 	int pacman[PACMAN_MAX] = {};//‰æ‘œ—p•Ï”
 
 	bool anim;//‚¢‚à‚Ş‚µ‚Æ‚Â‚¬‚Í‚¬‚Ì‰æ‘œ‚Ì”»•Ê0‚Æ1‚Å 2–‡‚µ‚©‚È‚¢‚Ì‚Å
+	bool anime;//‚¢‚à‚Ş‚µ—p
 	int animpacman;//ƒAƒjƒˆ—‰ÁZ
-	int x;//‰ÁZˆ—‚ÆŒ¸Zˆ—
+	int x;//‰ÁZˆ—
+	int y;//Œ¸Zˆ—
 
 public:
 
