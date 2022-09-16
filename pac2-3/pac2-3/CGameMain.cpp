@@ -61,8 +61,6 @@ CAbstractScene* CGameMain::Update()
 	}
 	ui->Update();
 
-
-
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
 		esaController->DeleteFeed();
@@ -70,7 +68,7 @@ CAbstractScene* CGameMain::Update()
 
 	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 	{
-		enemy->Surprised();
+		fruit->Advent(0);
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
