@@ -1,13 +1,19 @@
 #pragma once
 #include "CPlayer.h"
 
+
 class CCoffeeBreak
 {
 private:
-	int images[D_PLAYER_IMAGE_MAX];
-	int animPlayer[12];
-	int animEnemy[20];
+	float angle = 0;
+	int images[D_PLAYER_IMAGE_MAX] = {};
+	int animTimer = 0;
+	int enemyImages[2] = {};
+	int enemyEyes[4] = {};
+	bool anim;
 public:
-	void CoffeeBreak();
-	void LoadImages();
+	CCoffeeBreak();
+	~CCoffeeBreak() {}
+	void Update() {}
+	void Draw();
 };
