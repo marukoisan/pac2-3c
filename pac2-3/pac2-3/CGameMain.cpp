@@ -189,6 +189,8 @@ void CGameMain::HitCheck_PlayerAndFeed()
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int index = esaController->GetEsaIndex(x, y);
+
+
 	if (index > -1)
 	{
 		if (esa[index].GetFlg() == true)
@@ -198,12 +200,21 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
 			}
 
+
+		}
+
+		if (fruit[index].GetFlg() == true) {
+
+			if (CheckHitBox(player, &fruit[index]))//プレイヤーとフルーツが当たった時
+			{
+				ui->AddScore(fruit[FRUIT_MAX].GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
+			}
+
 		}
 
 	}
 
 }
-
 
 //------------------------------------
 // 当たり判定　プレイヤー：敵
