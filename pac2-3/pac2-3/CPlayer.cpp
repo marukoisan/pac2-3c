@@ -26,6 +26,8 @@ CPlayer::CPlayer(CController* pController)
 	x = 270;
 	y = 460;
 
+	isAlive = true;
+
 	//ìñÇΩÇËîªíË
 	height = 20;
 	width = 20;
@@ -45,9 +47,20 @@ CPlayer::~CPlayer()
 void CPlayer::Update()
 {
 	animTimer++;
-
-	Control();
-	Move();
+	if (isAlive)
+	{
+		Control();
+		Move();
+	}
+	else
+	{
+		//éÄÇÒÇ≈Ç¢ÇΩèÍçáéÄÇÒÇ≈Ç©ÇÁÇÃïbêîÇêîÇ¶ÇƒÉäÉXÉ|Å[ÉìÇ∑ÇÈ
+		if (animTimer > 9 * 11)
+		{
+			isAlive = true;
+			Respawn();
+		}
+	}
 }
 
 
@@ -56,8 +69,24 @@ void CPlayer::Update()
 //--------------------
 void CPlayer::Draw()const
 {
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
-		images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	if (isAlive)
+	{
+		//í èÌéû
+		DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
+			images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	}
+	else
+	{
+		//ï`âÊ
+		DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+	}
+	
+	{
+		int i = 0;
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", (int)isAlive);
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", animTimer);
+
+	}
 }
 
 
@@ -137,25 +166,20 @@ void CPlayer::Control()
 
 
 
-void CPlayer::HitActionanim()
+void CPlayer::HitAction_Enemy()
 {
-	isAlive = TRUE;
-	static int animTimer = 0;
-	animTimer++;
-	//ï`âÊ
-	DrawRotaGraphF(x+D_FIELD_POS_X, y+ D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-
-	if (animTimer / 9 % 11 == 0)
+	if (isAlive)
 	{
-		isAlive = FALSE;
+		animTimer = 0;
 	}
+	isAlive = false;
 }
 
 void CPlayer::Respawn() 
 {
 	x = 270;
 	y = 460;
-
+	angle = M_PI / 2;//âEå¸Ç´
 }
 
 bool CPlayer::GetAnimFlg()
@@ -165,12 +189,5 @@ bool CPlayer::GetAnimFlg()
 
 bool CPlayer::GetisAlive()
 {
-	if (isAlive == FALSE)
-	{
-		checkAnimFlg = TRUE;
-	}
-	else {
-		checkAnimFlg = FALSE;
-	}
-	return checkAnimFlg;
+	return isAlive;
 }

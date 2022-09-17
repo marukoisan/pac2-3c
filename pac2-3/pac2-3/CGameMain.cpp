@@ -77,7 +77,7 @@ CAbstractScene* CGameMain::Update()
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
 	{
-		enemy->HitAction_Player();
+		
 	}
 
 	if (isPlayMode)
@@ -207,10 +207,19 @@ void CGameMain::HitCheck_PlayerAndFeed()
 //------------------------------------
 // 当たり判定　プレイヤー：敵
 //------------------------------------
-void CGameMain:: HitCheck_PlayerAndEnemy()
+void CGameMain::HitCheck_PlayerAndEnemy()
 {
 	if (CheckHitBox(player, enemy))
 	{
-
+		if (enemy->GetisSurprising())
+		{
+			enemy->HitAction_Player();
+		}
+		else
+		{
+			player->HitAction_Enemy();
+			hitPoint->Respawn();
+		}
 	}
+
 }

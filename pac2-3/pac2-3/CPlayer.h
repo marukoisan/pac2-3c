@@ -28,7 +28,7 @@ private:
 
 	int pacmanDyings[11];
 
-	bool isAlive = FALSE;
+	bool isAlive;
 
 	bool checkAnimFlg;
 
@@ -47,7 +47,7 @@ public:
 	void MoveStraight();
 	void Control();
 
-	void HitActionanim();
+	void HitAction_Enemy();
 
 	void Respawn();
 
