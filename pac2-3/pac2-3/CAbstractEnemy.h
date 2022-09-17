@@ -116,10 +116,13 @@ public:
 	//当たった時（プレイヤー）
 	void HitAction_Player();
 
+	bool GetisSurprising() { return isSurprising; }
+
 	//ターゲット位置の変更
 	virtual void ChangeTargetPos();
 
-private:
+
+protected:
 	//画像読み込み
 	void LoadImages();
 	//移動
