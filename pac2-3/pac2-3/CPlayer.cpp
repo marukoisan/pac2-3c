@@ -12,8 +12,8 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
-	direction = D_PLAYER_RIGHT;
-	angle = M_PI / 2;//‰EŒü‚«
+	direction = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//¶Œü‚«
 
 	animTimer = 0;
 	
@@ -179,7 +179,9 @@ void CPlayer::Respawn()
 {
 	x = 270;
 	y = 460;
-	angle = M_PI / 2;//‰EŒü‚«
+
+	direction = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//¶Œü‚«
 }
 
 bool CPlayer::GetAnimFlg()
