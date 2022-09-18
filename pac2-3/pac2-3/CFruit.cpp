@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"DxLib.h"
 #include "CFruit.h"
+#include "define.h"
 
 
 CFruit::CFruit()//コンストラクタ
@@ -16,8 +17,8 @@ CFruit::CFruit()//コンストラクタ
 
 	height = 20;
 	width = 20;
-	x = 630 + width / 2;
-	y = 400 + height / 2;
+	x = 270;
+	y = 340;
 }
 
 CFruit::~CFruit()//デストラクタ
@@ -29,7 +30,7 @@ void CFruit::Draw()const
 {
 	if (fruitFlg)
 	{
-		DrawRotaGraphF(x, y, 1.0, 0, FruitImage[fruitType], TRUE);
+		DrawRotaGraphF(D_FIELD_POS_X+x, D_FIELD_POS_Y+y, 1.0, 0, FruitImage[fruitType], TRUE);
 	}
 	DrawGraph(840, 680, FruitImage[0], TRUE);
 	//DrawGraph(815, 680, FruitImage[1], TRUE);

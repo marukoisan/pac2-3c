@@ -162,15 +162,6 @@ void CGameMain::Draw()const
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
 
-		if (CheckHitBox(player, enemy))
-		{
-			//敵に当たったときアニメーション再生
-			
-				player->AnimFlg();
-				player->HitActionanim();
-				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
-			
-		}
 
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d", hitPoint->playerLife);
 
@@ -188,6 +179,7 @@ void CGameMain::HitCheck()
 {
 	HitCheck_PlayerAndFeed();
 	HitCheck_PlayerAndEnemy();
+	HitCheck_PlayerAndFruit();
 }
 
 //-------------------------------
@@ -249,4 +241,18 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		}
 	}
 
+}
+
+//----------------------------------
+// 当たり判定　プレイヤー:フルーツ
+//----------------------------------
+void CGameMain::HitCheck_PlayerAndFruit()
+{
+	if (fruit->GetFlg())
+	{
+		if (CheckHitBox(player, fruit))
+		{
+			ui->AddScore(fruit->HitAction_Player());
+		}
+	}
 }

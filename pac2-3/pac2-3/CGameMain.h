@@ -50,5 +50,6 @@ public:
 	void HitCheck();
 	void HitCheck_PlayerAndFeed();
 	void HitCheck_PlayerAndEnemy();
+	void HitCheck_PlayerAndFruit();
 };
 
