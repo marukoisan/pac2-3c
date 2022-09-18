@@ -7,7 +7,7 @@
 #include"CPlayer.h"
 #include"CUi.h"
 #include"CHitPoint.h"
-//#include"CCoffeeBreak3.h"//TODO : 移動させる
+#include"CFruit.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -27,7 +27,7 @@ CGameMain::CGameMain()
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
-	//coffeebreak3 = new CCoffeeBreak3();//TODO : 移動させる
+	fruit = new CFruit();
 
 }
 
@@ -42,7 +42,7 @@ CGameMain::~CGameMain()
 	delete player;
 	delete hitPoint;
 	delete ui;
-	//delete coffeebreak3;//TODO : 移動させる
+	delete fruit;
 }
 
 //-------------------
@@ -70,15 +70,15 @@ CAbstractScene* CGameMain::Update()
 	}
 	
 
-	//coffeebreak3->Update();//TODO : 後で移動させる
-	
-
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
 		esaController->DeleteFeed();
 	}
 
-	
+	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
+	{
+		fruit->Advent(0);
+	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
 	{
@@ -99,7 +99,7 @@ CAbstractScene* CGameMain::Update()
 
 			if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 			{
-				
+
 			}
 		}
 		else
@@ -115,7 +115,7 @@ CAbstractScene* CGameMain::Update()
 
 		//流れ終わったらプレイモードに返す
 		isPlayMode = true;
-	}	
+	}
 
 	return this;
 }
@@ -127,6 +127,7 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
+	fruit->Draw();
 	
 	player->Draw();
 	enemy->Draw();
@@ -141,7 +142,7 @@ void CGameMain::Draw()const
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
+			, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 	}
 	if (isPlayMode)
 	{
@@ -160,15 +161,11 @@ void CGameMain::Draw()const
 		{
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
-		
-		if (CheckHitBox(player, enemy))
-		{		
-			DrawString(D_FIELD_POS_X+player->GetX(), D_FIELD_POS_Y+player->GetY() + i++ * 20, "HIT", 0x3355FF);	
-		}
 
-		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
 
-		
+		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d", hitPoint->playerLife);
+
+
 	}
 
 
@@ -182,6 +179,7 @@ void CGameMain::HitCheck()
 {
 	HitCheck_PlayerAndFeed();
 	HitCheck_PlayerAndEnemy();
+	HitCheck_PlayerAndFruit();
 }
 
 //-------------------------------
@@ -193,6 +191,8 @@ void CGameMain::HitCheck_PlayerAndFeed()
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int index = esaController->GetEsaIndex(x, y);
+
+
 	if (index > -1)
 	{
 		if (esa[index].GetFlg() == true)
@@ -206,9 +206,21 @@ void CGameMain::HitCheck_PlayerAndFeed()
 					enemy->Surprised();
 				}
 			}
+
+
 		}
+
+		if (fruit[index].GetFlg() == true) {
+
+			if (CheckHitBox(player, &fruit[index]))//プレイヤーとフルーツが当たった時
+			{
+				ui->AddScore(fruit[FRUIT_MAX].GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
+			}
+
+		}
+
 	}
-	
+
 }
 
 //------------------------------------
@@ -229,4 +241,18 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		}
 	}
 
+}
+
+//----------------------------------
+// 当たり判定　プレイヤー:フルーツ
+//----------------------------------
+void CGameMain::HitCheck_PlayerAndFruit()
+{
+	if (fruit->GetFlg())
+	{
+		if (CheckHitBox(player, fruit))
+		{
+			ui->AddScore(fruit->HitAction_Player());
+		}
+	}
 }
