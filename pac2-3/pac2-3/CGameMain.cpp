@@ -7,6 +7,7 @@
 #include"CPlayer.h"
 #include"CUi.h"
 #include"CHitPoint.h"
+//#include"CCoffeeBreak3.h"TODO : 移動させる
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -26,6 +27,7 @@ CGameMain::CGameMain()
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
+	//coffeebreak3 = new CCoffeeBreak3();TODO : 移動させる
 
 }
 
@@ -40,7 +42,7 @@ CGameMain::~CGameMain()
 	delete player;
 	delete hitPoint;
 	delete ui;
-
+	//delete coffeebreak3;TODO : 移動させる
 }
 
 //-------------------
@@ -66,6 +68,9 @@ CAbstractScene* CGameMain::Update()
 		enemy->Update();
 
 	}
+	ui->Update();
+
+	//coffeebreak3->Update();
 	
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
@@ -127,6 +132,13 @@ void CGameMain::Draw()const
 	enemy->Draw();
 
 	hitPoint->Draw();
+	//coffeebreak3->Draw();TODO : 移動させる
+
+	if (player->CheckAnimflg() == TRUE)
+	{
+		player->Draw();
+		enemy->Draw();
+	}
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
