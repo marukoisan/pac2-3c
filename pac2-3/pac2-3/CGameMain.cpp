@@ -59,7 +59,7 @@ CAbstractScene* CGameMain::Update()
 	if (player->GetisAlive() == true)
 	{
 		PlayerControl();
-		//enemy->Update();
+		enemy->Update();
 
 	}
 	
@@ -299,7 +299,7 @@ void CGameMain::PlayerControl()
 		PreventOverlapCircle_Box(player, &tiles[y + 1][x - 1]);
 	}
 }
-}
+
 
 //----------------------------------
 // 当たり判定　プレイヤー:フルーツ
