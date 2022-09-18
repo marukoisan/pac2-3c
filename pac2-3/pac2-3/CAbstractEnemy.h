@@ -26,12 +26,12 @@ protected:
 	float targetPosY;
 
 	//スピード
-	int speed = 0;
+	float speed = 2;
 	//巣の中にいるか
 	bool inEnemyroom = true;
 
 	//イジケ状態
-	int surprisingTime = 60 * 3;
+	int surprisingTime = 60 * 6;
 	int surprisingTimer = 0;
 	bool isSurprising = false;
 
@@ -121,7 +121,11 @@ public:
 	//ターゲット位置の変更
 	virtual void ChangeTargetPos();
 
-
+	void SetTargetPos(float x, float y)
+	{
+		targetPosX = x;
+		targetPosY = y;
+	}
 protected:
 	//画像読み込み
 	void LoadImages();

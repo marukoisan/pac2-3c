@@ -44,3 +44,4 @@ bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);
 void PreventOverlapBox(CObject* obj1, CObject* obj2);
 void PreventOverlapCircle_Box(CObject* circle, CObject* box);
+void PreventOverlapCircle(CObject* obj1, CObject* obj2);

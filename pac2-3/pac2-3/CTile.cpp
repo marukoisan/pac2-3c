@@ -8,8 +8,8 @@
 CTile::CTile()
 {
 	image = 0;
-	height = D_TILE_SIZE-2;
-	width = D_TILE_SIZE-2;
+	height = D_TILE_SIZE;
+	width = D_TILE_SIZE;
 }
 
 //-----------------------------

@@ -1,6 +1,4 @@
 #include"DxLib.h"
-#define _USE_MATH_DEFINES
-#include<math.h>
 #include"CPlayer.h"
 #include"CController.h"
 
@@ -12,8 +10,10 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
+	nextDirection = D_PLAYER_LEFT;
 	direction = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//左向き
+	speed = 2;
 
 	animTimer = 0;
 	
@@ -91,81 +91,8 @@ void CPlayer::Draw()const
 
 
 //--------------------
-// 当たった時の処理
+// 当たった時の処理:敵
 //--------------------
-
-//--------------------
-// 移動
-//--------------------
-void CPlayer::Move()
-{
-	MoveStraight();
-}
-
-//----------------------------
-// 移動方向に応じた直線移動
-//----------------------------
-void CPlayer::MoveStraight()
-{
-	switch (direction)
-	{
-	case D_PLAYER_UP:
-		y--;
-		break;
-
-	case D_PLAYER_RIGHT:
-		x++;
-		break;
-
-	case D_PLAYER_DOWN:
-		y++;
-		break;
-
-	case D_PLAYER_LEFT:
-		x--;
-		break;
-
-
-	default:
-		;
-	}
-}
-
-//---------------------
-// コントロール
-//---------------------
-void CPlayer::Control() 
-{
-	float directions[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
-	{
-		direction = D_PLAYER_UP;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
-	{
-		direction = D_PLAYER_RIGHT;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
-	{
-		direction = D_PLAYER_DOWN;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
-	{
-		direction = D_PLAYER_LEFT;
-		angle = directions[direction];
-	}
-}
-
-
-
 void CPlayer::HitAction_Enemy()
 {
 	if (isAlive)
@@ -175,21 +102,150 @@ void CPlayer::HitAction_Enemy()
 	isAlive = false;
 }
 
+//------------------------------
+// 方向転換
+//------------------------------
+void CPlayer::ChangeDirection(int direction)
+{
+
+	if (nextDirection == direction&&nextDirection!=this->direction)
+	{
+
+		switch (direction)
+		{
+		case D_PLAYER_UP:
+			y -= speed;
+			if (nextDirection == D_PLAYER_RIGHT)
+			{
+				x += speed;
+			}
+			if (nextDirection == D_PLAYER_LEFT)
+			{
+				x -= speed;
+			}
+			break;
+
+		case D_PLAYER_RIGHT:
+			x += speed;
+		if (nextDirection == D_PLAYER_DOWN)
+		{
+			y += speed;
+		}
+		if (nextDirection == D_PLAYER_UP)
+		{
+			y -= speed;
+		}
+			break;
+
+		case D_PLAYER_DOWN:
+			y += speed;
+		if (nextDirection == D_PLAYER_RIGHT)
+		{
+			x += speed;
+		}
+		if (nextDirection == D_PLAYER_LEFT)
+		{
+			x -= speed;
+		}
+
+			break;
+
+		case D_PLAYER_LEFT:
+			x -= speed;
+			if (nextDirection == D_PLAYER_DOWN)
+			{
+				y += speed;
+			}
+			if (nextDirection == D_PLAYER_UP)
+			{
+				y -= speed;
+			}
+			break;
+
+
+		default:
+			;
+		}
+		//if ((int)y % (int)D_TILE_SIZE <= 5
+		//	//|| (int)y % (int)D_TILE_SIZE >= 19 
+		//	&& (int)x % (int)D_TILE_SIZE <= 5
+		//	//|| (int)x % (int)D_TILE_SIZE >= 19
+		//	)
+		{
+			this->direction = nextDirection;
+			angle = DIRECTIONS[direction];
+		}
+	}
+}
+
 void CPlayer::Respawn() 
 {
 	x = 270;
 	y = 460;
 
+	nextDirection = D_PLAYER_LEFT;
 	direction = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//左向き
-}
-
-bool CPlayer::GetAnimFlg()
-{
-	return isAlive;
 }
 
 bool CPlayer::GetisAlive()
 {
 	return isAlive;
+}
+
+//--------------------
+// 移動
+//--------------------
+void CPlayer::Move()
+{
+	switch (direction)
+	{
+	case D_PLAYER_UP:
+		y -= speed;
+		break;
+
+	case D_PLAYER_RIGHT:
+		x += speed;
+		break;
+
+	case D_PLAYER_DOWN:
+		y += speed;
+		break;
+
+	case D_PLAYER_LEFT:
+		x -= speed;
+		break;
+
+
+	default:
+		;
+	}
+	
+}
+
+//---------------------
+// コントロール
+//---------------------
+void CPlayer::Control()
+{
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
+	{
+		nextDirection = D_PLAYER_UP;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
+	{
+		nextDirection = D_PLAYER_RIGHT;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
+	{
+		nextDirection = D_PLAYER_DOWN;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
+	{
+		nextDirection = D_PLAYER_LEFT;
+	}
 }
