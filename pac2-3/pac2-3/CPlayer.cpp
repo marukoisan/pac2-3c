@@ -10,10 +10,12 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
-	nextDirection = D_PLAYER_LEFT;
-	direction = D_PLAYER_LEFT;
+	directionX = D_PLAYER_LEFT;
+	directionY = 99;
+	nextDirection = 99;
 	angle = -M_PI / 2;//ç∂å¸Ç´
 	speed = 2;
+	isReleased = false;
 
 	animTimer = 0;
 	
@@ -61,6 +63,30 @@ void CPlayer::Update()
 			Respawn();
 		}
 	}
+
+
+	static bool isOnCrossPointOld = false;
+	static bool isOnCrossPointNow = false;
+
+	isOnCrossPointOld = isOnCrossPointNow;
+	if (floor[(int)(y + 10) / (int)D_TILE_SIZE][(int)(x + 10)/ (int)D_TILE_SIZE] == D_PLAYER_CROSSPOINT)
+	{
+		isOnCrossPointNow = true;
+	}
+	else
+	{
+		isOnCrossPointNow = false;
+	}
+
+	if (isOnCrossPointOld == true
+		&& isOnCrossPointNow == false)
+	{
+		isReleased = true;
+	}
+	else
+	{
+		isReleased = false;
+	}
 }
 
 
@@ -107,32 +133,21 @@ void CPlayer::HitAction_Enemy()
 //------------------------------
 void CPlayer::ChangeDirection(int direction)
 {
-	static bool isOnCrossPointOld = false;
-	static bool isOnCrossPointNow = false;
-
-	isOnCrossPointOld = isOnCrossPointNow;
 	if (direction == nextDirection)
 	{
-		angle = DIRECTIONS[direction];
-		if (floor[(int)y % (int)D_TILE_SIZE][(int)x % (int)D_TILE_SIZE] == D_PLAYER_CROSSPOINT)
+		angle = DIRECTIONS[nextDirection];
+
+		if (isReleased)
 		{
-			isOnCrossPointNow = true;
-		}
-		else
-		{
-			isOnCrossPointNow = false;
-		}
-	
-		//if ((int)y % (int)D_TILE_SIZE <= 5
-		//	//|| (int)y % (int)D_TILE_SIZE >= 19 
-		//	&& (int)x % (int)D_TILE_SIZE <= 5
-		//	//|| (int)x % (int)D_TILE_SIZE >= 19
-		//	)
-		if (isOnCrossPointOld == true
-			&& isOnCrossPointNow == false)
-		{
-			this->direction = nextDirection;
-			nextDirection = 99;
+			if (directionX == nextDirection)
+			{
+				directionY = 99;
+			}
+			if (directionY == nextDirection)
+			{
+				directionX = 99;
+
+			}
 		}
 	}
 }
@@ -142,8 +157,8 @@ void CPlayer::Respawn()
 	x = 270;
 	y = 460;
 
-	nextDirection = D_PLAYER_LEFT;
-	direction = D_PLAYER_LEFT;
+	directionX = D_PLAYER_LEFT;
+	directionY = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//ç∂å¸Ç´
 }
 
@@ -157,53 +172,32 @@ bool CPlayer::GetisAlive()
 //--------------------
 void CPlayer::Move()
 {
-	switch (direction)
+	switch (directionY)
 	{
 	case D_PLAYER_UP:
 		y -= speed;
-		break;
-
-	case D_PLAYER_RIGHT:
-		x += speed;
 		break;
 
 	case D_PLAYER_DOWN:
 		y += speed;
 		break;
 
+	default:
+		;
+	}
+
+	switch (directionX)
+	{
+	case D_PLAYER_RIGHT:
+		x += speed;
+		break;
+
 	case D_PLAYER_LEFT:
 		x -= speed;
 		break;
 
-
 	default:
 		;
-	}
-	
-	if (direction != nextDirection)
-	{
-		switch (nextDirection)
-		{
-		case D_PLAYER_UP:
-			y -= speed;
-			break;
-
-		case D_PLAYER_RIGHT:
-			x += speed;
-			break;
-
-		case D_PLAYER_DOWN:
-			y += speed;
-			break;
-
-		case D_PLAYER_LEFT:
-			x -= speed;
-			break;
-
-
-		default:
-			;
-		}
 	}
 }
 
@@ -215,59 +209,25 @@ void CPlayer::Control()
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
 	{
-		if ((direction + 2) % 4 != D_PLAYER_UP)
-		{
-			nextDirection = D_PLAYER_UP;
-		}
-		else
-		{
-			direction = D_PLAYER_UP;
-			angle = DIRECTIONS[direction];
-			//nextDirection = 99;
-		}
-
+		directionY = D_PLAYER_UP;
+		nextDirection = D_PLAYER_UP;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
 	{
-		if ((direction + 2) % 4 != D_PLAYER_RIGHT)
-		{
-			nextDirection = D_PLAYER_RIGHT;
-		}
-		else
-		{
-			direction = D_PLAYER_RIGHT;
-			angle = DIRECTIONS[direction];
-			//nextDirection = 99;
-		}
-
+		directionX = D_PLAYER_RIGHT;
+		nextDirection = D_PLAYER_RIGHT;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
 	{
-		if ((direction + 2) % 4 != D_PLAYER_DOWN)
-		{
-			nextDirection = D_PLAYER_DOWN;
-		}
-		else
-		{
-			direction = D_PLAYER_DOWN;
-			angle = DIRECTIONS[direction];
-			//nextDirection = 99;
-		}
+		directionY = D_PLAYER_DOWN;
+		nextDirection = D_PLAYER_DOWN;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
 	{
-		if ((direction + 2) % 4 != D_PLAYER_LEFT)
-		{
-			nextDirection = D_PLAYER_LEFT;
-		}
-		else
-		{
-			direction = D_PLAYER_LEFT;
-			angle = DIRECTIONS[direction];
-			//nextDirection = 99;
-		}
+		directionX = D_PLAYER_LEFT;
+		nextDirection = D_PLAYER_LEFT;
 	}
 }

@@ -57,7 +57,7 @@ CAbstractScene* CGameMain::Update()
 	if (player->GetisAlive() == true)
 	{
 		PlayerControl();
-		enemy->Update();
+		//enemy->Update();
 
 	}
 	

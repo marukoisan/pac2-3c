@@ -30,9 +30,11 @@ private:
 	
 	//ˆÚ“®—p•Ï”
 	int nextDirection;
-	int direction;
+	int directionX;
+	int directionY;
 	double angle;
 	float speed;
+	bool isReleased;
 
 	int pacmanDyings[11];
 
