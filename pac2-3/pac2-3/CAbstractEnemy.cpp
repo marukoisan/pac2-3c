@@ -15,8 +15,8 @@ CAbstractEnemy::CAbstractEnemy()
 	direction = D_DIRECTION_DOWN;
 	x = 240;  //フィールド左上を0としたときのx座標とする
 	y = 280;  //フィールド左上を0としたときのy座標とする
-	height = D_TILE_SIZE;
-	width = D_TILE_SIZE;
+	height = D_TILE_SIZE-8;
+	width = D_TILE_SIZE-8;
 
 
 	int floorX;
@@ -71,11 +71,11 @@ void CAbstractEnemy::Update()
 	}
 
 	//目標地点についたら目標を更新する
-	if ((double)x == targetPosX &&
+	/*if ((double)x == targetPosX &&
 		(double)y == targetPosY)
 	{
 		ChangeTargetPos();
-	}
+	}*/
 
 	//波状攻撃用処理
 	AttackInterval();
@@ -284,7 +284,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 	switch (direction)
 	{
 	case D_DIRECTION_UP:
-		y-=1.0*16/16;
+		y-=speed;
 		if (floor[onFieldY - 1][onFieldX] == D_BLOCK)
 		{
 			if (y < onFieldY * D_TILE_SIZE)
@@ -295,7 +295,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 		
 	case D_DIRECTION_LEFT:
-		x--;
+		x -= speed;
 		if (floor[onFieldY][onFieldX - 1] == D_BLOCK)
 		{
 			if (x < onFieldX * D_TILE_SIZE)
@@ -306,7 +306,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 
 	case D_DIRECTION_DOWN:
-		y++;
+		y += speed;
 		if (floor[onFieldY + 1][onFieldX] == D_BLOCK)
 		{
 			if (y > onFieldY * D_TILE_SIZE)
@@ -317,7 +317,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 
 	case D_DIRECTION_RIGHT:
-		x++;
+		x += speed;
 		if (floor[onFieldY][onFieldX + 1] == D_BLOCK)
 		{
 			if (x > onFieldX * D_TILE_SIZE)
@@ -428,6 +428,10 @@ void CAbstractEnemy::AttackInterval()
 			direction = (direction + 2) % 4;
 			ChangeTargetPos();
 		}
+	}
+	else
+	{
+		isAttack = true;
 	}
 }
 

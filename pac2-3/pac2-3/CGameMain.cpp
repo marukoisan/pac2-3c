@@ -50,6 +50,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	enemy->SetTargetPos(player->GetX(), player->GetY());
 	esaController->Update();
 
 	player->Update();
@@ -57,15 +58,8 @@ CAbstractScene* CGameMain::Update()
 
 	if (player->GetisAlive() == true)
 	{
-		//1マスの範囲が、10～30になっていているため、20で区切るために+10する
-		int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
-		int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
-		if (field->GetTileData(y - 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
-		if (field->GetTileData(y + 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y + 1][x]);
-		if (field->GetTileData(y, x - 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x - 1]);
-		if (field->GetTileData(y, x + 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x + 1]);
-
-		enemy->Update();
+		PlayerControl();
+		//enemy->Update();
 
 	}
 	
@@ -82,7 +76,7 @@ CAbstractScene* CGameMain::Update()
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
 	{
-		
+		player->Respawn();
 	}
 
 	if (isPlayMode)
@@ -161,9 +155,8 @@ void CGameMain::Draw()const
 		{
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
-
-
-		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d", hitPoint->playerLife);
+		
+		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
 
 
 	}
@@ -241,6 +234,71 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		}
 	}
 
+}
+
+//----------------------------------
+// プレイヤーの入力制御
+//----------------------------------
+void CGameMain::PlayerControl()
+{
+
+	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	if (field->GetTileData(y - 1, x) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_UP);
+	}
+
+	if (field->GetTileData(y + 1, x) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_DOWN);
+	}
+
+	if (field->GetTileData(y, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y][x - 1]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_LEFT);
+	}
+
+	if (field->GetTileData(y, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y][x + 1]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_RIGHT);
+	}
+
+
+	if (field->GetTileData(y - 1, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x - 1]);
+	}
+	if (field->GetTileData(y - 1, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x + 1]);
+	}
+	if (field->GetTileData(y + 1, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x + 1]);
+	}
+	if (field->GetTileData(y + 1, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x - 1]);
+	}
+}
 }
 
 //----------------------------------

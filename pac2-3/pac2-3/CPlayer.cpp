@@ -1,6 +1,4 @@
 #include"DxLib.h"
-#define _USE_MATH_DEFINES
-#include<math.h>
 #include"CPlayer.h"
 #include"CController.h"
 
@@ -12,8 +10,12 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
-	direction = D_PLAYER_LEFT;
+	directionX = D_PLAYER_LEFT;
+	directionY = 99;
+	nextDirection = 99;
 	angle = -M_PI / 2;//左向き
+	speed = 2;
+	isReleased = false;
 
 	animTimer = 0;
 	
@@ -61,6 +63,30 @@ void CPlayer::Update()
 			Respawn();
 		}
 	}
+
+
+	static bool isOnCrossPointOld = false;
+	static bool isOnCrossPointNow = false;
+
+	isOnCrossPointOld = isOnCrossPointNow;
+	if (floor[(int)(y + 10) / (int)D_TILE_SIZE][(int)(x + 10)/ (int)D_TILE_SIZE] == D_PLAYER_CROSSPOINT)
+	{
+		isOnCrossPointNow = true;
+	}
+	else
+	{
+		isOnCrossPointNow = false;
+	}
+
+	if (isOnCrossPointOld == true
+		&& isOnCrossPointNow == false)
+	{
+		isReleased = true;
+	}
+	else
+	{
+		isReleased = false;
+	}
 }
 
 
@@ -91,81 +117,8 @@ void CPlayer::Draw()const
 
 
 //--------------------
-// 当たった時の処理
+// 当たった時の処理:敵
 //--------------------
-
-//--------------------
-// 移動
-//--------------------
-void CPlayer::Move()
-{
-	MoveStraight();
-}
-
-//----------------------------
-// 移動方向に応じた直線移動
-//----------------------------
-void CPlayer::MoveStraight()
-{
-	switch (direction)
-	{
-	case D_PLAYER_UP:
-		y--;
-		break;
-
-	case D_PLAYER_RIGHT:
-		x++;
-		break;
-
-	case D_PLAYER_DOWN:
-		y++;
-		break;
-
-	case D_PLAYER_LEFT:
-		x--;
-		break;
-
-
-	default:
-		;
-	}
-}
-
-//---------------------
-// コントロール
-//---------------------
-void CPlayer::Control() 
-{
-	float directions[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
-	{
-		direction = D_PLAYER_UP;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
-	{
-		direction = D_PLAYER_RIGHT;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
-	{
-		direction = D_PLAYER_DOWN;
-		angle = directions[direction];
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
-	{
-		direction = D_PLAYER_LEFT;
-		angle = directions[direction];
-	}
-}
-
-
-
 void CPlayer::HitAction_Enemy()
 {
 	if (isAlive)
@@ -175,21 +128,106 @@ void CPlayer::HitAction_Enemy()
 	isAlive = false;
 }
 
+//------------------------------
+// 方向転換
+//------------------------------
+void CPlayer::ChangeDirection(int direction)
+{
+	if (direction == nextDirection)
+	{
+		angle = DIRECTIONS[nextDirection];
+
+		if (isReleased)
+		{
+			if (directionX == nextDirection)
+			{
+				directionY = 99;
+			}
+			if (directionY == nextDirection)
+			{
+				directionX = 99;
+
+			}
+		}
+	}
+}
+
 void CPlayer::Respawn() 
 {
 	x = 270;
 	y = 460;
 
-	direction = D_PLAYER_LEFT;
+	directionX = D_PLAYER_LEFT;
+	directionY = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//左向き
-}
-
-bool CPlayer::GetAnimFlg()
-{
-	return isAlive;
 }
 
 bool CPlayer::GetisAlive()
 {
 	return isAlive;
+}
+
+//--------------------
+// 移動
+//--------------------
+void CPlayer::Move()
+{
+	switch (directionY)
+	{
+	case D_PLAYER_UP:
+		y -= speed;
+		break;
+
+	case D_PLAYER_DOWN:
+		y += speed;
+		break;
+
+	default:
+		;
+	}
+
+	switch (directionX)
+	{
+	case D_PLAYER_RIGHT:
+		x += speed;
+		break;
+
+	case D_PLAYER_LEFT:
+		x -= speed;
+		break;
+
+	default:
+		;
+	}
+}
+
+//---------------------
+// コントロール
+//---------------------
+void CPlayer::Control()
+{
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
+	{
+		directionY = D_PLAYER_UP;
+		nextDirection = D_PLAYER_UP;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
+	{
+		directionX = D_PLAYER_RIGHT;
+		nextDirection = D_PLAYER_RIGHT;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
+	{
+		directionY = D_PLAYER_DOWN;
+		nextDirection = D_PLAYER_DOWN;
+	}
+
+	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
+	{
+		directionX = D_PLAYER_LEFT;
+		nextDirection = D_PLAYER_LEFT;
+	}
 }
