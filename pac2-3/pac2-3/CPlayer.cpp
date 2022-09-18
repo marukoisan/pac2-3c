@@ -107,73 +107,32 @@ void CPlayer::HitAction_Enemy()
 //------------------------------
 void CPlayer::ChangeDirection(int direction)
 {
+	static bool isOnCrossPointOld = false;
+	static bool isOnCrossPointNow = false;
 
-	if (nextDirection == direction&&nextDirection!=this->direction)
+	isOnCrossPointOld = isOnCrossPointNow;
+	if (direction == nextDirection)
 	{
-
-		switch (direction)
+		angle = DIRECTIONS[direction];
+		if (floor[(int)y % (int)D_TILE_SIZE][(int)x % (int)D_TILE_SIZE] == D_PLAYER_CROSSPOINT)
 		{
-		case D_PLAYER_UP:
-			y -= speed;
-			if (nextDirection == D_PLAYER_RIGHT)
-			{
-				x += speed;
-			}
-			if (nextDirection == D_PLAYER_LEFT)
-			{
-				x -= speed;
-			}
-			break;
-
-		case D_PLAYER_RIGHT:
-			x += speed;
-		if (nextDirection == D_PLAYER_DOWN)
+			isOnCrossPointNow = true;
+		}
+		else
 		{
-			y += speed;
+			isOnCrossPointNow = false;
 		}
-		if (nextDirection == D_PLAYER_UP)
-		{
-			y -= speed;
-		}
-			break;
-
-		case D_PLAYER_DOWN:
-			y += speed;
-		if (nextDirection == D_PLAYER_RIGHT)
-		{
-			x += speed;
-		}
-		if (nextDirection == D_PLAYER_LEFT)
-		{
-			x -= speed;
-		}
-
-			break;
-
-		case D_PLAYER_LEFT:
-			x -= speed;
-			if (nextDirection == D_PLAYER_DOWN)
-			{
-				y += speed;
-			}
-			if (nextDirection == D_PLAYER_UP)
-			{
-				y -= speed;
-			}
-			break;
-
-
-		default:
-			;
-		}
+	
 		//if ((int)y % (int)D_TILE_SIZE <= 5
 		//	//|| (int)y % (int)D_TILE_SIZE >= 19 
 		//	&& (int)x % (int)D_TILE_SIZE <= 5
 		//	//|| (int)x % (int)D_TILE_SIZE >= 19
 		//	)
+		if (isOnCrossPointOld == true
+			&& isOnCrossPointNow == false)
 		{
 			this->direction = nextDirection;
-			angle = DIRECTIONS[direction];
+			nextDirection = 99;
 		}
 	}
 }
@@ -221,6 +180,31 @@ void CPlayer::Move()
 		;
 	}
 	
+	if (direction != nextDirection)
+	{
+		switch (nextDirection)
+		{
+		case D_PLAYER_UP:
+			y -= speed;
+			break;
+
+		case D_PLAYER_RIGHT:
+			x += speed;
+			break;
+
+		case D_PLAYER_DOWN:
+			y += speed;
+			break;
+
+		case D_PLAYER_LEFT:
+			x -= speed;
+			break;
+
+
+		default:
+			;
+		}
+	}
 }
 
 //---------------------
@@ -231,21 +215,59 @@ void CPlayer::Control()
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
 	{
-		nextDirection = D_PLAYER_UP;
+		if ((direction + 2) % 4 != D_PLAYER_UP)
+		{
+			nextDirection = D_PLAYER_UP;
+		}
+		else
+		{
+			direction = D_PLAYER_UP;
+			angle = DIRECTIONS[direction];
+			//nextDirection = 99;
+		}
+
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
 	{
-		nextDirection = D_PLAYER_RIGHT;
+		if ((direction + 2) % 4 != D_PLAYER_RIGHT)
+		{
+			nextDirection = D_PLAYER_RIGHT;
+		}
+		else
+		{
+			direction = D_PLAYER_RIGHT;
+			angle = DIRECTIONS[direction];
+			//nextDirection = 99;
+		}
+
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
 	{
-		nextDirection = D_PLAYER_DOWN;
+		if ((direction + 2) % 4 != D_PLAYER_DOWN)
+		{
+			nextDirection = D_PLAYER_DOWN;
+		}
+		else
+		{
+			direction = D_PLAYER_DOWN;
+			angle = DIRECTIONS[direction];
+			//nextDirection = 99;
+		}
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
 	{
-		nextDirection = D_PLAYER_LEFT;
+		if ((direction + 2) % 4 != D_PLAYER_LEFT)
+		{
+			nextDirection = D_PLAYER_LEFT;
+		}
+		else
+		{
+			direction = D_PLAYER_LEFT;
+			angle = DIRECTIONS[direction];
+			//nextDirection = 99;
+		}
 	}
 }

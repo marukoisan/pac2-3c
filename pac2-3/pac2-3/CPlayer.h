@@ -11,7 +11,7 @@
 #define D_PLAYER_DOWN 2
 #define D_PLAYER_LEFT 3
 #define D_PLAYER_ANIM_FPS 5
-
+#define D_PLAYER_CROSSPOINT 2
 class CController;
 class CPlayer : public CObject
 {
