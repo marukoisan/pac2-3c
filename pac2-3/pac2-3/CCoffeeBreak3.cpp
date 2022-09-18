@@ -8,7 +8,16 @@ CCoffeeBreak3::CCoffeeBreak3()
 	anime = false;
 	animpacman = 0;
 	x = 0;
-	y = 0;
+	y = -2;
+
+	tugihagiX = 1090.0;
+	pacmanX = 930.0;
+	imomusiX = 370.0;
+	Timer = 480;
+	tugihagiSpeed = 0;
+	pacmanSpeed = 0;
+	imomusiSpeed = 0;
+
 }
 
 
@@ -25,7 +34,25 @@ void CCoffeeBreak3::Update()
 	animpacman++;//パックマン用の処理
 
 	x++;
-	y--;
+	
+	pacmanSpeed = 560.0 / 240;
+	tugihagiSpeed = 560.0 / 240;
+
+	imomusiSpeed = 560.0 / 240;
+
+	--Timer;
+	
+
+	//このやり方を参照します
+	pacmanX = pacmanX - pacmanSpeed;
+	tugihagiX = tugihagiX - tugihagiSpeed;
+
+	if (Timer < 110) {
+		imomusiX = imomusiX + imomusiSpeed;
+	}
+	
+
+
 	if (animTimer % 3 == 0)//8はフレーム数
 	{
 		anim = !anim;
@@ -38,23 +65,30 @@ void CCoffeeBreak3::Update()
 
 void CCoffeeBreak3::Draw() const
 {
+	if(Timer < 480)
+	{
+		//パックマン用の描画
+		DrawRotaGraphF(pacmanX, D_FIELD_POS_Y + 360,
+			1.0/32*32, 0, pacman[animpacman / 3 % 3 + 9], TRUE);
+
+		//つぎはぎくんの描画 このやり方を参考にする
+		DrawRotaGraphF(tugihagiX, D_FIELD_POS_Y + 360,
+			1.0 / 14 * 28, 0, tugihagi[anim], TRUE);
+
+	}
+
+	if (Timer < 110) {
+		//いもむしくんの描画
+		DrawRotaGraphF(imomusiX, D_FIELD_POS_Y + 360,
+			1.0 / 22 * 38, 0, imomusi[anime], TRUE);
+		}
+		
 	/*DrawGraph(200, 200, tugihagi[0], TRUE);
 	DrawGraph(200, 250, tugihagi[1], TRUE);*/
-
-	//つぎはぎくんの描画
-	DrawRotaGraphF(TUGIHAGI_POSX + y, D_FIELD_POS_Y,
-		1.0 / 14 * 32, 0, tugihagi[anim], TRUE);
-
-	//いもむしくんの描画
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + 30,
-		1.0 / 22 * 32, 0, imomusi[anime], TRUE);
 
 	/*DrawGraph(200, 300, imomusi[0], TRUE);
 	DrawGraph(200, 350, imomusi[1], TRUE);*/
 
-	//パックマン用の描画
-	DrawRotaGraphF(PACMAN_POSX + y, D_FIELD_POS_Y + 60,
-		1.0, 0, pacman[animpacman / 3 % 3 + 9], TRUE);
 
 	/*DrawGraph(200, 370, pacman[9 + 0 % 3], TRUE);
 	DrawGraph(200, 400, pacman[9 + 1 % 3], TRUE);
@@ -64,6 +98,8 @@ void CCoffeeBreak3::Draw() const
 	DrawBox(910, 0, 1280, 720, 0x00ff00, TRUE);
 
 	DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);
+	DrawFormatString(200, 490, 0xFFFFFF, "%d", (int)Timer);
+	
 }
 
 void CCoffeeBreak3::LoadImages()
