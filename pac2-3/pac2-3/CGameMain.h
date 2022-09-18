@@ -13,7 +13,7 @@ class CAbstractEnemy;
 class CPlayer;
 class CUi;
 class CHitPoint;
-class CCoffeeBreak3;
+//class CCoffeeBreak3;TODO : 移動させる
 
 class CGameMain : public CAbstractScene
 {
@@ -25,7 +25,7 @@ private:
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
-	CCoffeeBreak3* coffeebreak3;
+	//CCoffeeBreak3* coffeebreak3;TODO : 移動させる
 
 	bool isPlayMode;
 	

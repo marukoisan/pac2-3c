@@ -94,11 +94,11 @@ void CCoffeeBreak3::Draw() const
 	DrawGraph(200, 400, pacman[9 + 1 % 3], TRUE);
 	DrawGraph(200, 430, pacman[9 + 2 % 3], TRUE);*/
 
-	DrawBox(0, 0, 369, 720, 0x0000ff, TRUE);
-	DrawBox(910, 0, 1280, 720, 0x00ff00, TRUE);
+	DrawBox(0, 0, 369, 720, 0x000000, TRUE);
+	DrawBox(910, 0, 1280, 720, 0x000000, TRUE);
 
-	DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);
-	DrawFormatString(200, 490, 0xFFFFFF, "%d", (int)Timer);
+	//DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);
+	//DrawFormatString(200, 490, 0xFFFFFF, "%d", (int)Timer);
 	
 }
 
