@@ -97,9 +97,8 @@ void CCoffeeBreak3::Draw() const
 	DrawBox(0, 0, 369, 720, 0x000000, TRUE);
 	DrawBox(910, 0, 1280, 720, 0x000000, TRUE);
 
-	//DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);
-	//DrawFormatString(200, 490, 0xFFFFFF, "%d", (int)Timer);
-	
+	DrawFormatString(200, 460, 0xFFFFFF, "%d", (int)anim);//TODO後でコメントを外す
+	DrawFormatString(200, 490, 0xFFFFFF, "%d", (int)Timer);//TODO後でコメントを外す
 }
 
 void CCoffeeBreak3::LoadImages()
