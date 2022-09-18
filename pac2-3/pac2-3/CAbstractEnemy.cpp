@@ -1,8 +1,10 @@
 #include"DxLib.h"
 #include"CAbstractEnemy.h"
 
+
 #define _USE_MATH_DEFINES
 #include<math.h>
+
 
 //---------------------------
 // コンストラクタ
@@ -13,8 +15,8 @@ CAbstractEnemy::CAbstractEnemy()
 	direction = D_DIRECTION_DOWN;
 	x = 240;  //フィールド左上を0としたときのx座標とする
 	y = 280;  //フィールド左上を0としたときのy座標とする
-	height = D_ENEMY_IMAGE_SIZE / 2;
-	width = D_ENEMY_IMAGE_SIZE / 2;
+	height = D_TILE_SIZE;
+	width = D_TILE_SIZE;
 
 
 	int floorX;
@@ -30,6 +32,7 @@ CAbstractEnemy::CAbstractEnemy()
 	targetPosY = floorY * D_TILE_SIZE;
 	
 	anim = false;
+
 }
 
 //---------------------------
@@ -59,6 +62,7 @@ void CAbstractEnemy::Update()
 	//イジケ状態制御用変数の更新
 	if (isSurprising)
 	{
+		
 		surprisingTimer--;
 		if (!surprisingTimer)
 		{

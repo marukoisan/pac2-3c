@@ -12,21 +12,25 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
-	direction = D_PLAYER_RIGHT;
-	angle = M_PI / 2;//右向き
+	direction = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//左向き
 
 	animTimer = 0;
 	
 	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX,
 		3, 1, 32, 32, images);
 
+	LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings);
+
 	//ピボット位置
-	x = 260;
-	y = 340;
+	x = 270;
+	y = 460;
+
+	isAlive = true;
 
 	//当たり判定
-	height = 10;
-	width = 10;
+	height = 20;
+	width = 20;
 }
 
 //--------------------
@@ -43,9 +47,20 @@ CPlayer::~CPlayer()
 void CPlayer::Update()
 {
 	animTimer++;
-
-	Control();
-	Move();
+	if (isAlive)
+	{
+		Control();
+		Move();
+	}
+	else
+	{
+		//死んでいた場合死んでからの秒数を数えてリスポーンする
+		if (animTimer > 9 * 11)
+		{
+			isAlive = true;
+			Respawn();
+		}
+	}
 }
 
 
@@ -54,8 +69,24 @@ void CPlayer::Update()
 //--------------------
 void CPlayer::Draw()const
 {
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
-		images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	if (isAlive)
+	{
+		//通常時
+		DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
+			images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	}
+	else
+	{
+		//描画
+		DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+	}
+	
+	{
+		int i = 0;
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", (int)isAlive);
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", animTimer);
+
+	}
 }
 
 
@@ -133,58 +164,32 @@ void CPlayer::Control()
 	}
 }
 
-void CPlayer::CPlayeranim()
+
+
+void CPlayer::HitAction_Enemy()
 {
-	bool error = false;
-	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings) == -1)error = true;
-}
-
-//void CPlayer::Drawanim()const
-//{
-//	static int animTimer = 0;
-//	animTimer++;
-//	//描画
-//	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-//}
-
-void CPlayer::HitActionanim()
-{
-	Animflg = TRUE;
-	
-	static int animTimer = 0;
-	animTimer++;
-	//描画
-	DrawRotaGraphF(x+360, y+80, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-}
-
-int CPlayer::LoadImage()
-{
-	return 0;
-}
-
-int CPlayer::Respawn() 
-{
-	x = 260;
-	y = 340;
-
-	return x, y;
-}
-
-bool CPlayer::AnimFlg()
-{
-	Animflg = TRUE;
-
-	return Animflg;
-}
-
-bool CPlayer::CheckAnimflg()
-{
-	if (Animflg == FALSE)
+	if (isAlive)
 	{
-		Checkanimflg = TRUE;
+		animTimer = 0;
 	}
-	else {
-		Checkanimflg = FALSE;
-	}
-	return Checkanimflg;
+	isAlive = false;
+}
+
+void CPlayer::Respawn() 
+{
+	x = 270;
+	y = 460;
+
+	direction = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//左向き
+}
+
+bool CPlayer::GetAnimFlg()
+{
+	return isAlive;
+}
+
+bool CPlayer::GetisAlive()
+{
+	return isAlive;
 }

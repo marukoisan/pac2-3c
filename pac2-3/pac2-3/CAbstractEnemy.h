@@ -14,6 +14,8 @@
 #define D_DOOR_X 13
 #define D_DOOR_Y 12
 
+
+
 class CAbstractEnemy : public CObject
 {
 protected:
@@ -114,10 +116,13 @@ public:
 	//当たった時（プレイヤー）
 	void HitAction_Player();
 
+	bool GetisSurprising() { return isSurprising; }
+
 	//ターゲット位置の変更
 	virtual void ChangeTargetPos();
 
-private:
+
+protected:
 	//画像読み込み
 	void LoadImages();
 	//移動
@@ -128,5 +133,6 @@ private:
 	void AttackInterval();
 	//巣からの解放
 	void LeaveTheNest();
+
 };
 

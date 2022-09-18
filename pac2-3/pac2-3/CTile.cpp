@@ -8,8 +8,8 @@
 CTile::CTile()
 {
 	image = 0;
-	height = D_TILE_SIZE / 2;
-	width = D_TILE_SIZE / 2;
+	height = D_TILE_SIZE-2;
+	width = D_TILE_SIZE-2;
 }
 
 //-----------------------------
@@ -25,9 +25,11 @@ CTile::~CTile()
 //-----------------------------
 void CTile::Draw()const
 {
-	DrawRotaGraphF(/* x */D_FIELD_POS_X + x, /* y */D_FIELD_POS_Y + y,
-		/* Šg‘å—¦ */1.0 / D_TILE_IMAGE_SIZE * D_TILE_SIZE, 0, image, TRUE);
-
+	if (image != -1)
+	{
+		DrawRotaGraphF(/* x */D_FIELD_POS_X + x, /* y */D_FIELD_POS_Y + y,
+			/* Šg‘å—¦ */1.0 / D_TILE_IMAGE_SIZE * D_TILE_SIZE, 0, image, TRUE);
+	}
 }
 
 //-----------------------------

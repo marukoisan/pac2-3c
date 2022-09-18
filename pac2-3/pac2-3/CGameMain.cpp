@@ -20,6 +20,7 @@ CGameMain::CGameMain()
 	isPlayMode = true;
 	gameOverImage = LoadGraph("images/game_over.png");
 	field = new CField;
+	tiles = field->GetTiles();
 	enemy = new CAbstractEnemy;
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
@@ -51,15 +52,25 @@ CAbstractScene* CGameMain::Update()
 {
 	esaController->Update();
 
-	if (player->CheckAnimflg() == TRUE)
-	{
-		player->Update();
-		enemy->Update();
+	player->Update();
+	ui->Update();
 
-		player->CPlayeranim();
+	if (player->GetisAlive() == true)
+	{
+		//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+		int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+		int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+		if (field->GetTileData(y - 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
+		if (field->GetTileData(y + 1, x) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y + 1][x]);
+		if (field->GetTileData(y, x - 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x - 1]);
+		if (field->GetTileData(y, x + 1) != D_FIELD_FLOOR)	PreventOverlapCircle_Box(player, &tiles[y][x + 1]);
+
+		enemy->Update();
 
 	}
 	ui->Update();
+
+	
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -73,7 +84,7 @@ CAbstractScene* CGameMain::Update()
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
 	{
-		enemy->HitAction_Player();
+		
 	}
 
 	if (isPlayMode)
@@ -119,12 +130,11 @@ void CGameMain::Draw()const
 	field->Draw();
 	esaController->Draw();
 	fruit->Draw();
+	
+	player->Draw();
+	enemy->Draw();
 
-	if (player->CheckAnimflg() == TRUE)
-	{
-		player->Draw();
-		enemy->Draw();
-	}
+	hitPoint->Draw();
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
@@ -155,11 +165,11 @@ void CGameMain::Draw()const
 		if (CheckHitBox(player, enemy))
 		{
 			//敵に当たったときアニメーション再生
-
-			player->AnimFlg();
-			player->HitActionanim();
-			DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
-
+			
+				player->AnimFlg();
+				player->HitActionanim();
+				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
+			
 		}
 
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d", hitPoint->playerLife);
@@ -198,6 +208,11 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			if (CheckHitBox(player, &esa[index]))//プレイヤーとエサが当たった時
 			{
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
+				
+				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
+				{
+					enemy->Surprised();
+				}
 			}
 
 
@@ -223,8 +238,15 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 {
 	if (CheckHitBox(player, enemy))
 	{
-		//敵に当たったらリスポーン位置に移動
-		hitPoint->Respawn();
-		/*player->Respawn();*/
+		if (enemy->GetisSurprising())
+		{
+			enemy->HitAction_Player();
+		}
+		else
+		{
+			player->HitAction_Enemy();
+			hitPoint->Respawn();
+		}
 	}
+
 }
