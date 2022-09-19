@@ -39,11 +39,6 @@ void Coffee::CoffeeBreakM2()
 
 	++AnimTimer;
 
-	/*if (enemyx >= 700)
-	{
-		
-	}*/
-
 	enemyx -= 2.1;
 
 	playerx-= 2;
@@ -62,8 +57,6 @@ void Coffee::CoffeeBreakM2()
 		images[0] = 0;
 	}
 
-	
-
 
 	DrawFormatString(0, 120, 0xffffff, "%d", enemyx);
 
@@ -76,9 +69,7 @@ void Coffee::CoffeeBreakM2()
 	{
 		enemyImages[0] = 0;
 		enemyImages[1] = 0;
-		/*enemyEyes[1] = 0;*/
-
-		/*enemyx = 700;*/
+	
 
 		if (enemyx > 500)
 		{
@@ -113,6 +104,4 @@ void Coffee::CoffeeBreakM2()
 		DrawRotaGraphF(enemyx, 360, 1.0, 0, enemyEyes[1], TRUE);	//“G‚Ì–Ú
 	}
 
-
-	//DrawGraph(100, 360, enemy, TRUE);
 }
