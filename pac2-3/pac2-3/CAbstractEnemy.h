@@ -1,6 +1,7 @@
 #pragma once
 #include"Object.h"
 #include"define.h"
+#include"CPlayer.h"
 
 #define D_BLOCK 0
 #define D_FLOOR 1
@@ -20,6 +21,7 @@
 class CAbstractEnemy : public CObject
 {
 protected:
+	CPlayer* player;
 	//向き
 	int direction;
 	//目標座標
@@ -29,7 +31,7 @@ protected:
 	//初期位置 継承先で上書き前提
 	float initialPosX = D_ENEMY_ROOM_X;
 	float initialPosY = 11*D_TILE_SIZE;
-	int initialDirection = D_DIRECTION_LEFT;
+	int initialDirection = D_DIRECTION_RIGHT;
 
 	//スピード
 	float speed = 20.0f / 8.0f * (16.0f / 16.0f);
@@ -66,6 +68,7 @@ protected:
 	};
 	//攻撃中か、休息中か
 	bool isAttack = false;
+	int attackCycle = 0;
 
 	int restAreaX = 26;
 	int restAreaY = 1;
@@ -115,6 +118,7 @@ protected:
 public:
 	CAbstractEnemy();
 	~CAbstractEnemy();
+	void SetPlayerCrass(CPlayer* pPlayer) { player = pPlayer; }
 
 	virtual void Update()override;
 	virtual void Draw()const override;
@@ -128,12 +132,12 @@ public:
 
 	bool GetisSurprising() { return isSurprising; }
 
-	virtual void SetTargetPos(float x, float y)
+	virtual void SetTargetPos()
 	{
 		if (GetisAttack())
 		{
-			targetPosX = x;
-			targetPosY = y;
+			targetPosX = player->GetX();
+			targetPosY = player->GetY();
 		}
 	}
 	bool GetisHit() { return  (!isSurprising && !isEaten) ? true : false; }

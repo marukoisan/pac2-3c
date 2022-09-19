@@ -1,4 +1,3 @@
-#include"DxLib.h"
 #include"CPlayer.h"
 #include"CController.h"
 

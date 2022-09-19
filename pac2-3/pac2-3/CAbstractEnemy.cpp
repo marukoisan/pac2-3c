@@ -48,6 +48,10 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
+	if (GetisAttack())
+	{
+		SetTargetPos();
+	}
 
 	//移動パターンの制御
 	if (inEnemyroom)
@@ -156,7 +160,7 @@ void CAbstractEnemy::Draw()const
 	}
 
 	//デバッグ用処理ここから-------------------------------------------------------------------------------
-	/*
+	
 	//デバッグ用ターゲット位置の表示
 	DrawBoxAA(D_FIELD_POS_X + targetPosX - D_TILE_SIZE / 4
 		, D_FIELD_POS_Y + targetPosY - D_TILE_SIZE / 4
@@ -182,22 +186,22 @@ void CAbstractEnemy::Draw()const
 		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", speed);
 
 	}
-	//デバッグ用フィールドの数値
-	for (int i = 0; i < D_FIELD_HEIGHT; i++)
-	{
-		for (int j = 0; j < D_FIELD_WIDTH; j++)
-		{
-			if (floor[i][j] > 0)
-			{
-				DrawRotaGraphF(D_FIELD_POS_X + j * D_TILE_SIZE, //x
-					D_FIELD_POS_Y + i * D_TILE_SIZE,//y
-					1.0 // 拡大率 
-					, 0, testNums[floor[i][j]], TRUE);
-			}
-		}
-	}
+	////デバッグ用フィールドの数値
+	//for (int i = 0; i < D_FIELD_HEIGHT; i++)
+	//{
+	//	for (int j = 0; j < D_FIELD_WIDTH; j++)
+	//	{
+	//		if (floor[i][j] > 0)
+	//		{
+	//			DrawRotaGraphF(D_FIELD_POS_X + j * D_TILE_SIZE, //x
+	//				D_FIELD_POS_Y + i * D_TILE_SIZE,//y
+	//				1.0 // 拡大率 
+	//				, 0, testNums[floor[i][j]], TRUE);
+	//		}
+	//	}
+	//}
 
-	*/
+	
 	//----------------------------------------------------------------デバッグ用処理ここまで
 
 }
@@ -254,6 +258,7 @@ void CAbstractEnemy::Init()
 	isSurprising = false;
 	isEaten = false;
 	isWhite = false;
+	attackCycle = 0;
 }
 
 //-------------------------
@@ -460,13 +465,13 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 //-------------------------
 void CAbstractEnemy::AttackInterval()
 {
-	static int cycle;
-	attackInterval[cycle]--;
-	if (cycle < 7)
+	
+	attackInterval[attackCycle]--;
+	if (attackCycle < 7)
 	{
-		if (attackInterval[cycle] <= 0)
+		if (attackInterval[attackCycle] <= 0)
 		{
-			cycle++;
+			attackCycle++;
 			isAttack = !isAttack;
 			direction = (direction + 2) % 4;
 		}

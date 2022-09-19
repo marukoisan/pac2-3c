@@ -1,4 +1,5 @@
 #pragma once
+#include"DxLib.h"
 #include "Object.h"
 #include"define.h"
 #define _USE_MATH_DEFINES

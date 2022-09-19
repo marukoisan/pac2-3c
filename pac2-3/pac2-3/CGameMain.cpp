@@ -24,13 +24,15 @@ CGameMain::CGameMain()
 	player_oneImage = LoadGraph("images/player_one.png");
 	field = new CField;
 	tiles = field->GetTiles();
-	akabei = new CAkabei;
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
 	fruit = new CFruit();
+
+	akabei = new CAkabei;
+	akabei->SetPlayerCrass(player);
 
 	isGameStart = true;
 	isGameOver = false;
@@ -119,8 +121,6 @@ CAbstractScene* CGameMain::Update()
 					{
 						PlayerControl();
 						akabei->Update();
-						akabei->SetTargetPos(player->GetX(), player->GetY());
-
 					}
 					player->Update();
 					HitCheck();

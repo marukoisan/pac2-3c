@@ -20,4 +20,5 @@ void CAkabei::Init()
 	isSurprising = false;
 	isEaten = false;
 	isWhite = false;
+	attackCycle = 0;
 }
