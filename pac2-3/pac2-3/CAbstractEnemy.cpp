@@ -68,7 +68,7 @@ void CAbstractEnemy::Update()
 	//イジケ状態制御用変数の更新
 	if (isSurprising || isEaten)
 	{
-		surprisingTimer--;
+		if(!isEaten)surprisingTimer--;
 		if (surprisingTimer < 60 * 2)
 		{
 			if (surprisingTimer % (60 / 5) == 0)
@@ -105,7 +105,7 @@ void CAbstractEnemy::Update()
 			inEnemyroom = true;
 			isEaten = false;
 			isSurprising = false;
-
+			isLeaveTheNest = true;
 		}
 	}
 	
@@ -383,9 +383,9 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 	*/
 
 	//上
-	if (directionBack != D_DIRECTION_UP) 
+	if (directionBack != D_DIRECTION_UP)
 	{
-		if (floor[y - 1][x] != D_BLOCK)
+		if (floor[y - 1][x] != D_BLOCK && floor[y - 1][x] != D_VALVE)
 		{
 			distance =(int)( pow((double)x - targetPosX / D_TILE_SIZE, 2.0) +
 							 pow((double)y - 1 - targetPosY / D_TILE_SIZE, 2.0));
