@@ -30,11 +30,17 @@ private:
 	CFruit* fruit;
 
 
+	bool isGameStart;//初回用フラグ
+	bool isGameOver;
 	bool isPlayMode;
-	
+	int startModeTimer;
+	int playerAnimTimer;
+	int stopTimer;
 
 	//画像用変数
 	int gameOverImage; //ゲームオーバー画像
+	int readyImage;
+	int player_oneImage;
 public:
 	//コンストラクタ
 	CGameMain();

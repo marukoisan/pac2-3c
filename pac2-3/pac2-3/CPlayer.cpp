@@ -59,6 +59,7 @@ void CPlayer::Update()
 		//Ž€‚ñ‚Å‚¢‚½ê‡Ž€‚ñ‚Å‚©‚ç‚Ì•b”‚ð”‚¦‚ÄƒŠƒXƒ|[ƒ“‚·‚é
 		if (animTimer > 9 * 11)
 		{
+			animTimer = 0;
 			isAlive = true;
 			Respawn();
 		}
@@ -103,8 +104,11 @@ void CPlayer::Draw()const
 	}
 	else
 	{
-		//•`‰æ
-		DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+		if (animTimer < 9 * 11)
+		{
+			//•`‰æ
+			DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+		}
 	}
 	
 	{
