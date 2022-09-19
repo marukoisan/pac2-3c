@@ -7,6 +7,7 @@
 #include"CPlayer.h"
 #include"CUi.h"
 #include"CHitPoint.h"
+#include"CoffeeBreak.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -25,6 +26,7 @@ CGameMain::CGameMain()
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
+	coffee = new Coffee();
 
 }
 
@@ -39,7 +41,7 @@ CGameMain::~CGameMain()
 	delete player;
 	delete hitPoint;
 	delete ui;
-
+	delete coffee;
 }
 
 //-------------------
@@ -124,6 +126,7 @@ void CGameMain::Draw()const
 		player->Draw();
 		enemy->Draw();
 		hitPoint->Draw();
+		coffee->CoffeeBreakM2();
 	}
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
