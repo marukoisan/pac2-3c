@@ -164,6 +164,7 @@
     <ClCompile Include="CField.cpp" />
     <ClCompile Include="CFruit.cpp" />
     <ClCompile Include="CGameMain.cpp" />
+    <ClCompile Include="CoffeeBreak.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CTile.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="CFruit.h" />
     <ClInclude Include="CGameMain.h" />
     <ClInclude Include="CHitPoint.h" />
+    <ClInclude Include="CoffeeBreak.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CTile.h" />
