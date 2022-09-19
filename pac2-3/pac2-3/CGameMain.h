@@ -15,6 +15,7 @@ class CPlayer;
 class CUi;
 class CHitPoint;
 class CFruit;
+class CAkabei;
 
 class CGameMain : public CAbstractScene
 {
@@ -23,7 +24,7 @@ private:
 	CField* field;
 	CEsaController* esaController;
 	CEsa* esa;
-	CAbstractEnemy* enemy;
+	CAkabei* akabei;
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;

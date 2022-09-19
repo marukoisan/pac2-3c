@@ -8,6 +8,7 @@
 #include"CUi.h"
 #include"CHitPoint.h"
 #include"CFruit.h"
+#include"CAkabei.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -23,7 +24,7 @@ CGameMain::CGameMain()
 	player_oneImage = LoadGraph("images/player_one.png");
 	field = new CField;
 	tiles = field->GetTiles();
-	enemy = new CAbstractEnemy;
+	akabei = new CAkabei;
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
@@ -45,7 +46,7 @@ CGameMain::~CGameMain()
 {
 	delete field;
 	delete esaController;
-	delete enemy;
+	delete akabei;
 	delete player;
 	delete hitPoint;
 	delete ui;
@@ -91,7 +92,7 @@ CAbstractScene* CGameMain::Update()
 			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 			{
 				fruit->Advent(3);
-				enemy->LeaveTheNest();
+				akabei->LeaveTheNest();
 			}
 
 			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -117,8 +118,8 @@ CAbstractScene* CGameMain::Update()
 					if (player->GetisAlive() == true)
 					{
 						PlayerControl();
-						enemy->Update();
-						enemy->SetTargetPos(player->GetX(), player->GetY());
+						akabei->Update();
+						akabei->SetTargetPos(player->GetX(), player->GetY());
 
 					}
 					player->Update();
@@ -139,6 +140,7 @@ CAbstractScene* CGameMain::Update()
 					if (playerAnimTimer > 9 * 11)
 					{
 						hitPoint->Respawn();
+						akabei->Init();
 					}
 				}
 				else
@@ -189,7 +191,7 @@ void CGameMain::Draw()const
 	}
 	else
 	{
-		enemy->Draw();
+		akabei->Draw();
 	}
 
 	if (isPlayMode && !isGameOver)
@@ -257,7 +259,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
-					enemy->Surprised();
+					akabei->Surprised();
 				}
 			}
 
@@ -284,15 +286,15 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 {
 	if (player->GetisAlive())
 	{
-		if (CheckHitBox(player, enemy))
+		if (CheckHitBox(player, akabei))
 		{
-			if (enemy->GetisSurprising())
+			if (akabei->GetisSurprising())
 			{
-				enemy->HitAction_Player();
+				akabei->HitAction_Player();
 			}
 			else
 			{
-				if (enemy->GetisHit())
+				if (akabei->GetisHit())
 				{
 					player->HitAction_Enemy();
 					isPlayMode = false;

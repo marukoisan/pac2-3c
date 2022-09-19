@@ -12,9 +12,9 @@
 CAbstractEnemy::CAbstractEnemy()
 {
 	LoadImages();
-	direction = D_DIRECTION_DOWN;
-	x = 240;  //フィールド左上を0としたときのx座標とする
-	y = 280;  //フィールド左上を0としたときのy座標とする
+	direction = initialDirection;
+	x = initialPosX;  //フィールド左上を0としたときのx座標とする
+	y = initialPosY;  //フィールド左上を0としたときのy座標とする
 	height = D_TILE_SIZE-8;
 	width = D_TILE_SIZE-8;
 
@@ -113,8 +113,8 @@ void CAbstractEnemy::Update()
 	
 	if (!isAttack && !isSurprising && !isEaten)
 	{
-		targetPosX = REST_AREA_X * D_TILE_SIZE;
-		targetPosY = REST_AREA_Y * D_TILE_SIZE;
+		targetPosX = restAreaX * D_TILE_SIZE;
+		targetPosY = restAreaY * D_TILE_SIZE;
 	}
 
 	//アニメーション制御用変数の更新
@@ -240,6 +240,20 @@ void CAbstractEnemy::HitAction_Player()
 		targetPosX = 13 * D_TILE_SIZE + 10;
 		targetPosY = 14 * D_TILE_SIZE;
 	}
+}
+
+//----------------------------------
+// 初期化
+//----------------------------------
+void CAbstractEnemy::Init()
+{
+	x = initialPosX;
+	y = initialPosY;
+	direction = initialDirection;
+	inEnemyroom = true;
+	isSurprising = false;
+	isEaten = false;
+	isWhite = false;
 }
 
 //-------------------------

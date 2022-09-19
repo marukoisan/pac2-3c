@@ -26,6 +26,11 @@ protected:
 	float targetPosX;
 	float targetPosY;
 
+	//初期位置 継承先で上書き前提
+	float initialPosX = D_ENEMY_ROOM_X;
+	float initialPosY = 11*D_TILE_SIZE;
+	int initialDirection = D_DIRECTION_LEFT;
+
 	//スピード
 	float speed = 20.0f / 8.0f * (16.0f / 16.0f);
 	//巣の中にいるか
@@ -62,8 +67,8 @@ protected:
 	//攻撃中か、休息中か
 	bool isAttack = false;
 
-	const int REST_AREA_X = 26;
-	const int REST_AREA_Y = 1;
+	int restAreaX = 26;
+	int restAreaY = 1;
 
 	int floor[D_FIELD_HEIGHT][D_FIELD_WIDTH] =
 	{
@@ -119,10 +124,11 @@ public:
 
 	//当たった時（プレイヤー）
 	virtual void HitAction_Player();
+	virtual void Init();
 
 	bool GetisSurprising() { return isSurprising; }
 
-	void SetTargetPos(float x, float y)
+	virtual void SetTargetPos(float x, float y)
 	{
 		if (GetisAttack())
 		{
