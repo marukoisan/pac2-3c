@@ -72,6 +72,7 @@ CAbstractScene* CGameMain::Update()
 	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 	{
 		fruit->Advent(0);
+		enemy->LeaveTheNest();
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -229,8 +230,11 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		}
 		else
 		{
-			player->HitAction_Enemy();
-			hitPoint->Respawn();
+			if (enemy->GetisHit())
+			{
+				player->HitAction_Enemy();
+				hitPoint->Respawn();
+			}
 		}
 	}
 

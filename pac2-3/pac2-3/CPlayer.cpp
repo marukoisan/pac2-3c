@@ -12,9 +12,9 @@ CPlayer::CPlayer(CController* pController)
 	keyState = controller->GetKeyState();
 	directionX = D_PLAYER_LEFT;
 	directionY = 99;
-	nextDirection = 99;
+	nextDirection = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//ç∂å¸Ç´
-	speed = 2;
+	speed = 20.0f/8.0f*(16.0f/16.0f);
 	isReleased = false;
 
 	animTimer = 0;
@@ -158,7 +158,8 @@ void CPlayer::Respawn()
 	y = 460;
 
 	directionX = D_PLAYER_LEFT;
-	directionY = D_PLAYER_LEFT;
+	directionY = 99;
+	nextDirection = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//ç∂å¸Ç´
 }
 
