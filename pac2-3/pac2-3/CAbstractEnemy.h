@@ -26,14 +26,16 @@ protected:
 	float targetPosY;
 
 	//スピード
-	float speed = 2;
+	float speed = 20.0f / 8.0f * (16.0f / 16.0f);
 	//巣の中にいるか
 	bool inEnemyroom = true;
+	bool isLeaveTheNest = false;
 
 	//イジケ状態
 	int surprisingTime = 60 * 6;
 	int surprisingTimer = 0;
 	bool isSurprising = false;
+	bool isWhite = false;
 
 	//食べられた
 	bool isEaten = false;
@@ -118,14 +120,19 @@ public:
 
 	bool GetisSurprising() { return isSurprising; }
 
-	//ターゲット位置の変更
-	virtual void ChangeTargetPos();
-
 	void SetTargetPos(float x, float y)
 	{
-		targetPosX = x;
-		targetPosY = y;
+		if (GetisAttack())
+		{
+			targetPosX = x;
+			targetPosY = y;
+		}
 	}
+	bool GetisHit() { return  (!isSurprising && !isEaten) ? true : false; }
+	bool GetisAttack() { return (!isSurprising && !isEaten && isAttack) ? true : false; }
+	//巣からの解放
+	void LeaveTheNest();
+
 protected:
 	//画像読み込み
 	void LoadImages();
@@ -135,8 +142,9 @@ protected:
 	void ChangeDirection(int x,int y);
 	//波状攻撃
 	void AttackInterval();
-	//巣からの解放
-	void LeaveTheNest();
 
+	void SurprisingMove();
+	void ChooseRandomDirection(int x,int y);
+	void MoveInEnemyRoom();
 };
 
