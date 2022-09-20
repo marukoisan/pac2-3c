@@ -42,6 +42,7 @@ CGameMain::CGameMain()
 
 	aosuke = new CAosuke;
 	aosuke->SetPlayerCrass(player);
+	aosuke->SetAkabei(akabei);
 	
 	guzuta = new CGuzuta;
 	guzuta->SetPlayerCrass(player);
