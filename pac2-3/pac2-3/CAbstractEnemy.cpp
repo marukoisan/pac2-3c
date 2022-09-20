@@ -93,28 +93,10 @@ void CAbstractEnemy::Update()
 		AttackInterval();
 	}
 
-
 	if (isEaten)
 	{
-		if (-speed < (x - targetPosX) && (x - targetPosX) < speed
-			&& -speed < (y - targetPosY) && (y - targetPosY) < speed)
-		{
-			x = targetPosX;
-			y = targetPosY;
-		}
-		//巣の中に入ったら各種フラグを切り換える
-		if ((double)x == targetPosX 
-			&&(double)y == targetPosY)
-		{
-			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
-			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
-			inEnemyroom = true;
-			isEaten = false;
-			isSurprising = false;
-			isLeaveTheNest = true;
-		}
+		EatenMove();
 	}
-	
 
 	
 	if (!isAttack && !isSurprising && !isEaten)
@@ -243,8 +225,8 @@ void CAbstractEnemy::HitAction_Player()
 		floor[D_DOOR_Y][D_DOOR_X + 1] = D_FLOOR;
 
 		//巣の中
-		targetPosX = initialPosX;
-		targetPosY = initialPosY;
+		targetPosX = 13 * D_TILE_SIZE + 10;
+		targetPosY = 14 * D_TILE_SIZE;
 	}
 }
 
@@ -261,6 +243,7 @@ void CAbstractEnemy::Init()
 	isEaten = false;
 	isWhite = false;
 	attackCycle = 0;
+	leaveStep = 0;
 }
 
 //-------------------------
@@ -489,10 +472,8 @@ void CAbstractEnemy::AttackInterval()
 void CAbstractEnemy::LeaveTheNest()
 {
 	isLeaveTheNest = true;
-	static int step = 0;
 
-
-	if (step == 0)
+	if (leaveStep == 0)
 	{
 		if (y > D_ENEMY_ROOM_Y)
 		{
@@ -506,7 +487,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 		else if (y == D_ENEMY_ROOM_Y)
 		{
-			step++;
+			leaveStep++;
 		}
 		else
 		{
@@ -514,7 +495,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 	}
 
-	if (step == 1)
+	if (leaveStep == 1)
 	{
 		if (x > D_ENEMY_ROOM_X)
 		{
@@ -528,7 +509,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 		else if (x == D_ENEMY_ROOM_X)
 		{
-			step++;
+			leaveStep++;
 		}
 		else
 		{
@@ -536,7 +517,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 	}
 
-	if (step == 2)
+	if (leaveStep == 2)
 	{
 		if (y > D_ENEMY_LEAVE_Y)
 		{
@@ -546,7 +527,7 @@ void CAbstractEnemy::LeaveTheNest()
 			{
 				inEnemyroom = false;
 				isLeaveTheNest = false;
-				step = 0;
+				leaveStep = 0;
 			}
 		}
 	}
@@ -677,4 +658,32 @@ void CAbstractEnemy::MoveInEnemyRoom()
 			isUp = !isUp;
 		}
 	}
+}
+
+//--------------------------------
+// 食べられた時の動き
+//--------------------------------
+void CAbstractEnemy::EatenMove()
+{
+	if (isEaten)
+	{
+		if (-speed < (x - targetPosX) && (x - targetPosX) < speed
+			&& -speed < (y - targetPosY) && (y - targetPosY) < speed)
+		{
+			x = targetPosX;
+			y = targetPosY;
+		}
+		//巣の中に入ったら各種フラグを切り換える
+		if ((double)x == targetPosX
+			&& (double)y == targetPosY)
+		{
+			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
+			inEnemyroom = true;
+			isEaten = false;
+			isSurprising = false;
+			isLeaveTheNest = true;
+		}
+	}
+
 }

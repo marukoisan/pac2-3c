@@ -17,6 +17,7 @@ class CHitPoint;
 class CFruit;
 class CAkabei;
 class CPinky;
+class CAosuke;
 
 class CGameMain : public CAbstractScene
 {
@@ -32,6 +33,7 @@ private:
 
 	CAkabei* akabei;
 	CPinky* pinky;
+	CAosuke* aosuke;
 
 
 	bool isGameStart;//初回用フラグ
