@@ -158,6 +158,7 @@
     <ClCompile Include="CAbstractEnemy.cpp" />
     <ClCompile Include="CAbstractScene.cpp" />
     <ClCompile Include="CAkabei.cpp" />
+    <ClCompile Include="CAosuke.cpp" />
     <ClCompile Include="CCoffeeBreak3.cpp" />
     <ClCompile Include="CController.cpp" />
     <ClCompile Include="CEsa.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="CAbstractEnemy.h" />
     <ClInclude Include="CAbstractScene.h" />
     <ClInclude Include="CAkabei.h" />
+    <ClInclude Include="CAosuke.h" />
     <ClInclude Include="CCoffeeBreak3.h" />
     <ClInclude Include="CController.h" />
     <ClInclude Include="CEsa.h" />

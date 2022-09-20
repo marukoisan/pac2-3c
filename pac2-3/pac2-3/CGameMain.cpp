@@ -10,6 +10,7 @@
 #include"CFruit.h"
 #include"CAkabei.h"
 #include"CPinky.h"
+#include"CAosuke.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -38,6 +39,9 @@ CGameMain::CGameMain()
 	pinky = new CPinky;
 	pinky->SetPlayerCrass(player);
 
+	aosuke = new CAosuke;
+	aosuke->SetPlayerCrass(player);
+
 	isGameStart = true;
 	isGameOver = false;
 	startModeTimer = 0;
@@ -58,6 +62,7 @@ CGameMain::~CGameMain()
 	delete fruit;
 	delete akabei;
 	delete pinky;
+	delete aosuke;
 }
 
 //-------------------
@@ -100,6 +105,7 @@ CAbstractScene* CGameMain::Update()
 			{
 				fruit->Advent(3);
 				pinky->LeaveTheNest();
+				aosuke->LeaveTheNest();
 			}
 
 			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -127,6 +133,7 @@ CAbstractScene* CGameMain::Update()
 						PlayerControl();
 						akabei->Update();
 						pinky->Update();
+						aosuke->Update();
 					}
 					player->Update();
 					HitCheck();
@@ -148,6 +155,7 @@ CAbstractScene* CGameMain::Update()
 						hitPoint->Respawn();
 						akabei->Init();
 						pinky->Init();
+						aosuke->Init();
 					}
 				}
 				else
@@ -200,6 +208,7 @@ void CGameMain::Draw()const
 	{
 		akabei->Draw();
 		pinky->Draw();
+		aosuke->Draw();
 	}
 
 	if (isPlayMode && !isGameOver)
@@ -269,6 +278,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				{
 					akabei->Surprised();
 					pinky->Surprised();
+					aosuke->Surprised();
 				}
 			}
 
@@ -313,7 +323,10 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 				}
 			}
 		}
+	}
 
+	if (player->GetisAlive())
+	{
 		//ピンキー
 		if (CheckHitBox(player, pinky))
 		{
@@ -324,6 +337,28 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 			else
 			{
 				if (pinky->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+	}
+
+	if (player->GetisAlive())
+	{
+		//アオスケ
+		if (CheckHitBox(player, aosuke))
+		{
+			if (aosuke->GetisSurprising())
+			{
+				aosuke->HitAction_Player();
+			}
+			else
+			{
+				if (aosuke->GetisHit())
 				{
 					player->HitAction_Enemy();
 					isPlayMode = false;
