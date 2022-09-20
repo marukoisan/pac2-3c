@@ -32,6 +32,7 @@ void CFruit::Draw()const
 	{
 		DrawRotaGraphF(D_FIELD_POS_X+x, D_FIELD_POS_Y+y, 1.0, 0, FruitImage[fruitType], TRUE);
 	}
+
 	DrawGraph(840, 680, FruitImage[0], TRUE);
 	//DrawGraph(815, 680, FruitImage[1], TRUE);
 	/*DrawGraph(640, 680, FruitImage[2], TRUE);
