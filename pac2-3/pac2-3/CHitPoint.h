@@ -13,5 +13,6 @@ public:
 	void Draw()const;
 	void Respawn();
 	void Recovery();
+	int GetPlayerLife() { return playerLife; }
 	int playerLife = 3;
 };

@@ -1,6 +1,3 @@
-#include"DxLib.h"
-#define _USE_MATH_DEFINES
-#include<math.h>
 #include"CPlayer.h"
 #include"CController.h"
 
@@ -12,21 +9,29 @@ CPlayer::CPlayer(CController* pController)
 {
 	controller = pController;
 	keyState = controller->GetKeyState();
-	direction = D_PLAYER_RIGHT;
-	angle = M_PI / 2;//âEå¸Ç´
+	directionX = D_PLAYER_LEFT;
+	directionY = 99;
+	nextDirection = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//ç∂å¸Ç´
+	speed = 20.0f/8.0f*(16.0f/16.0f);
+	isReleased = false;
 
 	animTimer = 0;
 	
 	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX,
 		3, 1, 32, 32, images);
 
+	LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings);
+
 	//ÉsÉ{ÉbÉgà íu
-	x = 260;
-	y = 340;
+	x = 270;
+	y = 460;
+
+	isAlive = true;
 
 	//ìñÇΩÇËîªíË
-	height = 10;
-	width = 10;
+	height = 20;
+	width = 20;
 }
 
 //--------------------
@@ -43,9 +48,45 @@ CPlayer::~CPlayer()
 void CPlayer::Update()
 {
 	animTimer++;
+	if (isAlive)
+	{
+		Control();
+		Move();
+	}
+	else
+	{
+		//éÄÇÒÇ≈Ç¢ÇΩèÍçáéÄÇÒÇ≈Ç©ÇÁÇÃïbêîÇêîÇ¶ÇƒÉäÉXÉ|Å[ÉìÇ∑ÇÈ
+		if (animTimer > 9 * 11)
+		{
+			animTimer = 0;
+			isAlive = true;
+			Respawn();
+		}
+	}
 
-	Control();
-	Move();
+
+	static bool isOnCrossPointOld = false;
+	static bool isOnCrossPointNow = false;
+
+	isOnCrossPointOld = isOnCrossPointNow;
+	if (floor[(int)(y + 10) / (int)D_TILE_SIZE][(int)(x + 10)/ (int)D_TILE_SIZE] == D_PLAYER_CROSSPOINT)
+	{
+		isOnCrossPointNow = true;
+	}
+	else
+	{
+		isOnCrossPointNow = false;
+	}
+
+	if (isOnCrossPointOld == true
+		&& isOnCrossPointNow == false)
+	{
+		isReleased = true;
+	}
+	else
+	{
+		isReleased = false;
+	}
 }
 
 
@@ -54,46 +95,110 @@ void CPlayer::Update()
 //--------------------
 void CPlayer::Draw()const
 {
-	DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
-		images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	if (isAlive)
+	{
+		//í èÌéû
+		DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y, 1.0, angle,
+			images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	}
+	else
+	{
+		if (animTimer < 9 * 11)
+		{
+			//ï`âÊ
+			DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+		}
+	}
+	
+	{
+		int i = 0;
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", (int)isAlive);
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", animTimer);
+
+	}
 }
 
 
 //--------------------
-// ìñÇΩÇ¡ÇΩéûÇÃèàóù
+// ìñÇΩÇ¡ÇΩéûÇÃèàóù:ìG
 //--------------------
+void CPlayer::HitAction_Enemy()
+{
+	if (isAlive)
+	{
+		animTimer = 0;
+	}
+	isAlive = false;
+}
+
+//------------------------------
+// ï˚å¸ì]ä∑
+//------------------------------
+void CPlayer::ChangeDirection(int direction)
+{
+	if (direction == nextDirection)
+	{
+		angle = DIRECTIONS[nextDirection];
+
+		if (isReleased)
+		{
+			if (directionX == nextDirection)
+			{
+				directionY = 99;
+			}
+			if (directionY == nextDirection)
+			{
+				directionX = 99;
+
+			}
+		}
+	}
+}
+
+void CPlayer::Respawn() 
+{
+	x = 270;
+	y = 460;
+
+	directionX = D_PLAYER_LEFT;
+	directionY = 99;
+	nextDirection = D_PLAYER_LEFT;
+	angle = -M_PI / 2;//ç∂å¸Ç´
+}
+
+bool CPlayer::GetisAlive()
+{
+	return isAlive;
+}
 
 //--------------------
 // à⁄ìÆ
 //--------------------
 void CPlayer::Move()
 {
-	MoveStraight();
-}
-
-//----------------------------
-// à⁄ìÆï˚å¸Ç…âûÇ∂ÇΩíºê¸à⁄ìÆ
-//----------------------------
-void CPlayer::MoveStraight()
-{
-	switch (direction)
+	switch (directionY)
 	{
 	case D_PLAYER_UP:
-		y--;
-		break;
-
-	case D_PLAYER_RIGHT:
-		x++;
+		y -= speed;
 		break;
 
 	case D_PLAYER_DOWN:
-		y++;
+		y += speed;
+		break;
+
+	default:
+		;
+	}
+
+	switch (directionX)
+	{
+	case D_PLAYER_RIGHT:
+		x += speed;
 		break;
 
 	case D_PLAYER_LEFT:
-		x--;
+		x -= speed;
 		break;
-
 
 	default:
 		;
@@ -103,92 +208,30 @@ void CPlayer::MoveStraight()
 //---------------------
 // ÉRÉìÉgÉçÅ[Éã
 //---------------------
-void CPlayer::Control() 
+void CPlayer::Control()
 {
-	float directions[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_UP] == TRUE)
 	{
-		direction = D_PLAYER_UP;
-		angle = directions[direction];
+		directionY = D_PLAYER_UP;
+		nextDirection = D_PLAYER_UP;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_RIGHT] == TRUE)
 	{
-		direction = D_PLAYER_RIGHT;
-		angle = directions[direction];
+		directionX = D_PLAYER_RIGHT;
+		nextDirection = D_PLAYER_RIGHT;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_DOWN] == TRUE)
 	{
-		direction = D_PLAYER_DOWN;
-		angle = directions[direction];
+		directionY = D_PLAYER_DOWN;
+		nextDirection = D_PLAYER_DOWN;
 	}
 
 	if (keyState->Buttons[XINPUT_BUTTON_DPAD_LEFT] == TRUE)
 	{
-		direction = D_PLAYER_LEFT;
-		angle = directions[direction];
+		directionX = D_PLAYER_LEFT;
+		nextDirection = D_PLAYER_LEFT;
 	}
-}
-
-void CPlayer::CPlayeranim()
-{
-	bool error = false;
-	if (LoadDivGraph("images/sprites/dying.png", 11, 11, 1, 32, 32, pacmanDyings) == -1)error = true;
-}
-
-//void CPlayer::Drawanim()const
-//{
-//	static int animTimer = 0;
-//	animTimer++;
-//	//ï`âÊ
-//	DrawRotaGraphF(640, 360, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-//}
-
-void CPlayer::HitActionanim()
-{
-	
-	static int animTimer = 0;
-	animTimer++;
-	//ï`âÊ
-	DrawRotaGraphF(x+D_FIELD_POS_X, y+ D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
-
-	if (animTimer / 9 % 11 == 0)
-	{
-		Animflg = FALSE;
-	}
-}
-
-int CPlayer::LoadImage()
-{
-	return 0;
-}
-
-int CPlayer::Respawn() 
-{
-	x = 260;
-	y = 340;
-
-	return x, y;
-}
-
-bool CPlayer::AnimFlg()
-{
-	Animflg = TRUE;
-
-	return Animflg;
-}
-
-bool CPlayer::CheckAnimflg()
-{
-	if (Animflg == FALSE)
-	{
-		Checkanimflg = TRUE;
-	}
-	else {
-		Checkanimflg = FALSE;
-	}
-	return Checkanimflg;
 }

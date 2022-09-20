@@ -7,7 +7,10 @@
 #include"CPlayer.h"
 #include"CUi.h"
 #include"CHitPoint.h"
-#include"CCoffeeBreak.h"
+#include"CFruit.h"
+#include"CAkabei.h"
+#include"CPinky.h"
+#include"CAosuke.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -17,17 +20,33 @@ XINPUT_STATE keyState;//デバッグ用　TODO：消す
 //-------------------
 CGameMain::CGameMain()
 {
-	isPlayMode = true;
+	isPlayMode = false;
 	gameOverImage = LoadGraph("images/game_over.png");
+	readyImage = LoadGraph("images/ready.png");
+	player_oneImage = LoadGraph("images/player_one.png");
 	field = new CField;
-	enemy = new CAbstractEnemy;
+	tiles = field->GetTiles();
 	esaController = new CEsaController();
 	esa = esaController->GetEsa();
 	player = new CPlayer(controller);
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
-	coffee = new CCoffeeBreak();
+	fruit = new CFruit();
 
+	akabei = new CAkabei;
+	akabei->SetPlayerCrass(player);
+
+	pinky = new CPinky;
+	pinky->SetPlayerCrass(player);
+
+	aosuke = new CAosuke;
+	aosuke->SetPlayerCrass(player);
+
+	isGameStart = true;
+	isGameOver = false;
+	startModeTimer = 0;
+	playerAnimTimer = 9 * 11 + 1;
+	stopTimer = 0;
 }
 
 //-------------------
@@ -37,11 +56,13 @@ CGameMain::~CGameMain()
 {
 	delete field;
 	delete esaController;
-	delete enemy;
 	delete player;
 	delete hitPoint;
 	delete ui;
-	delete coffee;
+	delete fruit;
+	delete akabei;
+	delete pinky;
+	delete aosuke;
 }
 
 //-------------------
@@ -49,67 +70,108 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
-	esaController->Update();
-
-	if (player->CheckAnimflg() == TRUE) 
+	stopTimer--;
+	if (isGameStart)
 	{
-	player->Update();
-	enemy->Update();
-
-	player->CPlayeranim();
-
-	}
-	ui->Update();
-
-	coffee->Update();
-
-	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
-	{
-		esaController->DeleteFeed();
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
-	{
-		enemy->Surprised();
-	}
-
-	if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
-	{
-		enemy->HitAction_Player();
-	}
-
-	if (isPlayMode)
-	{
-		if (esaController->GetIsClear() == true)//エサの残りの数を受け取り、0の時にゲームクリアとする
+		if (startModeTimer < 60 * 2)
 		{
-			//ゲームクリアの処理
-			// ステージの更新
-			// エサの再配置
-			//敵の初期化(難易度を渡す)
-			//プレイヤーの位置の初期化、難易度の更新
-			isPlayMode = false;
-
-
-			if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
-			{
-				
-			}
+			startModeTimer++;
 		}
 		else
 		{
-			HitCheck();
+			hitPoint->Respawn();
+			isGameStart = false;
+			startModeTimer = 0;
 		}
-
 	}
 	else
 	{
+		ui->Update();
+		esaController->Update();
 
-		//スタートモードを流す
+		if (stopTimer < 0)
+		{
 
-		//流れ終わったらプレイモードに返す
-		isPlayMode = true;
-	}	
 
+
+
+
+			if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
+			{
+				esaController->DeleteFeed();
+			}
+
+			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
+			{
+				fruit->Advent(3);
+				pinky->LeaveTheNest();
+				aosuke->LeaveTheNest();
+			}
+
+			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
+			{
+				player->Respawn();
+			}
+
+			if (isPlayMode)
+			{
+				if (esaController->GetIsClear() == true)//エサの残りの数を受け取り、0の時にゲームクリアとする
+				{
+					//ゲームクリアの処理
+					// ステージの更新
+					// エサの再配置
+					//敵の初期化(難易度を渡す)
+					//プレイヤーの位置の初期化、難易度の更新
+					isPlayMode = false;
+
+
+				}
+				else
+				{
+					if (player->GetisAlive() == true)
+					{
+						PlayerControl();
+						akabei->Update();
+						pinky->Update();
+						aosuke->Update();
+					}
+					player->Update();
+					HitCheck();
+				}
+
+			}
+			else
+			{
+				if (!(playerAnimTimer > 9 * 11))
+				{
+					player->Update();
+					playerAnimTimer++;
+					if (playerAnimTimer == 9 * 11)
+					{
+						stopTimer = 30;
+					}
+					if (playerAnimTimer > 9 * 11)
+					{
+						hitPoint->Respawn();
+						akabei->Init();
+						pinky->Init();
+						aosuke->Init();
+					}
+				}
+				else
+				{
+					//スタートモードを流す
+					startModeTimer++;
+					if (startModeTimer > 60 * 2)
+					{
+						//流れ終わったらプレイモードに返す
+						isPlayMode = true;
+						startModeTimer = 0;
+					}
+				}
+			}
+		}
+	}
 	return this;
 }
 
@@ -120,32 +182,49 @@ void CGameMain::Draw()const
 {
 	field->Draw();
 	esaController->Draw();
+	fruit->Draw();
 
-	if (player->CheckAnimflg() == TRUE)
-	{
-		player->Draw();
-		enemy->Draw();
-		hitPoint->Draw();
-	}
+	player->Draw();
+
+	hitPoint->Draw();
+	//coffeebreak3->Draw();//TODO : 移動させる
+
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
 
-
-	coffee->Draw();
-
-	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
+	if (isGameOver)
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-							, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
+			, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 	}
-	if (isPlayMode)
+
+	if (isGameStart)
+	{
+		DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, 15 * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
+			, 1.0 / 8 * D_TILE_SIZE, 0, player_oneImage, TRUE);
+	}
+	else
+	{
+		akabei->Draw();
+		pinky->Draw();
+		aosuke->Draw();
+	}
+
+	if (isPlayMode && !isGameOver)
 	{
 		DrawString(0, 0, "PlayMode", 0xFFFFFF);
 	}
 	else
 	{
-		DrawString(0, 0, "StartMode", 0xFFFFFF);
+		if (playerAnimTimer > 9 * 11)
+		{
+			if (startModeTimer <= 60 * 2)
+			{
+				DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
+					, 1.0 / 7 * D_TILE_SIZE, 0, readyImage, TRUE);
+			}
+		}
 	}
 
 
@@ -157,19 +236,9 @@ void CGameMain::Draw()const
 			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
 		}
 		
-		if (CheckHitBox(player, enemy))
-		{
-			//敵に当たったときアニメーション再生
-			
-				player->AnimFlg();
-				player->HitActionanim();
-				DrawString(0, 500 + i++ * 20, "HIT", 0x3355FF);
-			
-		}
-
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
 
-		
+
 	}
 
 
@@ -183,6 +252,7 @@ void CGameMain::HitCheck()
 {
 	HitCheck_PlayerAndFeed();
 	HitCheck_PlayerAndEnemy();
+	HitCheck_PlayerAndFruit();
 }
 
 //-------------------------------
@@ -194,6 +264,8 @@ void CGameMain::HitCheck_PlayerAndFeed()
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int index = esaController->GetEsaIndex(x, y);
+
+
 	if (index > -1)
 	{
 		if (esa[index].GetFlg() == true)
@@ -201,24 +273,178 @@ void CGameMain::HitCheck_PlayerAndFeed()
 			if (CheckHitBox(player, &esa[index]))//プレイヤーとエサが当たった時
 			{
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
+				
+				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
+				{
+					akabei->Surprised();
+					pinky->Surprised();
+					aosuke->Surprised();
+				}
 			}
+
+
 		}
+
+		if (fruit[index].GetFlg() == true) {
+
+			if (CheckHitBox(player, &fruit[index]))//プレイヤーとフルーツが当たった時
+			{
+				ui->AddScore(fruit[FRUIT_MAX].GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
+			}
+
+		}
+
 	}
-	
+
 }
 
 //------------------------------------
 // 当たり判定　プレイヤー：敵
 //------------------------------------
-void CGameMain:: HitCheck_PlayerAndEnemy()
+void CGameMain::HitCheck_PlayerAndEnemy()
 {
-	if (CheckHitBox(player, enemy))
+	if (player->GetisAlive())
 	{
-		//敵に当たったらリスポーン位置に移動
-		hitPoint->Respawn();
-		if (player->CheckAnimflg() == FALSE)
+		//アカベイ
+		if (CheckHitBox(player, akabei))
 		{
-			player->Respawn();
+			if (akabei->GetisSurprising())
+			{
+				akabei->HitAction_Player();
+			}
+			else
+			{
+				if (akabei->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+	}
+
+	if (player->GetisAlive())
+	{
+		//ピンキー
+		if (CheckHitBox(player, pinky))
+		{
+			if (pinky->GetisSurprising())
+			{
+				pinky->HitAction_Player();
+			}
+			else
+			{
+				if (pinky->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+	}
+
+	if (player->GetisAlive())
+	{
+		//アオスケ
+		if (CheckHitBox(player, aosuke))
+		{
+			if (aosuke->GetisSurprising())
+			{
+				aosuke->HitAction_Player();
+			}
+			else
+			{
+				if (aosuke->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+	}
+}
+
+//----------------------------------
+// プレイヤーの入力制御
+//----------------------------------
+void CGameMain::PlayerControl()
+{
+
+	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
+	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
+	if (field->GetTileData(y - 1, x) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_UP);
+	}
+
+	if (field->GetTileData(y + 1, x) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_DOWN);
+	}
+
+	if (field->GetTileData(y, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y][x - 1]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_LEFT);
+	}
+
+	if (field->GetTileData(y, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y][x + 1]);
+	}
+	else
+	{
+		player->ChangeDirection(D_PLAYER_RIGHT);
+	}
+
+
+	if (field->GetTileData(y - 1, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x - 1]);
+	}
+	if (field->GetTileData(y - 1, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y - 1][x + 1]);
+	}
+	if (field->GetTileData(y + 1, x + 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x + 1]);
+	}
+	if (field->GetTileData(y + 1, x - 1) != D_FIELD_FLOOR)
+	{
+		PreventOverlapCircle_Box(player, &tiles[y + 1][x - 1]);
+	}
+}
+
+
+//----------------------------------
+// 当たり判定　プレイヤー:フルーツ
+//----------------------------------
+void CGameMain::HitCheck_PlayerAndFruit()
+{
+	if (fruit->GetFlg())
+	{
+		if (CheckHitBox(player, fruit))
+		{
+			ui->AddScore(fruit->HitAction_Player());
 		}
 	}
 }

@@ -8,13 +8,27 @@
 CField::CField() {
 	LoadImages();
 
+	tiles = new CTile*[D_FIELD_HEIGHT];
+	for (int i = 0; i < D_FIELD_HEIGHT; i++)
+	{
+		tiles[i] = new CTile[D_FIELD_WIDTH];
+	}
+
 	for (int i = 0; i < D_FIELD_HEIGHT; i++)
 	{
 		for (int j = 0; j < D_FIELD_WIDTH; j++)
 		{
-			tile[i][j].
-				Init(j * D_TILE_SIZE, i * D_TILE_SIZE,
-					tileImages[FIELD_DATA[i][j]]);
+			if (FIELD_DATA[i][j] != -1)
+			{
+				tiles[i][j].
+					Init(j * D_TILE_SIZE, i * D_TILE_SIZE,
+						tileImages[FIELD_DATA[i][j]]);
+			}
+			else
+			{
+				tiles[i][j].
+					Init(j * D_TILE_SIZE, i * D_TILE_SIZE,-1);
+			}
 		}
 	}
 }
@@ -24,7 +38,7 @@ CField::CField() {
 //-------------------------------
 CField::~CField() 
 {
-	;
+	delete tiles;
 }
 
 
@@ -37,7 +51,7 @@ void CField::Draw()const
 	{
 		for (int j = 0; j < D_FIELD_WIDTH; j++)
 		{
-			tile[i][j].Draw();
+			tiles[i][j].Draw();
 		}
 	}
 }

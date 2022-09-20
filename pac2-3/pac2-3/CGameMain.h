@@ -6,6 +6,7 @@
 #define D_SCREEN_SIZE_WIDTH 1280
 #define D_SCREEN_SIZE_HEIGHT 720
 
+class CTile;
 class CField;
 class CEsaController;
 class CEsa;
@@ -14,24 +15,40 @@ class CPlayer;
 class CUi;
 class CHitPoint;
 class CCoffeeBreak;
+class CFruit;
+class CAkabei;
+class CPinky;
+class CAosuke;
+
 
 class CGameMain : public CAbstractScene
 {
 private:
+	CTile** tiles;
 	CField* field;
 	CEsaController* esaController;
 	CEsa* esa;
-	CAbstractEnemy* enemy;
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
 	CCoffeeBreak* coffee;
+	CFruit* fruit;
+	CAkabei* akabei;
+	CPinky* pinky;
+	CAosuke* aosuke;
 
+
+	bool isGameStart;//初回用フラグ
+	bool isGameOver;
 	bool isPlayMode;
-	
+	int startModeTimer;
+	int playerAnimTimer;
+	int stopTimer;
 
 	//画像用変数
 	int gameOverImage; //ゲームオーバー画像
+	int readyImage;
+	int player_oneImage;
 public:
 	//コンストラクタ
 	CGameMain();
@@ -47,5 +64,7 @@ public:
 	void HitCheck();
 	void HitCheck_PlayerAndFeed();
 	void HitCheck_PlayerAndEnemy();
-};
+	void HitCheck_PlayerAndFruit();
 
+	void PlayerControl();
+};

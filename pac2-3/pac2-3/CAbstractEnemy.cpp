@@ -1,8 +1,10 @@
 #include"DxLib.h"
 #include"CAbstractEnemy.h"
 
+
 #define _USE_MATH_DEFINES
 #include<math.h>
+
 
 //---------------------------
 // コンストラクタ
@@ -10,11 +12,11 @@
 CAbstractEnemy::CAbstractEnemy()
 {
 	LoadImages();
-	direction = D_DIRECTION_DOWN;
-	x = 240;  //フィールド左上を0としたときのx座標とする
-	y = 280;  //フィールド左上を0としたときのy座標とする
-	height = D_ENEMY_IMAGE_SIZE / 2;
-	width = D_ENEMY_IMAGE_SIZE / 2;
+	direction = initialDirection;
+	x = initialPosX;  //フィールド左上を0としたときのx座標とする
+	y = initialPosY;  //フィールド左上を0としたときのy座標とする
+	height = D_TILE_SIZE-8;
+	width = D_TILE_SIZE-8;
 
 
 	int floorX;
@@ -30,6 +32,7 @@ CAbstractEnemy::CAbstractEnemy()
 	targetPosY = floorY * D_TILE_SIZE;
 	
 	anim = false;
+
 }
 
 //---------------------------
@@ -45,40 +48,61 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
+	if (GetisAttack())
+	{
+		SetTargetPos();
+	}
 
 	//移動パターンの制御
 	if (inEnemyroom)
 	{
-		LeaveTheNest();
+		MoveInEnemyRoom();
+		if(isLeaveTheNest)
+		{
+			LeaveTheNest();
+		}
+		
 	}
 	else
 	{
-		MoveToTarget();
+		(isSurprising && !isEaten) ? SurprisingMove() : MoveToTarget();
+		
 	}
 
 	//イジケ状態制御用変数の更新
-	if (isSurprising)
+	surprisingTimer--;
+
+	if (surprisingTimer <= 0)
 	{
-		surprisingTimer--;
-		if (!surprisingTimer)
+		isSurprising = false;
+	}
+
+	if (isSurprising || isEaten)
+	{
+		if (surprisingTimer < 60 * 2)
 		{
-			isSurprising = false;
+			if (surprisingTimer % (60 / 5) == 0)
+			{
+				isWhite = !isWhite;
+			}
 		}
 	}
-
-	//目標地点についたら目標を更新する
-	if ((double)x == targetPosX &&
-		(double)y == targetPosY)
+	else
 	{
-		ChangeTargetPos();
+		//波状攻撃用処理
+		AttackInterval();
 	}
 
-	//波状攻撃用処理
-	AttackInterval();
-	if (!isAttack)
+	if (isEaten)
 	{
-		targetPosX = REST_AREA_X * D_TILE_SIZE;
-		targetPosY = REST_AREA_Y * D_TILE_SIZE;
+		EatenMove();
+	}
+
+	
+	if (!isAttack && !isSurprising && !isEaten)
+	{
+		targetPosX = restAreaX * D_TILE_SIZE;
+		targetPosY = restAreaY * D_TILE_SIZE;
 	}
 
 	//アニメーション制御用変数の更新
@@ -95,19 +119,6 @@ void CAbstractEnemy::Update()
 //----------------------------
 void CAbstractEnemy::Draw()const
 {
-	//デバッグ用フィールドの数値
-	//for (int i = 0; i < D_FIELD_HEIGHT; i++)
-	//{
-	//	for (int j = 0; j < D_FIELD_WIDTH; j++)
-	//	{
-	//		if (floor[i][j] > 0)
-	//		{
-	//			DrawRotaGraphF(/* x */D_FIELD_POS_X + j * D_TILE_SIZE, /* y */D_FIELD_POS_Y + i * D_TILE_SIZE,
-	//				/* 拡大率 */1.0 , 0, testNums[floor[i][j]], TRUE);
-	//		}
-	//	}
-	//}
-
 	if (isEaten)
 	{
 		DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
@@ -119,7 +130,7 @@ void CAbstractEnemy::Draw()const
 		{
 			//イジケ状態時の描画
 			DrawRotaGraphF(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-				1.0, 0, surprisingImages[0][anim], TRUE);
+				1.0, 0, surprisingImages[isWhite][anim], TRUE);
 		}
 		else
 		{
@@ -131,6 +142,9 @@ void CAbstractEnemy::Draw()const
 				1.0, 0, enemyEyes[direction], TRUE);
 		}
 	}
+
+	//デバッグ用処理ここから-------------------------------------------------------------------------------
+	
 	//デバッグ用ターゲット位置の表示
 	DrawBoxAA(D_FIELD_POS_X + targetPosX - D_TILE_SIZE / 4
 		, D_FIELD_POS_Y + targetPosY - D_TILE_SIZE / 4
@@ -153,7 +167,27 @@ void CAbstractEnemy::Draw()const
 		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
 		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", y);
 		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", x);
+		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", speed);
+
 	}
+	////デバッグ用フィールドの数値
+	//for (int i = 0; i < D_FIELD_HEIGHT; i++)
+	//{
+	//	for (int j = 0; j < D_FIELD_WIDTH; j++)
+	//	{
+	//		if (floor[i][j] > 0)
+	//		{
+	//			DrawRotaGraphF(D_FIELD_POS_X + j * D_TILE_SIZE, //x
+	//				D_FIELD_POS_Y + i * D_TILE_SIZE,//y
+	//				1.0 // 拡大率 
+	//				, 0, testNums[floor[i][j]], TRUE);
+	//		}
+	//	}
+	//}
+
+	
+	//----------------------------------------------------------------デバッグ用処理ここまで
+
 }
 
 //-------------------------
@@ -169,9 +203,13 @@ void CAbstractEnemy::HitAction()
 //---------------------------
 void CAbstractEnemy::Surprised()
 {
+	isWhite = false;
 	isSurprising = true;
 	surprisingTimer = surprisingTime;
-	direction = (direction + 2) % 4;
+	if (!isEaten)
+	{
+		direction = (direction + 2) % 4;
+	}
 }
 
 //--------------------------------
@@ -192,31 +230,20 @@ void CAbstractEnemy::HitAction_Player()
 	}
 }
 
-//----------------------------------------
-// ターゲット位置の変更
-//----------------------------------------
-void CAbstractEnemy::ChangeTargetPos()
+//----------------------------------
+// 初期化
+//----------------------------------
+void CAbstractEnemy::Init()
 {
-	if (isEaten)
-	{
-		floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
-		floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
-		inEnemyroom = true;
-		isEaten = false;
-		isSurprising = false;
-	}
-
-	int floorX;
-	int floorY;
-	do
-	{
-		floorX = GetRand(D_FIELD_WIDTH - 1);
-		floorY = GetRand(D_FIELD_HEIGHT - 1);
-
-	} while (floor[floorY][floorX] == 0);
-
-	targetPosX = floorX * D_TILE_SIZE;
-	targetPosY = floorY * D_TILE_SIZE;
+	x = initialPosX;
+	y = initialPosY;
+	direction = initialDirection;
+	inEnemyroom = true;
+	isSurprising = false;
+	isEaten = false;
+	isWhite = false;
+	attackCycle = 0;
+	leaveStep = 0;
 }
 
 //-------------------------
@@ -247,18 +274,28 @@ void CAbstractEnemy::MoveToTarget()
 	int onFieldX = (int)x / (int)D_TILE_SIZE;
 	int onFieldY = (int)y / (int)D_TILE_SIZE;
 
-	//マスの丁度真ん中に来た時
-	if ((int)y % (int)D_TILE_SIZE == 0
-		&& (int)x % (int)D_TILE_SIZE == 0 
-		||(int)x==D_ENEMY_ROOM_X)
-	{
+	float centerX = onFieldX * D_TILE_SIZE;  //今いるマスの中心座標
+	float centerY = onFieldY * D_TILE_SIZE;  //今いるマスの中心座標
+
 		//そのマスが交差点だった時
-		if (floor[onFieldY][onFieldX] == D_CROSSPOINT
-			|| (int)x == D_ENEMY_ROOM_X)
+	if (floor[onFieldY][onFieldX] == D_CROSSPOINT)
+	{
+
+		//マスの真ん中付近に来た時
+		if (-speed < (x - centerX) && (x - centerX) < speed
+			&& -speed < (y - centerY) && (y - centerY) < speed)
 		{
+			y = centerY;
+			x = centerX;
 			//方向の計算をする
-			ChangeDirection(onFieldX,onFieldY);
+			ChangeDirection(onFieldX, onFieldY);
 		}
+	}
+
+	if (-speed < (x - (D_ENEMY_ROOM_X)) && (x - (D_ENEMY_ROOM_X)) < speed)
+	{
+		x = D_ENEMY_ROOM_X;
+		ChangeDirection(onFieldX, onFieldY);
 	}
 
 	MoveStraight(onFieldX, onFieldY);
@@ -280,7 +317,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 	switch (direction)
 	{
 	case D_DIRECTION_UP:
-		y-=1.0*16/16;
+		y-=speed;
 		if (floor[onFieldY - 1][onFieldX] == D_BLOCK)
 		{
 			if (y < onFieldY * D_TILE_SIZE)
@@ -291,7 +328,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 		
 	case D_DIRECTION_LEFT:
-		x--;
+		x -= speed;
 		if (floor[onFieldY][onFieldX - 1] == D_BLOCK)
 		{
 			if (x < onFieldX * D_TILE_SIZE)
@@ -302,7 +339,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 
 	case D_DIRECTION_DOWN:
-		y++;
+		y += speed;
 		if (floor[onFieldY + 1][onFieldX] == D_BLOCK)
 		{
 			if (y > onFieldY * D_TILE_SIZE)
@@ -313,7 +350,7 @@ void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 		break;
 
 	case D_DIRECTION_RIGHT:
-		x++;
+		x += speed;
 		if (floor[onFieldY][onFieldX + 1] == D_BLOCK)
 		{
 			if (x > onFieldX * D_TILE_SIZE)
@@ -350,9 +387,9 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 	*/
 
 	//上
-	if (directionBack != D_DIRECTION_UP) 
+	if (directionBack != D_DIRECTION_UP)
 	{
-		if (floor[y - 1][x] != D_BLOCK)
+		if (floor[y - 1][x] != D_BLOCK && floor[y - 1][x] != D_VALVE)
 		{
 			distance =(int)( pow((double)x - targetPosX / D_TILE_SIZE, 2.0) +
 							 pow((double)y - 1 - targetPosY / D_TILE_SIZE, 2.0));
@@ -413,29 +450,30 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 //-------------------------
 void CAbstractEnemy::AttackInterval()
 {
-	static int cycle;
-	attackInterval[cycle]--;
-	if (cycle < 7)
+	attackInterval[attackCycle]--;
+	if (attackCycle < 7)
 	{
-		if (attackInterval[cycle] <= 0)
+		if (attackInterval[attackCycle] <= 0)
 		{
-			cycle++;
+			attackCycle++;
 			isAttack = !isAttack;
 			direction = (direction + 2) % 4;
-			ChangeTargetPos();
 		}
+	}
+	else
+	{
+		isAttack = true;
 	}
 }
 
 //----------------------------------------------------
-// 巣からの解放  ：目標地点に達したら、trueを返す
+// 巣からの解放 
 //----------------------------------------------------
 void CAbstractEnemy::LeaveTheNest()
 {
-	static int step = 0;
+	isLeaveTheNest = true;
 
-
-	if (step == 0)
+	if (leaveStep == 0)
 	{
 		if (y > D_ENEMY_ROOM_Y)
 		{
@@ -449,7 +487,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 		else if (y == D_ENEMY_ROOM_Y)
 		{
-			step++;
+			leaveStep++;
 		}
 		else
 		{
@@ -457,7 +495,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 	}
 
-	if (step == 1)
+	if (leaveStep == 1)
 	{
 		if (x > D_ENEMY_ROOM_X)
 		{
@@ -471,7 +509,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 		else if (x == D_ENEMY_ROOM_X)
 		{
-			step++;
+			leaveStep++;
 		}
 		else
 		{
@@ -479,7 +517,7 @@ void CAbstractEnemy::LeaveTheNest()
 		}
 	}
 
-	if (step == 2)
+	if (leaveStep == 2)
 	{
 		if (y > D_ENEMY_LEAVE_Y)
 		{
@@ -488,8 +526,164 @@ void CAbstractEnemy::LeaveTheNest()
 			if (y == D_ENEMY_LEAVE_Y)
 			{
 				inEnemyroom = false;
-				step = 0;
+				isLeaveTheNest = false;
+				leaveStep = 0;
 			}
 		}
 	}
+}
+
+//-------------------------------------------
+// イジケ状態の動き
+//-------------------------------------------
+void CAbstractEnemy::SurprisingMove()
+{
+	//マス座標
+	int onFieldX = (int)x / (int)D_TILE_SIZE;
+	int onFieldY = (int)y / (int)D_TILE_SIZE;
+
+	float centerX = onFieldX * D_TILE_SIZE;  //今いるマスの中心座標
+	float centerY = onFieldY * D_TILE_SIZE;  //今いるマスの中心座標
+
+		//そのマスが交差点だった時
+	if (floor[onFieldY][onFieldX] == D_CROSSPOINT)
+	{
+
+		//マスの真ん中付近に来た時
+		if (-speed < (x - centerX) && (x - centerX) < speed
+			&& -speed < (y - centerY) && (y - centerY) < speed)
+		{
+			y = centerY;
+			x = centerX;
+			//方向の計算をする
+			ChooseRandomDirection(onFieldX, onFieldY);
+		}
+	}
+
+	if (-speed < (x - (D_ENEMY_ROOM_X)) && (x - (D_ENEMY_ROOM_X)) < speed)
+	{
+		x = D_ENEMY_ROOM_X;
+		ChangeDirection(onFieldX, onFieldY);
+	}
+
+	MoveStraight(onFieldX, onFieldY);
+
+}
+
+//----------------------------------
+// ランダムに道を選ぶ
+//----------------------------------
+void CAbstractEnemy::ChooseRandomDirection(int x, int y)
+{
+
+	//後ろに反転しない処理のための準備
+	int directionBack;
+	directionBack = (direction + 2) % 4;//2回正の方向に動かす（反転）
+
+	do
+	{
+		direction = GetRand(3);
+		if (direction == directionBack)direction = 99;
+
+		switch (direction)
+		{
+		case D_DIRECTION_UP:
+			//上
+			if (floor[y - 1][x] == D_BLOCK)
+			{
+				direction = 99;
+			}
+			break;
+
+		case D_DIRECTION_LEFT:
+			//左
+			if (floor[y][x - 1] == D_BLOCK)
+			{
+				direction = 99;
+			}
+			break;
+
+		case D_DIRECTION_DOWN:
+			//下
+			if (floor[y + 1][x] == D_BLOCK)
+			{
+				direction = 99;
+			}
+			break;
+
+		case D_DIRECTION_RIGHT:
+			//右
+			if (floor[y][x + 1] == D_BLOCK)
+			{
+				direction = 99;
+			}
+			break;
+			
+		default:
+			break;
+		}
+
+	} while (direction < 0 || 3 < direction);
+
+}
+
+//-----------------------------
+// 巣の中にいる時の動き
+//-----------------------------
+void CAbstractEnemy::MoveInEnemyRoom()
+{
+	static bool isUp = true;
+	if (!isLeaveTheNest)
+	{
+		if (isUp)
+		{
+			targetPosY = D_ENEMY_ROOM_Y - 10;
+		}
+		else
+		{
+			targetPosY = D_ENEMY_ROOM_Y + 10;
+		}
+		targetPosY < y ? direction = D_DIRECTION_UP : direction = D_DIRECTION_DOWN;
+
+		if (direction == D_DIRECTION_UP)
+		{
+			y -= 0.5f;
+		}
+		else if (direction == D_DIRECTION_DOWN)
+		{
+			y += 0.5f;
+		}
+		if (targetPosY == y)
+		{
+			isUp = !isUp;
+		}
+	}
+}
+
+//--------------------------------
+// 食べられた時の動き
+//--------------------------------
+void CAbstractEnemy::EatenMove()
+{
+	if (isEaten)
+	{
+		if (-speed < (x - targetPosX) && (x - targetPosX) < speed
+			&& -speed < (y - targetPosY) && (y - targetPosY) < speed)
+		{
+			x = targetPosX;
+			y = targetPosY;
+		}
+		//巣の中に入ったら各種フラグを切り換える
+		if ((double)x == targetPosX
+			&& (double)y == targetPosY)
+		{
+			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
+			inEnemyroom = true;
+			isEaten = false;
+			isSurprising = false;
+			isLeaveTheNest = true;
+		}
+	}
+
 }

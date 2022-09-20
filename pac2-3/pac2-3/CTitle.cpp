@@ -3,6 +3,14 @@
 #include "CTitle.h"
 #include"CGameMain.h"
 
+//----------------------------
+// コンストラクタ
+//----------------------------
+CTitle::CTitle()
+{
+	charactar_strImage = LoadGraph("images/character_str.png");
+}
+
 //---------------------
 // 更新
 //---------------------
@@ -29,5 +37,6 @@ CAbstractScene* CTitle::Update()
 //---------------------
 void CTitle::Draw()const
 {
+	DrawGraph(D_TITLE_POS_X + 140, 100, charactar_strImage, TRUE);
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 }
