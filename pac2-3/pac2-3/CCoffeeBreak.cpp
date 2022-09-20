@@ -93,8 +93,8 @@ void CCoffeeBreak::Draw() const
 	}
 
 
-	DrawBox(0, 0, 369, 720, 0x00ff00, TRUE);
-	DrawBox(930, 0, 1380, 720, 0x00ff00, TRUE);
+	DrawBox(0, 0, 369, 720, 0x000000, TRUE);
+	DrawBox(930, 0, 1380, 720, 0x000000, TRUE);
 
 
 }
