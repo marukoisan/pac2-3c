@@ -12,6 +12,7 @@ CEsa::CEsa()//コンストラクタ
 	esaScore = 0;  //エサのスコア
 	esaTime = 0;   //エサの点滅させるため用の時間変数
 	esaIsShow = true; //エサの描画フラグ
+	esaSound = 0;
 
 
 
@@ -38,13 +39,14 @@ void CEsa::Draw() const//
 	}
 }
 
-void CEsa::Init(float x, float y,int *EsaImage, bool esaType, int esaScore)
+void CEsa::Init(float x, float y,int *EsaImage, bool esaType, int esaScore, int esaSound)
 {
 	this->x = x;  //座標
 	this->y = y;  //座標
 	this->EsaImage = EsaImage;   //エサの画像
 	this->esaType = esaType;  //エサ画像の判別
 	this->esaScore = esaScore; //エサのスコア
+	this->esaSound = esaSound;
 
 }
 

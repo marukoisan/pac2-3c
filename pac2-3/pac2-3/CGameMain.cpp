@@ -283,10 +283,12 @@ void CGameMain::HitCheck_PlayerAndFeed()
 		{
 			if (CheckHitBox(player, &esa[index]))//プレイヤーとエサが当たった時
 			{
+				PlaySoundMem(esa[index].GetEsaSE(), DX_PLAYTYPE_BACK,TRUE);
 				ui->AddScore(esa[index].GetScore());//uiの合計のスコアにesaのスコアを入れる処理
 				
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
+					PlaySoundMem(esa[index].GetEsaSE(), DX_PLAYTYPE_BACK, TRUE);
 					akabei->Surprised();
 					pinky->Surprised();
 					aosuke->Surprised();

@@ -17,6 +17,9 @@ private:
 	CEsa *esa; //エサの数小さいものが240大きいものが4つ
 
 	int esaImages[ESA_IMAGE_MAX];  //エサの画像
+
+	int EsaSound;
+
 	
 	bool isClear = false;
 	
@@ -73,7 +76,7 @@ public:
 	bool GetIsClear() { return isClear; }
 	CEsa* GetEsa() { return esa; }
 	int GetEsaIndex(int x, int y) { return esaData[y][x]; }
-	
+
 	//デバッグ用
 	void DeleteFeed()
 	{
