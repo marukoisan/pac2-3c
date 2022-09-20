@@ -9,6 +9,7 @@
 #include"CHitPoint.h"
 #include"CFruit.h"
 #include"CAkabei.h"
+#include"CPinky.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -34,6 +35,9 @@ CGameMain::CGameMain()
 	akabei = new CAkabei;
 	akabei->SetPlayerCrass(player);
 
+	pinky = new CPinky;
+	pinky->SetPlayerCrass(player);
+
 	isGameStart = true;
 	isGameOver = false;
 	startModeTimer = 0;
@@ -48,11 +52,12 @@ CGameMain::~CGameMain()
 {
 	delete field;
 	delete esaController;
-	delete akabei;
 	delete player;
 	delete hitPoint;
 	delete ui;
 	delete fruit;
+	delete akabei;
+	delete pinky;
 }
 
 //-------------------
@@ -94,7 +99,7 @@ CAbstractScene* CGameMain::Update()
 			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 			{
 				fruit->Advent(3);
-				akabei->LeaveTheNest();
+				pinky->LeaveTheNest();
 			}
 
 			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -121,6 +126,7 @@ CAbstractScene* CGameMain::Update()
 					{
 						PlayerControl();
 						akabei->Update();
+						pinky->Update();
 					}
 					player->Update();
 					HitCheck();
@@ -141,6 +147,7 @@ CAbstractScene* CGameMain::Update()
 					{
 						hitPoint->Respawn();
 						akabei->Init();
+						pinky->Init();
 					}
 				}
 				else
@@ -192,6 +199,7 @@ void CGameMain::Draw()const
 	else
 	{
 		akabei->Draw();
+		pinky->Draw();
 	}
 
 	if (isPlayMode && !isGameOver)
@@ -260,6 +268,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
 					akabei->Surprised();
+					pinky->Surprised();
 				}
 			}
 
@@ -286,6 +295,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 {
 	if (player->GetisAlive())
 	{
+		//アカベイ
 		if (CheckHitBox(player, akabei))
 		{
 			if (akabei->GetisSurprising())
@@ -295,6 +305,25 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 			else
 			{
 				if (akabei->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+
+		//ピンキー
+		if (CheckHitBox(player, pinky))
+		{
+			if (pinky->GetisSurprising())
+			{
+				pinky->HitAction_Player();
+			}
+			else
+			{
+				if (pinky->GetisHit())
 				{
 					player->HitAction_Enemy();
 					isPlayMode = false;

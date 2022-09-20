@@ -6,7 +6,8 @@ public:
 	CPinky();
 	~CPinky() {}
 
-	void HitAction_Player()override {};
-	virtual void SetTargetPos()override {};
+	//««‚±‚ÌŠÖ”‚Éƒsƒ“ƒL[‚Ì‹““®‚ğ§Œä‚·‚é‚½‚ß‚Ìˆ—‚ğ‘‚­
+	//void SetTargetPos()override;
+	void LoadImages()override;
 };
 
