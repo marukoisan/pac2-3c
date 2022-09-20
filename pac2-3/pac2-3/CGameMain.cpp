@@ -61,7 +61,7 @@ CAbstractScene* CGameMain::Update()
 	}
 	ui->Update();
 
-	
+	coffee->Update();
 
 	if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 	{
@@ -126,11 +126,13 @@ void CGameMain::Draw()const
 		player->Draw();
 		enemy->Draw();
 		hitPoint->Draw();
-		coffee->Draw();
 	}
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
+
+
+	coffee->Draw();
 
 	if (keyState->Buttons[XINPUT_BUTTON_X] == TRUE)//プレイヤーが敵に当たった時、残機が0だったらゲームオーバーとする
 	{
