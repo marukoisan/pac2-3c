@@ -27,7 +27,7 @@ private:
 
 
 	double DIRECTIONS[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
+	{ 0,M_PI / 2,M_PI,M_PI + M_PI / 2 };
 	
 	//ˆÚ“®—p•Ï”
 	int nextDirection;
@@ -101,6 +101,8 @@ public:
 	void Respawn();
 
 	bool GetisAlive();
+
+	double GetAngle() { return angle; }
 
 	void warp();
 

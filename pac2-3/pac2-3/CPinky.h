@@ -7,7 +7,7 @@ public:
 	~CPinky() {}
 
 	//««‚±‚ÌŠÖ”‚Éƒsƒ“ƒL[‚Ì‹““®‚ğ§Œä‚·‚é‚½‚ß‚Ìˆ—‚ğ‘‚­
-	//void SetTargetPos()override;
+	void SetTargetPos()override;
 	void LoadImages()override;
 };
 
