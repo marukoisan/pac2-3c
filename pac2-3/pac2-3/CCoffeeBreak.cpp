@@ -21,29 +21,44 @@ CCoffeeBreak::CCoffeeBreak()
 	anim = FALSE;
 }
 
+////--------------------
+//// 更新
+////--------------------
+//void CCoffeeBreak::Update()
+//{
+//
+//}
+
 //--------------------
 // 描画
 //--------------------
 void CCoffeeBreak::Draw()
 {
-	static int X = 0;
-	static float x = 0;
+	static int X = 930;
+	static float x = 990;
+	static int X2 = 280;
+	static float x2 = 360;
 	angle = -M_PI / 2;
 	animTimer++;
-	X -= 3;
-	x -= 3.07;
 
-	if (animTimer % 8 == 0)//8はフレーム数
+	if (animTimer % 4 == 0)//8はフレーム数
 	{
 		anim = !anim;
 	}
+	
+	if (X > 350)
+	{
+		X -= 2;
+		DrawRotaGraphF(X, 360, 1.0, angle,
+			images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	}
 
-	//パックマンの描画
-	DrawRotaGraphF(1280 + X, 360, 1.0, angle,
-		images[animTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
-
-	//敵の描画
-	DrawRotaGraphF(1340 + x, 360, 1.0, 0, enemyImages[anim], TRUE);
-
-	DrawRotaGraphF(1340 + x, 360, 1.0, 0, enemyEyes[1], TRUE);
+	if (x > 350)
+	{
+		x -= 2.1;
+		DrawRotaGraphF(x, 360, 1.0, 0, enemyImages[anim], TRUE);
+		DrawRotaGraphF(x, 360, 1.0, 0, enemyEyes[1], TRUE);
+	}
+	DrawBox(0, 0, 369, 720, 0x0000ff, TRUE);
+	DrawBox(910, 0, 1280, 720, 0x0000ff, TRUE);
 }
