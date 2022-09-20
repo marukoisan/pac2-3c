@@ -7,5 +7,6 @@ public:
 	~CAkabei() {}
 
 	void Init() override;
+	void HitAction_Player()override;
 };
 

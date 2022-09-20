@@ -30,7 +30,7 @@ protected:
 
 	//初期位置 継承先で上書き前提
 	float initialPosX = D_ENEMY_ROOM_X;
-	float initialPosY = 11*D_TILE_SIZE;
+	float initialPosY = 11 * D_TILE_SIZE;
 	int initialDirection = D_DIRECTION_RIGHT;
 
 	//スピード
