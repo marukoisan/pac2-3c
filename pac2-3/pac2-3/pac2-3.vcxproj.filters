@@ -63,7 +63,7 @@
     <ClCompile Include="CFruit.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="CoffeeBreak.cpp">
+    <ClCompile Include="CCoffeeBreak2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="CAkabei.cpp">
@@ -125,7 +125,7 @@
     <ClInclude Include="CCoffeeBreak3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CoffeeBreak.h">
+    <ClInclude Include="CCoffeeBreak2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="CAkabei.h">

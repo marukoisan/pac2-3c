@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include"DxLib.h"
-#include"CoffeeBreak.h"
+#include"CCoffeeBreak2.h"
 #include"define.h"
 #include"CPlayer.h"
 #define _USE_MATH_DEFINES
@@ -9,7 +9,7 @@
 //---------------------
 // コンストラクタ
 //---------------------
-Coffee::Coffee()
+CCoffeeBreak2::CCoffeeBreak2()
 {
 	bool err = FALSE;
 
@@ -32,7 +32,7 @@ Coffee::Coffee()
 //---------------------
 // コーヒーブレイク
 //---------------------
-void Coffee::CoffeeBreakM2()
+void CCoffeeBreak2::CoffeeBreakM2()
 {
 	static float playerx = 1000;
 	static float enemyx = 1050;
