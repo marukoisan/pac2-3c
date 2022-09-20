@@ -34,7 +34,7 @@ protected:
 	int initialDirection = D_DIRECTION_RIGHT;
 
 	//スピード
-	float speed = 20.0f / 8.0f * (16.0f / 16.0f);
+	float speed = 20.0f / 8.0f * (8.0f / 16.0f);
 	//巣の中にいるか
 	bool inEnemyroom = true;
 	bool isLeaveTheNest = false;
@@ -147,7 +147,7 @@ public:
 
 protected:
 	//画像読み込み
-	void LoadImages();
+	virtual void LoadImages();
 	//移動
 	void MoveToTarget();
 	void MoveStraight(int onFieldX,int onFieldY);

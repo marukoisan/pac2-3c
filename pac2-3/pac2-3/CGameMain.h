@@ -16,6 +16,7 @@ class CUi;
 class CHitPoint;
 class CFruit;
 class CAkabei;
+class CPinky;
 
 class CGameMain : public CAbstractScene
 {
@@ -24,11 +25,13 @@ private:
 	CField* field;
 	CEsaController* esaController;
 	CEsa* esa;
-	CAkabei* akabei;
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
 	CFruit* fruit;
+
+	CAkabei* akabei;
+	CPinky* pinky;
 
 
 	bool isGameStart;//初回用フラグ
