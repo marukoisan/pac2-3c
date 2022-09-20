@@ -7,8 +7,9 @@ public:
 	CGuzuta();
 	~CGuzuta() {}
 
+
 	//↓↓この関数にアオスケの挙動を制御するための処理を書く
-	//void SetTargetPos()override;
+	void SetTargetPos()override;
 	void LoadImages()override;
 
 	void EatenMove()override;
