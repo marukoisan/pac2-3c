@@ -70,19 +70,21 @@ void CAbstractEnemy::Update()
 	}
 
 	//イジケ状態制御用変数の更新
+	surprisingTimer--;
+
+	if (surprisingTimer <= 0)
+	{
+		isSurprising = false;
+	}
+
 	if (isSurprising || isEaten)
 	{
-		if(!isEaten)surprisingTimer--;
 		if (surprisingTimer < 60 * 2)
 		{
 			if (surprisingTimer % (60 / 5) == 0)
 			{
 				isWhite = !isWhite;
 			}
-		}
-		if (surprisingTimer <= 0)
-		{
-			isSurprising = false;
 		}
 	}
 	else
@@ -219,11 +221,11 @@ void CAbstractEnemy::HitAction()
 //---------------------------
 void CAbstractEnemy::Surprised()
 {
+	isWhite = false;
+	isSurprising = true;
+	surprisingTimer = surprisingTime;
 	if (!isEaten)
 	{
-		isWhite = false;
-		isSurprising = true;
-		surprisingTimer = surprisingTime;
 		direction = (direction + 2) % 4;
 	}
 }
@@ -465,7 +467,6 @@ void CAbstractEnemy::ChangeDirection(int x,int y)
 //-------------------------
 void CAbstractEnemy::AttackInterval()
 {
-	
 	attackInterval[attackCycle]--;
 	if (attackCycle < 7)
 	{
