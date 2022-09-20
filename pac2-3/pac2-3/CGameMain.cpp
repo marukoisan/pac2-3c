@@ -11,6 +11,7 @@
 #include"CAkabei.h"
 #include"CPinky.h"
 #include"CAosuke.h"
+#include"CGuzuta.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -41,6 +42,9 @@ CGameMain::CGameMain()
 
 	aosuke = new CAosuke;
 	aosuke->SetPlayerCrass(player);
+	
+	guzuta = new CGuzuta;
+	guzuta->SetPlayerCrass(player);
 
 	isGameStart = true;
 	isGameOver = false;
@@ -63,6 +67,7 @@ CGameMain::~CGameMain()
 	delete akabei;
 	delete pinky;
 	delete aosuke;
+	delete guzuta;
 }
 
 //-------------------
@@ -70,6 +75,8 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	player->warp();
+
 	stopTimer--;
 	if (isGameStart)
 	{
@@ -106,6 +113,7 @@ CAbstractScene* CGameMain::Update()
 				fruit->Advent(3);
 				pinky->LeaveTheNest();
 				aosuke->LeaveTheNest();
+				guzuta->LeaveTheNest();
 			}
 
 			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -134,6 +142,7 @@ CAbstractScene* CGameMain::Update()
 						akabei->Update();
 						pinky->Update();
 						aosuke->Update();
+						guzuta->Update();
 					}
 					player->Update();
 					HitCheck();
@@ -156,6 +165,7 @@ CAbstractScene* CGameMain::Update()
 						akabei->Init();
 						pinky->Init();
 						aosuke->Init();
+						guzuta->Init();
 					}
 				}
 				else
@@ -209,6 +219,7 @@ void CGameMain::Draw()const
 		akabei->Draw();
 		pinky->Draw();
 		aosuke->Draw();
+		guzuta->Draw();
 	}
 
 	if (isPlayMode && !isGameOver)
@@ -279,6 +290,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 					akabei->Surprised();
 					pinky->Surprised();
 					aosuke->Surprised();
+					guzuta->Surprised();
 				}
 			}
 
@@ -359,6 +371,28 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 			else
 			{
 				if (aosuke->GetisHit())
+				{
+					player->HitAction_Enemy();
+					isPlayMode = false;
+					playerAnimTimer = 0;
+					stopTimer = 60;
+				}
+			}
+		}
+	}
+
+	if (player->GetisAlive())
+	{
+		//グズタ
+		if (CheckHitBox(player, guzuta))
+		{
+			if (guzuta->GetisSurprising())
+			{
+				guzuta->HitAction_Player();
+			}
+			else
+			{
+				if (guzuta->GetisHit())
 				{
 					player->HitAction_Enemy();
 					isPlayMode = false;

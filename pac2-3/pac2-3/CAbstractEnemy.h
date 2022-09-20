@@ -39,6 +39,7 @@ protected:
 	bool inEnemyroom = true;
 	bool isLeaveTheNest = false;
 	int leaveStep = 0;
+	bool inTheNest_isUp = true;
 
 	//イジケ状態
 	int surprisingTime = 60 * 6;
@@ -55,6 +56,7 @@ protected:
 	int enemyImages[2] = {};
 	int enemyEyes[4] = {};
 	int surprisingImages[2][2] = {};
+	int animTimer = 0;
 
 	//波状攻撃用タイマー
 	int attackInterval[7] =
@@ -158,7 +160,7 @@ protected:
 
 	void SurprisingMove();
 	void ChooseRandomDirection(int x,int y);
-	void MoveInEnemyRoom();
+	virtual void MoveInEnemyRoom();
 	virtual void EatenMove();
 };
 

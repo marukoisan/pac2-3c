@@ -235,3 +235,19 @@ void CPlayer::Control()
 		nextDirection = D_PLAYER_LEFT;
 	}
 }
+
+//---------------------
+// プレイヤーワープ
+//---------------------
+void CPlayer::warp()
+{
+	if (D_FIELD_POS_X + x > D_FIELD_POS_X + D_FIELD_WIDTH * 20 - 20)
+	{
+		x = 0;
+	}
+
+	if (D_FIELD_POS_X + x < D_FIELD_POS_X)
+	{
+		x += D_FIELD_WIDTH * 20 - 20;
+	}
+}

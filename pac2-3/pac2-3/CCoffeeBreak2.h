@@ -5,7 +5,7 @@ class CCoffeeBreak2
 {
 private:
 	int AnimTimer = 0;
-	int images[D_PLAYER_IMAGE_MAX] = {};	
+	int images[D_PLAYER_IMAGE_MAX] = {};
 	float angle;
 	int enemyImages[2] = {};
 	int enemyEyes[4] = {};
@@ -17,9 +17,12 @@ private:
 	float enemyx;		//敵座標
 	float playerx;	//プレイヤー座標
 
+	int coffeesound;	//サウンド用変数
+
 public:
 	CCoffeeBreak2();
-	~CCoffeeBreak2(){}
+	~CCoffeeBreak2() {}
 	void CoffeeBreakM2();
+	int playsound();
 
 };

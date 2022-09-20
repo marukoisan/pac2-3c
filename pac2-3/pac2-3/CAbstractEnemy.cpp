@@ -106,7 +106,6 @@ void CAbstractEnemy::Update()
 	}
 
 	//アニメーション制御用変数の更新
-	static int animTimer = 0;
 	animTimer++;
 	if (animTimer % 8 == 0)//8はフレーム数
 	{
@@ -632,10 +631,10 @@ void CAbstractEnemy::ChooseRandomDirection(int x, int y)
 //-----------------------------
 void CAbstractEnemy::MoveInEnemyRoom()
 {
-	static bool isUp = true;
+	
 	if (!isLeaveTheNest)
 	{
-		if (isUp)
+		if (inTheNest_isUp)
 		{
 			targetPosY = D_ENEMY_ROOM_Y - 10;
 		}
@@ -655,7 +654,7 @@ void CAbstractEnemy::MoveInEnemyRoom()
 		}
 		if (targetPosY == y)
 		{
-			isUp = !isUp;
+			inTheNest_isUp = !inTheNest_isUp;
 		}
 	}
 }
