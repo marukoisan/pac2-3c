@@ -241,8 +241,8 @@ void CAbstractEnemy::HitAction_Player()
 		floor[D_DOOR_Y][D_DOOR_X + 1] = D_FLOOR;
 
 		//‘ƒ‚Ì’†
-		targetPosX = 13 * D_TILE_SIZE + 10;
-		targetPosY = 14 * D_TILE_SIZE;
+		targetPosX = initialPosX;
+		targetPosY = initialPosY;
 	}
 }
 
