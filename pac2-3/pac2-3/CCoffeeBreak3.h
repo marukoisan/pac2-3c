@@ -25,6 +25,7 @@ private:
 	float imomusiSpeed;
 	int Timer;
 	
+	int coffeeBreak3BGM;//サウンド用変数
 
 	int x;//加算処理
 	int y;//減算処理

@@ -18,6 +18,8 @@ CCoffeeBreak3::CCoffeeBreak3()
 	pacmanSpeed = 0;
 	imomusiSpeed = 0;
 
+
+	coffeeBreak3BGM = LoadSoundMem("sounds2/7.wav");//コーヒーブレイクのサウンド7番
 }
 
 
@@ -28,6 +30,13 @@ CCoffeeBreak3::~CCoffeeBreak3()
 
 void CCoffeeBreak3::Update()
 {
+	if (CheckSoundMem(coffeeBreak3BGM) == 0)
+	{
+		ChangeVolumeSoundMem(300, coffeeBreak3BGM);//音量調節
+		PlaySoundMem(coffeeBreak3BGM, DX_PLAYTYPE_LOOP, FALSE);//ループタイプにして鳴らし続ける
+	}
+
+	
 	// アニメーション制御用変数の更新
 	static int animTimer = 0;
 	animTimer++;//つぎはぎくんといもむしくん用の処理

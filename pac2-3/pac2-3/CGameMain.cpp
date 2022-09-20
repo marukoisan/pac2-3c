@@ -46,6 +46,7 @@ CGameMain::CGameMain()
 	guzuta = new CGuzuta;
 	guzuta->SetPlayerCrass(player);
 
+
 	isGameStart = true;
 	isGameOver = false;
 	startModeTimer = 0;
@@ -68,6 +69,7 @@ CGameMain::~CGameMain()
 	delete pinky;
 	delete aosuke;
 	delete guzuta;
+	
 }
 
 //-------------------
@@ -75,6 +77,7 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	
 	player->warp();
 
 	stopTimer--;
