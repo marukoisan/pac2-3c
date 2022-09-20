@@ -26,14 +26,29 @@ Coffee::Coffee()
 	LoadDivGraph("images/sprites/monster.png", 2, 2, 1, 32, 32, enemyImages);
 	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
 
+	coffeesound = LoadSoundMem("sounds/7.mp3");		//ƒTƒEƒ“ƒh“Ç‚Ýž‚Ý
+
 	anim = false;
 	
 }
+//---------------------
+// ƒTƒEƒ“ƒhÄ¶
+//---------------------
+int Coffee::playsound()
+{
+	if (PlaySoundMem(coffeesound, DX_PLAYTYPE_BACK, TRUE) == -1)return 0;
+}
+
 //---------------------
 // ƒR[ƒq[ƒuƒŒƒCƒN
 //---------------------
 void Coffee::CoffeeBreakM2()
 {
+	if (AnimTimer == 1)
+	{
+		playsound();	//ƒTƒEƒ“ƒhÄ¶
+	}
+
 	static float playerx = 1000;
 	static float enemyx = 1050;
 
@@ -58,12 +73,15 @@ void Coffee::CoffeeBreakM2()
 	}
 
 
-	DrawFormatString(0, 120, 0xffffff, "%d", enemyx);
+	DrawFormatString(0, 120, 0xffffff, "%d", AnimTimer);
 
 	DrawRotaGraphF(playerx, 360, 1.0, angle, images[AnimTimer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
 	DrawRotaGraphF(enemyx, 360, 1.0, 0, enemyImages[anim], TRUE);	//“G‚Ì‘Ì
 	
-	DrawRotaGraphF(700, 360, 0.5, 0, bou, TRUE);	//–_
+	if (enemyx >= 200)
+	{
+		DrawRotaGraphF(700, 360, 0.5, 0, bou, TRUE);	//–_
+	}
 
 	if (enemyx < 700)
 	{
@@ -71,27 +89,27 @@ void Coffee::CoffeeBreakM2()
 		enemyImages[1] = 0;
 	
 
-		if (enemyx > 500)
+		if (enemyx > 600)
 		{
 			DrawRotaGraphF(700, 360, 0.35, 0, enemy, TRUE);
 			DrawRotaGraphF(700, 360, 1.0, 0, enemyEyes[1], TRUE);	//“G‚Ì–Ú
 		}
-		else if (enemyx < 500 && enemyx > 300)
+		else if (enemyx < 600 && enemyx > 500)
 		{
 			DrawRotaGraphF(695, 360, 0.35, 0, enemy2, TRUE);
 			DrawRotaGraphF(695, 360, 1.0, 0, enemyEyes[1], TRUE);	//“G‚Ì–Ú
 		}
-		else if (enemyx < 300 && enemyx > 200)
+		else if (enemyx < 500 && enemyx > 400)
 		{
 			DrawRotaGraphF(685, 360, 0.35, 0, enemy3, TRUE);
 			DrawRotaGraphF(685, 360, 1.0, 0, enemyEyes[1], TRUE);	//“G‚Ì–Ú
 		}
-		else if (enemyx < 200 && enemyx > 0)
+		else if (enemyx < 400 && enemyx > 300)
 		{
 			DrawRotaGraphF(685, 360, 0.35, 0, enemy3, TRUE);
 			DrawRotaGraphF(685, 360, 1.0, 0, enemyEyes[3], TRUE);	//“G‚Ì–Ú
 		}
-		else if (enemyx < 0 && enemyx > -200)
+		else if (enemyx < 300 && enemyx > 200)
 		{
 			DrawRotaGraphF(685, 360, 0.35, 0, enemy3, TRUE);
 			DrawRotaGraphF(685, 360, 1.0, 0, enemyEyes[0], TRUE);	//“G‚Ì–Ú

@@ -17,9 +17,12 @@ private:
 	float enemyx;		//敵座標
 	float playerx;	//プレイヤー座標
 
+	int coffeesound;
+
 public:
 	Coffee();
 	~Coffee(){}
 	void CoffeeBreakM2();
+	int playsound();
 
 };
