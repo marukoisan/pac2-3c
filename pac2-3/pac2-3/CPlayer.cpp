@@ -32,6 +32,9 @@ CPlayer::CPlayer(CController* pController)
 	//当たり判定
 	height = 20;
 	width = 20;
+
+	downSound = 0;//サウンド用変数の初期化
+	LoadSounds();
 }
 
 //--------------------
@@ -58,6 +61,7 @@ void CPlayer::Update()
 		//死んでいた場合死んでからの秒数を数えてリスポーンする
 		if (animTimer > 9 * 11)
 		{
+			
 			animTimer = 0;
 			isAlive = true;
 			Respawn();
@@ -103,8 +107,11 @@ void CPlayer::Draw()const
 	}
 	else
 	{
+		PlaySoundMem(downSound, DX_PLAYTYPE_BACK, TRUE);
 		if (animTimer < 9 * 11)
 		{
+
+		
 			//描画
 			DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
 		}
@@ -129,6 +136,7 @@ void CPlayer::HitAction_Enemy()
 		animTimer = 0;
 	}
 	isAlive = false;
+	
 }
 
 //------------------------------
@@ -250,4 +258,9 @@ void CPlayer::warp()
 	{
 		x += D_FIELD_WIDTH * 20 - 20;
 	}
+}
+
+void CPlayer::LoadSounds()
+{
+	downSound = LoadSoundMem("sounds2/regular2.wav");//サウンドの読み込み
 }

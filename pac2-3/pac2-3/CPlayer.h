@@ -82,6 +82,8 @@ private:
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 	};
 
+	int downSound;//アニメーション再生中に流す音声
+
 public:
 	CPlayer(CController* pController);
 	~CPlayer();
@@ -104,6 +106,7 @@ public:
 
 	void warp();
 
+	void LoadSounds();//サウンド用の関数
 private:
 	void Move();
 	void Control();

@@ -118,6 +118,13 @@ protected:
 		{0,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 	};
+
+	//通常時のSEと、イジケ状態時のSE
+	int neutralSound;//一段階目
+	int angerSound;//二段階目
+	int furySound;//三段階目
+	int wrathSound;//四段階目
+	int izikeSound;//イジケ状態
 public:
 	CAbstractEnemy();
 	~CAbstractEnemy();
@@ -162,5 +169,8 @@ protected:
 	void ChooseRandomDirection(int x,int y);
 	virtual void MoveInEnemyRoom();
 	virtual void EatenMove();
+
+	//SEの読込み
+	void LoadSounds();
 };
 

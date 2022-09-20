@@ -11,6 +11,7 @@
 //---------------------------
 CAbstractEnemy::CAbstractEnemy()
 {
+	LoadSounds();
 	LoadImages();
 	direction = initialDirection;
 	x = initialPosX;  //フィールド左上を0としたときのx座標とする
@@ -202,12 +203,14 @@ void CAbstractEnemy::HitAction()
 //---------------------------
 void CAbstractEnemy::Surprised()
 {
+	
 	isWhite = false;
 	isSurprising = true;
 	surprisingTimer = surprisingTime;
 	if (!isEaten)
 	{
 		direction = (direction + 2) % 4;
+		PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
 	}
 }
 
@@ -685,4 +688,18 @@ void CAbstractEnemy::EatenMove()
 		}
 	}
 
+}
+
+//------------------------------------
+//SE読み込み
+//------------------------------------
+
+void CAbstractEnemy::LoadSounds()
+{
+	//通常時のSEと、イジケ状態時のSE
+	neutralSound = LoadSoundMem("sounds2/1.wav");//一段階目
+	angerSound = LoadSoundMem("sounds2/2.wav");//二段階目
+	furySound = LoadSoundMem("sounds2/3.wav");//三段階目
+	wrathSound = LoadSoundMem("sounds2/4.wav");//四段階目
+	izikeSound = LoadSoundMem("sounds2/6.wav");//イジケ状態
 }

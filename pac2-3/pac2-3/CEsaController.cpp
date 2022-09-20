@@ -4,7 +4,6 @@
 CEsaController::CEsaController()//コンストラクタ
 {
 	LoadesaImage();
-	EsaSound = LoadSoundMem("AnyConv.com__regular4.wav");//エサ取得音
 	
 	
 	esa = new CEsa[D_ESA_MAX];
@@ -26,10 +25,6 @@ CEsaController::~CEsaController()//デストラクタ
 
 void CEsaController::Update()
 {
-	if (CheckSoundMem(EsaSound) == 0)
-	{
-		ChangeVolumeSoundMem(300, EsaSound);
-	}
 
 	isClear = true;//clear判定を入れて、エサが一つでものこっていれば消す
 	for (int i = 0; i < D_ESA_MAX; i++)
@@ -68,6 +63,7 @@ void CEsaController::LoadesaImage()
 {
 	esaImages[0] = LoadGraph("images/tiles/dot.png");
 	esaImages[1] = LoadGraph("images/tiles/big_dot.png");
+	esaSounds = LoadSoundMem("sounds2/AnyConv.com__regular4.wav");//エサ取得音
 }
 
 void CEsaController::SetEsa()
@@ -80,13 +76,13 @@ void CEsaController::SetEsa()
 		{
 			if (esaData[i][j] == 0)
 			{
-				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 0, 10, EsaSound);//最後の数字がスコアの予定
+				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 0, 10, esaSounds);//最後の数字がスコアの予定
 				esaData[i][j] = esaIndex;
 				if(esaIndex< D_ESA_MAX-1)esaIndex++;
 			}
 			else if (esaData[i][j] == 1)
 			{
-				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1, 50, EsaSound);//最後の数字がスコアの予定
+				esa[esaIndex].Init(j * ESA_IMAGE_NEWLY, i * ESA_IMAGE_NEWLY, esaImages, 1, 50, esaSounds);//最後の数字がスコアの予定
 				esaData[i][j] = esaIndex;
 				if (esaIndex < D_ESA_MAX-1)esaIndex++;
 			}

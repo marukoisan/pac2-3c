@@ -68,7 +68,7 @@ void CEsa::ImageBlinking(void)
 
 
 
-void CEsa::LoadesaImage()
+void CEsa::LoadSounds()
 {
 	/*esa = LoadGraph("images/tiles/dot.png");
 	Bigesa = LoadGraph("images/tiles/big_dot.png");*/
