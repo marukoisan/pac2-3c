@@ -631,10 +631,10 @@ void CAbstractEnemy::ChooseRandomDirection(int x, int y)
 //-----------------------------
 void CAbstractEnemy::MoveInEnemyRoom()
 {
-	static bool isUp = true;
+	
 	if (!isLeaveTheNest)
 	{
-		if (isUp)
+		if (inTheNest_isUp)
 		{
 			targetPosY = D_ENEMY_ROOM_Y - 10;
 		}
@@ -654,7 +654,7 @@ void CAbstractEnemy::MoveInEnemyRoom()
 		}
 		if (targetPosY == y)
 		{
-			isUp = !isUp;
+			inTheNest_isUp = !inTheNest_isUp;
 		}
 	}
 }
