@@ -1,7 +1,7 @@
 #pragma once
 #include"CPlayer.h"
 
-class Coffee
+class CCoffeeBreak2
 {
 private:
 	int AnimTimer = 0;
@@ -18,8 +18,8 @@ private:
 	float playerx;	//プレイヤー座標
 
 public:
-	Coffee();
-	~Coffee(){}
+	CCoffeeBreak2();
+	~CCoffeeBreak2(){}
 	void CoffeeBreakM2();
 
 };
