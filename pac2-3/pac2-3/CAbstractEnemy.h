@@ -38,6 +38,7 @@ protected:
 	//‘ƒ‚Ì’†‚É‚¢‚é‚©
 	bool inEnemyroom = true;
 	bool isLeaveTheNest = false;
+	int leaveStep = 0;
 
 	//ƒCƒWƒPó‘Ô
 	int surprisingTime = 60 * 6;
@@ -158,5 +159,6 @@ protected:
 	void SurprisingMove();
 	void ChooseRandomDirection(int x,int y);
 	void MoveInEnemyRoom();
+	virtual void EatenMove();
 };
 
