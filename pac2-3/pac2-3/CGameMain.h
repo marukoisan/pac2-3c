@@ -18,6 +18,7 @@ class CFruit;
 class CAkabei;
 class CPinky;
 class CAosuke;
+class CGuzuta;
 
 class CGameMain : public CAbstractScene
 {
@@ -34,7 +35,7 @@ private:
 	CAkabei* akabei;
 	CPinky* pinky;
 	CAosuke* aosuke;
-
+	CGuzuta* guzuta;
 
 	bool isGameStart;//初回用フラグ
 	bool isGameOver;
