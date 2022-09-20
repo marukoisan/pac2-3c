@@ -88,6 +88,7 @@ CAbstractScene* CGameMain::Update()
 		else
 		{
 			hitPoint->Respawn();
+			player->SetLevel(stageLevel);
 			isGameStart = false;
 			startModeTimer = 0;
 		}
@@ -292,19 +293,24 @@ void CGameMain::HitCheck_PlayerAndFeed()
 					pinky->Surprised();
 					aosuke->Surprised();
 					guzuta->Surprised();
+					player->eatFeed(true);
+					player->SetPowerTime(level[stageLevel].powerTime);
+				}
+				else
+				{
+					player->eatFeed(false);
 				}
 			}
 
 
 		}
+	}
 
-		if (fruit[index].GetFlg() == true) {
+	if (fruit->GetFlg() == true) {
 
-			if (CheckHitBox(player, &fruit[index]))//プレイヤーとフルーツが当たった時
-			{
-				ui->AddScore(fruit[FRUIT_MAX].GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
-			}
-
+		if (CheckHitBox(player, fruit))//プレイヤーとフルーツが当たった時
+		{
+			ui->AddScore(fruit->GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
 		}
 
 	}
