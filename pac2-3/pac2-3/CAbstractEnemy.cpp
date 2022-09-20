@@ -106,7 +106,6 @@ void CAbstractEnemy::Update()
 	}
 
 	//アニメーション制御用変数の更新
-	static int animTimer = 0;
 	animTimer++;
 	if (animTimer % 8 == 0)//8はフレーム数
 	{

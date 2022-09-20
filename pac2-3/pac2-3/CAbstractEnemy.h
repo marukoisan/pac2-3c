@@ -55,6 +55,7 @@ protected:
 	int enemyImages[2] = {};
 	int enemyEyes[4] = {};
 	int surprisingImages[2][2] = {};
+	int animTimer = 0;
 
 	//波状攻撃用タイマー
 	int attackInterval[7] =
