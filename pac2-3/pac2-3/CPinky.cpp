@@ -51,8 +51,7 @@ void CPinky::SetTargetPos()
 		break;
 
 	default:
-		targetPosX = 0;
-		targetPosY = 0;
+		;
 	}
 }
 
