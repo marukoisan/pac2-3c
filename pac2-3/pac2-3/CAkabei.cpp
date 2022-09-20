@@ -13,6 +13,8 @@ CAkabei::CAkabei()
 //----------------------------------
 void CAkabei::Init()
 {
+	floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+	floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
 	x = initialPosX;
 	y = initialPosY;
 	direction = initialDirection;
