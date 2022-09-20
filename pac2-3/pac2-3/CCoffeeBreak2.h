@@ -17,7 +17,7 @@ private:
 	float enemyx;		//敵座標
 	float playerx;	//プレイヤー座標
 
-	int coffeesound;
+	int coffeesound;	//サウンド用変数
 
 public:
 	CCoffeeBreak2();
