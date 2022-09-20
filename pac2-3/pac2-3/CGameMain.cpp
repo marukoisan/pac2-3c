@@ -9,6 +9,7 @@
 #include"CHitPoint.h"
 #include"CFruit.h"
 #include"CAkabei.h"
+#include"CCoffeeBreak.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -30,6 +31,7 @@ CGameMain::CGameMain()
 	ui = new CUi;//uiの動的確保
 	hitPoint = new CHitPoint();
 	fruit = new CFruit();
+	coffee = new CCoffeeBreak();
 
 	akabei = new CAkabei;
 	akabei->SetPlayerCrass(player);
@@ -53,6 +55,8 @@ CGameMain::~CGameMain()
 	delete hitPoint;
 	delete ui;
 	delete fruit;
+	delete coffee;
+
 }
 
 //-------------------
@@ -173,6 +177,16 @@ void CGameMain::Draw()const
 
 	hitPoint->Draw();
 	//coffeebreak3->Draw();//TODO : 移動させる
+
+
+
+	if (player->CheckAnimflg() == TRUE)
+	{
+		player->Draw();
+		enemy->Draw();
+		hitPoint->Draw();
+		coffee->Draw();
+	}
 
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);

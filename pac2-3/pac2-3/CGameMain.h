@@ -16,6 +16,7 @@ class CUi;
 class CHitPoint;
 class CFruit;
 class CAkabei;
+class CCoffeeBreak;
 
 class CGameMain : public CAbstractScene
 {
@@ -29,6 +30,7 @@ private:
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
 	CFruit* fruit;
+	CCoffeeBreak* coffee;
 
 
 	bool isGameStart;//初回用フラグ
