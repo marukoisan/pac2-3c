@@ -70,6 +70,8 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	player->warp();
+
 	stopTimer--;
 	if (isGameStart)
 	{
