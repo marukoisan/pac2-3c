@@ -35,7 +35,7 @@ void CCoffeeBreak::Update()
 
 	pacmanSpeed = 540.0 / 195;
 	bigPacmanSpeed = 540.0 / 167;
-	akabeiSpeed = 540.0 / 182;
+	akabeiSpeed = 540.0 / 186;
 	izikeSpeed = 540.0 / 210;
 
 	--Timer;
@@ -78,7 +78,7 @@ void CCoffeeBreak::Draw() const
 		 
 		DrawRotaGraphF(pacmanX,360, 1.0 / 32 * 32 ,0,pacman[animepacman / 3 % 3 + 11],TRUE);
 
-		DrawRotaGraphF(akabeiX, 360, 1.0 / 14 * 32, 0, akabei[anim], TRUE);
+		DrawRotaGraphF(akabeiX, 360, 1.0 / 14 * 28, 0, akabei[anim], TRUE);
 		
 	}
 
@@ -93,15 +93,15 @@ void CCoffeeBreak::Draw() const
 	}
 
 
-	//DrawBox(0, 0, 369, 720, 0x00ff00, TRUE);
-	//DrawBox(930, 0, 1380, 720, 0x00ff00, TRUE);
+	DrawBox(0, 0, 369, 720, 0x00ff00, TRUE);
+	DrawBox(930, 0, 1380, 720, 0x00ff00, TRUE);
 
 
 }
 
 void CCoffeeBreak::LoadImages()
 {
-	LoadDivGraph("images/akabei.png", ENEMY_IMAGE_MAX, 2, 1, 14, 14, akabei);
+	LoadDivGraph("images/akabei_monster.png", ENEMY_IMAGE_MAX, 2, 1, 14, 14, akabei);
 	
 	LoadDivGraph("images/sprites/pacman.png", PACMAN_IMAGE_MAX,
 		12, 1, 32, 32, pacman);
