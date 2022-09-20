@@ -72,6 +72,7 @@ protected:
 	//UŒ‚’†‚©A‹x‘§’†‚©
 	bool isAttack = false;
 	int attackCycle = 0;
+	int targetUpdateTimer = 0;
 
 	int restAreaX = 26;
 	int restAreaY = 1;
