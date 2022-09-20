@@ -101,6 +101,8 @@ public:
 
 	bool GetisAlive();
 
+	void warp();
+
 private:
 	void Move();
 	void Control();

@@ -111,6 +111,8 @@ CAbstractScene* CGameMain::Update()
 		isPlayMode = true;
 	}
 
+	PlayerWarp();
+
 	return this;
 }
 
@@ -313,4 +315,12 @@ void CGameMain::HitCheck_PlayerAndFruit()
 			ui->AddScore(fruit->HitAction_Player());
 		}
 	}
+}
+
+//----------------------------------
+// プレイヤーワープ
+//----------------------------------
+void CGameMain::PlayerWarp()
+{
+	player->warp();
 }

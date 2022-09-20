@@ -53,5 +53,6 @@ public:
 	void HitCheck_PlayerAndFruit();
 
 	void PlayerControl();
+	void PlayerWarp();
 };
 
