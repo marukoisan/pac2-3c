@@ -14,6 +14,7 @@ CPinky::CPinky()
 	initialPosY = 14 * D_TILE_SIZE;
 	initialDirection = D_DIRECTION_DOWN;
 
+	inTheNest_isUp = false;
 	x = initialPosX;
 	y = initialPosY;
 	direction = initialDirection;

@@ -39,6 +39,7 @@ protected:
 	bool inEnemyroom = true;
 	bool isLeaveTheNest = false;
 	int leaveStep = 0;
+	bool inTheNest_isUp = true;
 
 	//ÉCÉWÉPèÛë‘
 	int surprisingTime = 60 * 6;
@@ -159,7 +160,7 @@ protected:
 
 	void SurprisingMove();
 	void ChooseRandomDirection(int x,int y);
-	void MoveInEnemyRoom();
+	virtual void MoveInEnemyRoom();
 	virtual void EatenMove();
 };
 
