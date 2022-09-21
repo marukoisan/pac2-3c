@@ -12,6 +12,7 @@
 #include"CPinky.h"
 #include"CAosuke.h"
 #include"CGuzuta.h"
+#include"CEnemyController.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -46,6 +47,9 @@ CGameMain::CGameMain()
 	
 	guzuta = new CGuzuta;
 	guzuta->SetPlayerCrass(player);
+
+	enemyController = new CEnemyController(akabei, pinky, aosuke, guzuta);
+
 
 	isGameStart = true;
 	isGameOver = false;
@@ -99,6 +103,7 @@ CAbstractScene* CGameMain::Update()
 			hitPoint->Respawn();
 			player->SetLevel(stageLevel);
 			fruit->SetStageLevel(stageLevel);
+			enemyController->SetPattern(level[stageLevel].timing);
 			isGameStart = false;
 			startModeTimer = 0;
 		}
@@ -118,13 +123,6 @@ CAbstractScene* CGameMain::Update()
 			if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
 			{
 				esaController->DeleteFeed();
-			}
-
-			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
-			{
-				pinky->LeaveTheNest();
-				aosuke->LeaveTheNest();
-				guzuta->LeaveTheNest();
 			}
 
 			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
@@ -302,6 +300,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
 					eatenFeedCount++;
+					enemyController->Update();
 					if (eatenFeedCount == 70 || eatenFeedCount == 170)
 					{
 						fruit->Advent();
@@ -316,6 +315,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				else
 				{
 					eatenFeedCount++;
+					enemyController->Update();
 					if (eatenFeedCount == 70 || eatenFeedCount == 170)
 					{
 						fruit->Advent();

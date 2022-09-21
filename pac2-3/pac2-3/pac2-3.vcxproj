@@ -161,6 +161,7 @@
     <ClCompile Include="CAosuke.cpp" />
     <ClCompile Include="CCoffeeBreak3.cpp" />
     <ClCompile Include="CController.cpp" />
+    <ClCompile Include="CEnemyController.cpp" />
     <ClCompile Include="CEsa.cpp" />
     <ClCompile Include="CEsaController.cpp" />
     <ClCompile Include="CField.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="CAosuke.h" />
     <ClInclude Include="CCoffeeBreak3.h" />
     <ClInclude Include="CController.h" />
+    <ClInclude Include="CEnemyController.h" />
     <ClInclude Include="CEsa.h" />
     <ClInclude Include="CEsaController.h" />
     <ClInclude Include="CField.h" />
