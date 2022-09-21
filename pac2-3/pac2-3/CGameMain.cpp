@@ -87,6 +87,8 @@ CAbstractScene* CGameMain::Update()
 	
 	player->warp();
 
+
+
 	stopTimer--;
 	if (isGameStart)
 	{
@@ -132,19 +134,13 @@ CAbstractScene* CGameMain::Update()
 
 			if (isPlayMode)
 			{
-				if (esaController->GetIsClear() == true)//エサの残りの数を受け取り、0の時にゲームクリアとする
-				{
 					//ゲームクリアの処理
 					// ステージの更新
 					// エサの再配置
 					//敵の初期化(難易度を渡す)
 					//プレイヤーの位置の初期化、難易度の更新
-					isPlayMode = false;
 
 
-				}
-				else
-				{
 					if (player->GetisAlive() == true)
 					{
 						PlayerControl();
@@ -156,7 +152,32 @@ CAbstractScene* CGameMain::Update()
 					fruit->Update();
 					player->Update();
 					HitCheck();
-				}
+
+					if (esaController->GetIsClear() == true)
+					{
+						eatenFeedCount = 0;
+						isPlayMode = false;
+						stopTimer = 60;
+						stageLevel++;
+						player->SetLevel(stageLevel);
+						fruit->SetStageLevel(stageLevel);
+						enemyController->SetPattern(level[stageLevel].timing);
+						startModeTimer = 0;
+
+						delete esaController;
+						esaController = new CEsaController();
+						esa = esaController->GetEsa();
+
+						fruit->Init();
+						akabei->Init();
+						pinky->Init();
+						aosuke->Init();
+						guzuta->Init();
+						player->Respawn();
+
+						enemyController->GameClear();
+					}
+				
 
 			}
 			else
@@ -233,11 +254,7 @@ void CGameMain::Draw()const
 		guzuta->Draw();
 	}
 
-	if (isPlayMode && !isGameOver)
-	{
-		DrawString(0, 0, "PlayMode", 0xFFFFFF);
-	}
-	else
+	if (!isPlayMode && !isGameOver)
 	{
 		if (playerAnimTimer > 9 * 11)
 		{
@@ -253,10 +270,6 @@ void CGameMain::Draw()const
 	//デバッグ数値表示用
 	{
 		int i = 0;
-		if (esaController->GetIsClear() == true)
-		{
-			DrawString(0, 500 + i++ * 20, "gameClear", 0xFFFFF0);
-		}
 		
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",eatenFeedCount);
