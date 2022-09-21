@@ -79,10 +79,10 @@ void CAbstractEnemy::Update()
 	if (isEaten)
 	{
 		
-		/*if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0 &&CheckSoundMem(izikeSound) == 0)
+		if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0 &&CheckSoundMem(izikeSound) == 0)
 		{
 			PlaySoundMem(eyesSound, DX_PLAYTYPE_LOOP);
-		}*/
+		}
 		EatenMove();
 	}
 
