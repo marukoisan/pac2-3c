@@ -75,6 +75,18 @@ void CAbstractEnemy::Update()
 		
 	}
 
+
+	if (isEaten)
+	{
+			StopSoundMem(izikeSound);
+		if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0)
+		{
+			
+			PlaySoundMem(eyesSound, DX_PLAYTYPE_LOOP);
+		}
+		EatenMove();
+	}
+
 	//イジケ状態制御用変数の更新
 	surprisingTimer--;
 
@@ -85,7 +97,7 @@ void CAbstractEnemy::Update()
 	}
 	else
 	{
-		if (CheckSoundMem(izikeSound) == 0) {
+		if (CheckSoundMem(izikeSound) == 0&& CheckSoundMem(eyesSound) == 0) {
 			PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
 		}
 	}
@@ -106,14 +118,6 @@ void CAbstractEnemy::Update()
 		AttackInterval();
 	}
 
-	if (isEaten)
-	{
-		if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0)
-		{
-			PlaySoundMem(eyesSound,DX_PLAYTYPE_LOOP);
-		}
-		EatenMove();
-	}
 
 	
 	if (!isAttack && !isSurprising && !isEaten)
