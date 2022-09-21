@@ -303,7 +303,7 @@ void CPlayer::SpeedUpdate()
 	eatTime--;
 	eatTimeSp--;
 }
-}
+
 
 void CPlayer::LoadSounds()
 {
