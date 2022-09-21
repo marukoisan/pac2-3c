@@ -69,6 +69,7 @@ private:
 
 	//音声用変数
 	int playStatSE;
+	int neutralSound;//一段階目
 public:
 	//コンストラクタ
 	CGameMain();

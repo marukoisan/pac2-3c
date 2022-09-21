@@ -59,6 +59,7 @@ CGameMain::CGameMain()
 	eatenFeedCount = 0;
 
 	playStatSE = 0;
+	neutralSound = 0;
 	LoadSound();
 }
 
@@ -214,6 +215,7 @@ void CGameMain::Draw()const
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
 
+
 	if (isGameOver)
 	{
 		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
@@ -339,6 +341,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		//アカベイ
 		if (CheckHitBox(player, akabei))
 		{
+			
 			if (akabei->GetisSurprising())
 			{
 				akabei->HitAction_Player();
@@ -352,6 +355,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 					playerAnimTimer = 0;
 					stopTimer = 60;
 				}
+				
 			}
 		}
 	}
@@ -428,7 +432,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 //----------------------------------
 void CGameMain::PlayerControl()
 {
-
+				
 	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
@@ -505,5 +509,6 @@ void CGameMain::HitCheck_PlayerAndFruit()
 
 void CGameMain::LoadSound()
 {
+	neutralSound = LoadSoundMem("sounds2/1.wav");//アカベイ用のSE
 	playStatSE = LoadSoundMem("sounds2/9.wav");//スタートのサウンド
 }

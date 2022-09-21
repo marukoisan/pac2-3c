@@ -78,12 +78,11 @@ void CAbstractEnemy::Update()
 
 	if (isEaten)
 	{
-			StopSoundMem(izikeSound);
-		if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0)
+		
+		/*if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0 &&CheckSoundMem(izikeSound) == 0)
 		{
-			
 			PlaySoundMem(eyesSound, DX_PLAYTYPE_LOOP);
-		}
+		}*/
 		EatenMove();
 	}
 
@@ -100,6 +99,10 @@ void CAbstractEnemy::Update()
 		if (CheckSoundMem(izikeSound) == 0&& CheckSoundMem(eyesSound) == 0) {
 			PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
 		}
+		/*else if (CheckSoundMem(eyesSound) == 1)
+		{
+			StopSoundMem(izikeSound);
+		}*/
 	}
 
 	if (isSurprising || isEaten)
@@ -300,10 +303,10 @@ void CAbstractEnemy::LoadImages()
 //-------------------------
 void CAbstractEnemy::MoveToTarget()
 {
-	if (CheckSoundMem(neutralSound) == 0)
+	/*if (CheckSoundMem(neutralSound) == 0)
 	{
 		PlaySoundMem(neutralSound, DX_PLAYTYPE_LOOP, TRUE);
-	}
+	}*/
 	//マス座標
 	int onFieldX = (int)x / (int)D_TILE_SIZE;
 	int onFieldY = (int)y / (int)D_TILE_SIZE;
@@ -733,7 +736,7 @@ void CAbstractEnemy::EatenMove()
 void CAbstractEnemy::LoadSounds()
 {
 	//通常時のSEと、イジケ状態時のSE
-	neutralSound = LoadSoundMem("sounds2/1.wav");//一段階目
+	//neutralSound = LoadSoundMem("sounds2/1.wav");//一段階目
 	angerSound = LoadSoundMem("sounds2/2.wav");//二段階目
 	furySound = LoadSoundMem("sounds2/3.wav");//三段階目
 	wrathSound = LoadSoundMem("sounds2/4.wav");//四段階目
@@ -741,6 +744,6 @@ void CAbstractEnemy::LoadSounds()
 	eyesSound = LoadSoundMem("sounds2/5.wav");//眼だけ状態
 	taberareSound = LoadSoundMem("sounds2/AnyConv.com__regular6.wav");//食べられた音
 	ChangeVolumeSoundMem(255 * 200 / 100,taberareSound);//音量を上げるための調整
-	neutralSound = LoadSoundMem("sounds2/1.wav");//アカベイ用のSE
+	
 
 }
