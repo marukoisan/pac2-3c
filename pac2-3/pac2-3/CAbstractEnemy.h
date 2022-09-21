@@ -126,6 +126,8 @@ protected:
 	int furySound;//三段階目
 	int wrathSound;//四段階目
 	int izikeSound;//イジケ状態
+	int eyesSound;//眼だけの状態
+	int taberareSound;//食べられた音
 public:
 	CAbstractEnemy();
 	~CAbstractEnemy();
