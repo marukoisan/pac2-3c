@@ -300,6 +300,10 @@ void CAbstractEnemy::LoadImages()
 //-------------------------
 void CAbstractEnemy::MoveToTarget()
 {
+	if (CheckSoundMem(neutralSound) == 0)
+	{
+		PlaySoundMem(neutralSound, DX_PLAYTYPE_LOOP, TRUE);
+	}
 	//マス座標
 	int onFieldX = (int)x / (int)D_TILE_SIZE;
 	int onFieldY = (int)y / (int)D_TILE_SIZE;
@@ -337,6 +341,7 @@ void CAbstractEnemy::MoveToTarget()
 //------------------------
 void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 {
+	
 	/*
 	各case文での処理
 	・方向に応じた値の更新
@@ -736,5 +741,6 @@ void CAbstractEnemy::LoadSounds()
 	eyesSound = LoadSoundMem("sounds2/5.wav");//眼だけ状態
 	taberareSound = LoadSoundMem("sounds2/AnyConv.com__regular6.wav");//食べられた音
 	ChangeVolumeSoundMem(255 * 200 / 100,taberareSound);//音量を上げるための調整
+	neutralSound = LoadSoundMem("sounds2/1.wav");//アカベイ用のSE
 
 }
