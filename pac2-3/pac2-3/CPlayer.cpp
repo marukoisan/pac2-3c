@@ -63,7 +63,7 @@ void CPlayer::Update()
 		//死んでいた場合死んでからの秒数を数えてリスポーンする
 		if (animTimer > 9 * 11)
 		{
-			
+
 			animTimer = 0;
 			isAlive = true;
 			Respawn();
@@ -109,7 +109,13 @@ void CPlayer::Draw()const
 	}
 	else
 	{
-		
+		if (animTimer == 1)
+		{
+			if (CheckSoundMem(downSound) == 0)
+			{
+				PlaySoundMem(downSound, DX_PLAYTYPE_BACK, TRUE);
+			}
+		}
 		if (animTimer < 9 * 11)
 		{
 
@@ -137,6 +143,7 @@ void CPlayer::HitAction_Enemy()
 	if (isAlive)
 	{
 		animTimer = 0;
+
 	}
 	isAlive = false;
 	
@@ -308,4 +315,5 @@ void CPlayer::SpeedUpdate()
 void CPlayer::LoadSounds()
 {
 	downSound = LoadSoundMem("sounds2/regular2.wav");//サウンドの読み込み
+
 }

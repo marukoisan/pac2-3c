@@ -32,6 +32,11 @@ void CAkabei::HitAction_Player()
 {
 	if (isSurprising)
 	{
+		StopSoundMem(izikeSound);
+		if (CheckSoundMem(taberareSound) == 0)
+		{
+			PlaySoundMem(taberareSound, DX_PLAYTYPE_BACK, TRUE);
+		}
 		isEaten = true;
 
 		floor[D_DOOR_Y][D_DOOR_X] = D_FLOOR;

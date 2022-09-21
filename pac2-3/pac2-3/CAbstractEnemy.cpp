@@ -75,12 +75,34 @@ void CAbstractEnemy::Update()
 		
 	}
 
+
+	if (isEaten)
+	{
+		
+		/*if (CheckSoundMem(taberareSound) == 0 && CheckSoundMem(eyesSound) == 0 &&CheckSoundMem(izikeSound) == 0)
+		{
+			PlaySoundMem(eyesSound, DX_PLAYTYPE_LOOP);
+		}*/
+		EatenMove();
+	}
+
 	//イジケ状態制御用変数の更新
 	surprisingTimer--;
 
 	if (surprisingTimer <= 0)
 	{
 		isSurprising = false;
+		StopSoundMem(izikeSound);
+	}
+	else
+	{
+		if (CheckSoundMem(izikeSound) == 0&& CheckSoundMem(eyesSound) == 0) {
+			PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
+		}
+		/*else if (CheckSoundMem(eyesSound) == 1)
+		{
+			StopSoundMem(izikeSound);
+		}*/
 	}
 
 	if (isSurprising || isEaten)
@@ -99,10 +121,6 @@ void CAbstractEnemy::Update()
 		AttackInterval();
 	}
 
-	if (isEaten)
-	{
-		EatenMove();
-	}
 
 	
 	if (!isAttack && !isSurprising && !isEaten)
@@ -208,9 +226,6 @@ void CAbstractEnemy::HitAction()
 //---------------------------
 void CAbstractEnemy::Surprised()
 {
-	if (CheckSoundMem(izikeSound) == 0) {
-		PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
-	}
 	isWhite = false;
 	isSurprising = true;
 	surprisingTimer = surprisingTime;
@@ -229,6 +244,11 @@ void CAbstractEnemy::HitAction_Player()
 {
 	if (isSurprising)
 	{
+		StopSoundMem(izikeSound); 
+		if (CheckSoundMem(taberareSound) == 0)
+		{
+			PlaySoundMem(taberareSound, DX_PLAYTYPE_BACK, TRUE);
+		}
 		isEaten = true;
 
 		floor[D_DOOR_Y][D_DOOR_X] = D_FLOOR;
@@ -283,6 +303,10 @@ void CAbstractEnemy::LoadImages()
 //-------------------------
 void CAbstractEnemy::MoveToTarget()
 {
+	/*if (CheckSoundMem(neutralSound) == 0)
+	{
+		PlaySoundMem(neutralSound, DX_PLAYTYPE_LOOP, TRUE);
+	}*/
 	//マス座標
 	int onFieldX = (int)x / (int)D_TILE_SIZE;
 	int onFieldY = (int)y / (int)D_TILE_SIZE;
@@ -320,6 +344,7 @@ void CAbstractEnemy::MoveToTarget()
 //------------------------
 void CAbstractEnemy::MoveStraight(int onFieldX,int onFieldY)
 {
+	
 	/*
 	各case文での処理
 	・方向に応じた値の更新
@@ -681,6 +706,7 @@ void CAbstractEnemy::EatenMove()
 {
 	if (isEaten)
 	{
+		
 		if (-speed < (x - targetPosX) && (x - targetPosX) < speed
 			&& -speed < (y - targetPosY) && (y - targetPosY) < speed)
 		{
@@ -691,6 +717,7 @@ void CAbstractEnemy::EatenMove()
 		if ((double)x == targetPosX
 			&& (double)y == targetPosY)
 		{
+			StopSoundMem(eyesSound);
 			floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
 			floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
 			inEnemyroom = true;
@@ -709,9 +736,14 @@ void CAbstractEnemy::EatenMove()
 void CAbstractEnemy::LoadSounds()
 {
 	//通常時のSEと、イジケ状態時のSE
-	neutralSound = LoadSoundMem("sounds2/1.wav");//一段階目
+	//neutralSound = LoadSoundMem("sounds2/1.wav");//一段階目
 	angerSound = LoadSoundMem("sounds2/2.wav");//二段階目
 	furySound = LoadSoundMem("sounds2/3.wav");//三段階目
 	wrathSound = LoadSoundMem("sounds2/4.wav");//四段階目
 	izikeSound = LoadSoundMem("sounds2/6.wav");//イジケ状態
+	eyesSound = LoadSoundMem("sounds2/5.wav");//眼だけ状態
+	taberareSound = LoadSoundMem("sounds2/AnyConv.com__regular6.wav");//食べられた音
+	ChangeVolumeSoundMem(255 * 200 / 100,taberareSound);//音量を上げるための調整
+	
+
 }
