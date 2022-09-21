@@ -13,7 +13,7 @@
 #include"CAosuke.h"
 #include"CGuzuta.h"
 #include"CEnemyController.h"
-#include"CCoffeeBreak.h"
+//#include"CCoffeeBreak.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -62,7 +62,7 @@ CGameMain::CGameMain()
 	playStatSE = 0;
 	LoadSound();
 
-	coffee = new CCoffeeBreak;
+	//coffee = new CCoffeeBreak;
 }
 
 //-------------------
@@ -80,7 +80,7 @@ CGameMain::~CGameMain()
 	delete pinky;
 	delete aosuke;
 	delete guzuta;
-	delete coffee;
+	//delete coffee;
 }
 
 //-------------------
@@ -90,7 +90,7 @@ CAbstractScene* CGameMain::Update()
 {
 	
 	player->warp();
-	coffee->Update();
+	//coffee->Update();
 
 	stopTimer--;
 	if (isGameStart)
@@ -208,7 +208,7 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
-	coffee->Draw();
+	//coffee->Draw();
 	field->Draw();
 	esaController->Draw();
 	fruit->Draw();
