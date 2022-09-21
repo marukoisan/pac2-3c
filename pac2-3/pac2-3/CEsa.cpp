@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"CEsa.h"
 
+int CEsa::esaCount;
+
 CEsa::CEsa()//コンストラクタ
 {
 	//esa = 0;
@@ -12,7 +14,6 @@ CEsa::CEsa()//コンストラクタ
 	esaScore = 0;  //エサのスコア
 	esaTime = 0;   //エサの点滅させるため用の時間変数
 	esaIsShow = true; //エサの描画フラグ
-	esaSound = 0;
 
 
 
@@ -39,7 +40,14 @@ void CEsa::Draw() const//
 	}
 }
 
-void CEsa::Init(float x, float y,int *EsaImage, bool esaType, int esaScore, int esaSound)
+void CEsa::HitAction()
+	{ 
+		esaFlg = false;
+		PlaySoundMem(esaSound[esaCount % 2 ], DX_PLAYTYPE_BACK);
+		esaCount++;
+	}
+
+void CEsa::Init(float x, float y,int *EsaImage, bool esaType, int esaScore, int* esaSound)
 {
 	this->x = x;  //座標
 	this->y = y;  //座標

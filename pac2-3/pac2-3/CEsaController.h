@@ -17,7 +17,7 @@ private:
 	CEsa *esa; //エサの数小さいものが240大きいものが4つ
 
 	int esaImages[ESA_IMAGE_MAX];  //エサの画像
-	int esaSounds;
+	int esaSounds[2];
 	
 	bool isClear = false;
 	
