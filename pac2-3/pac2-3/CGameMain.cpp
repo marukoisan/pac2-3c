@@ -90,6 +90,7 @@ CAbstractScene* CGameMain::Update()
 		{
 			hitPoint->Respawn();
 			player->SetLevel(stageLevel);
+			fruit->SetStageLevel(stageLevel);
 			isGameStart = false;
 			startModeTimer = 0;
 		}
@@ -113,7 +114,6 @@ CAbstractScene* CGameMain::Update()
 
 			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 			{
-				fruit->Advent(stageLevel);
 				pinky->LeaveTheNest();
 				aosuke->LeaveTheNest();
 				guzuta->LeaveTheNest();
@@ -294,6 +294,10 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
 					eatenFeedCount++;
+					if (eatenFeedCount == 70 || eatenFeedCount == 170)
+					{
+						fruit->Advent();
+					}
 					akabei->Surprised();
 					pinky->Surprised();
 					aosuke->Surprised();
@@ -304,6 +308,10 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				else
 				{
 					eatenFeedCount++;
+					if (eatenFeedCount == 70 || eatenFeedCount == 170)
+					{
+						fruit->Advent();
+					}
 					player->eatFeed(false);
 				}
 			}

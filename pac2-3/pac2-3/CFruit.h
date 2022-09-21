@@ -8,7 +8,7 @@ class CFruit : public CObject
 private:
 
 	int FruitImage[FRUIT_MAX] = {};
-	int fruitType;  //エサ画像の判別
+	int stageLevel;  //エサ画像の判別
 	bool fruitFlg;  //エサの表示フラグ
 	int fruitScore = 0;  //エサのスコア
 	int fruitTimer;  //エサの点滅用の時間を入れる変数
@@ -29,7 +29,15 @@ public:
 		return fruitScore;
 	}
 
-	void Advent(int index);//変数の初期化
+	void SetStageLevel(int stageLevel)
+	{
+		this->stageLevel = stageLevel;
+		if (stageLevel > 12)
+		{
+			this->stageLevel = 12;
+		}
+	}
+	void Advent();//変数の初期化
 	bool GetFlg() { return fruitFlg; }//エサの表示フラグ
 	//void toggle(void) { FruitIsShow = !(FruitIsShow); }//描画フラグ
 	int GetScore() { return fruitScore; }//エサのスコアを貰う

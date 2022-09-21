@@ -9,7 +9,7 @@ CFruit::CFruit()//コンストラクタ
 	bool error = false;
 	if (LoadDivGraph("images/sprites/fruit.png", FRUIT_MAX, 13, 1, 32, 32, FruitImage) == -1)error = true;
 
-	fruitType = 0;  //エサ画像の判別
+	stageLevel = 0;  //エサ画像の判別
 	fruitFlg = false;  //エサの表示フラグ
 	fruitScore = 0;  //エサのスコア
 	fruitTimer = 0;   //エサの点滅させるため用の時間変数
@@ -39,7 +39,7 @@ void CFruit::Draw()const
 {
 	if (fruitFlg)
 	{
-		DrawRotaGraphF(D_FIELD_POS_X+x, D_FIELD_POS_Y+y, 1.0, 0, FruitImage[fruitType], TRUE);
+		DrawRotaGraphF(D_FIELD_POS_X+x, D_FIELD_POS_Y+y, 1.0, 0, FruitImage[stageLevel], TRUE);
 	}
 	DrawGraph(840, 680, FruitImage[0], TRUE);
 	//DrawGraph(815, 680, FruitImage[1], TRUE);
@@ -58,14 +58,9 @@ void CFruit::Init()
 	fruitFlg = false;
 }
 
-void CFruit::Advent(int index)
+void CFruit::Advent()
 {
-	if (index > FRUIT_MAX - 1)
-	{
-		index = FRUIT_MAX - 1;
-	}
-	fruitType = index;  //エサ画像の判別
-	fruitScore = FRUIT_SCORES[index]; //エサのスコア
+	fruitScore = FRUIT_SCORES[stageLevel]; //エサのスコア
 	fruitFlg = true;
 	fruitTimer = 60 * 10;
 }
