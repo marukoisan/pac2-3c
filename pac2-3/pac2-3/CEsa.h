@@ -4,6 +4,7 @@
 #define ESA_IMAGE_ORIGINNL 100.0 //エサ画像の元の大きさ
 #define ESA_IMAGE_NEWLY 20.0 //エサ画像の大きさにするサイズ
 #define D_ESA_MAX 244
+#define ESA_SOUND 2  //配列用
 
 class CEsa : public CObject
 {

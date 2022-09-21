@@ -107,13 +107,14 @@ void CPlayer::Draw()const
 	}
 	else
 	{
-		PlaySoundMem(downSound, DX_PLAYTYPE_BACK, TRUE);
+		
 		if (animTimer < 9 * 11)
 		{
 
-		
+			
 			//•`‰æ
 			DrawRotaGraphF(x + D_FIELD_POS_X, y + D_FIELD_POS_Y, 1, 0, pacmanDyings[animTimer / 9 % 11], TRUE);
+			
 		}
 	}
 	
