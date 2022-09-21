@@ -19,6 +19,7 @@ class CAkabei;
 class CPinky;
 class CAosuke;
 class CGuzuta;
+class CEnemyController;
 
 class CGameMain : public CAbstractScene
 {
@@ -36,6 +37,7 @@ private:
 	CPinky* pinky;
 	CAosuke* aosuke;
 	CGuzuta* guzuta;
+	CEnemyController* enemyController;
 
 	bool isGameStart;//初回用フラグ
 	bool isGameOver;
@@ -56,8 +58,12 @@ private:
 	{
 		{0,60 * 6,0,0,4},{1,60 * 5,1,1,4},{1,60 * 4,2,2,3},
 		{1,60 * 3,2,2,3},{2,60 * 2,2,2,3},{2,60 * 5,3,2,3},
-		{2,60 * 2,3,2,3},{2,60 * 5,3,2,3},{2,60 * 5,4,2,3}
-
+		{2,60 * 2,3,2,3},{2,60 * 2,3,2,3},{2,60 * 1,4,2,3},
+		{2,60 * 5,4,2,3},{2,60 * 2,4,2,3},{2,60 * 1,5,2,3},
+		{2,60 * 1,5,2,3},{2,60 * 3,5,2,3},{2,60 * 1,6,2,3},
+		{2,60 * 1,6,2,3},{2,60 * 0,6,2,3},{2,60 * 1,6,2,3},
+		{2,60 * 0,6,2,3},{2,60 * 0,6,2,3},{2,60 * 0,6,2,3},
+		{3,60 * 0,6,2,3}
 	};
 
 public:
