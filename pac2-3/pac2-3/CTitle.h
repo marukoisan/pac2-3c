@@ -28,6 +28,9 @@ private:
 	int guzuta_title;
 	int esa;
 
+	int pressA;
+	bool isShow = false;
+
 	//タイマー
 	int timer;
 
