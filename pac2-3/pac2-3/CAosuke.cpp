@@ -22,11 +22,22 @@ CAosuke::CAosuke()
 
 //---------------------------------------
 // ターゲット位置の更新
-////---------------------------------------
-//void CAosuke::SetTargetPos()
-//{
-//	
-//}
+//---------------------------------------
+void CAosuke::SetTargetPos()
+{
+	//何マス離れてる？
+	int gridX =
+		(akabei->GetX() - player->GetX()) / D_TILE_SIZE;
+	int gridY =
+		(akabei->GetY() - player->GetY()) / D_TILE_SIZE;
+
+	//それぞれの距離をプレイヤーを中心に反転させて加算する
+	targetPosX =
+		player->GetX() + (gridX * -1) * D_TILE_SIZE;
+	targetPosY =
+		player->GetY() + (gridY * -1) * D_TILE_SIZE;
+	
+}
 
 
 //---------------------------------------

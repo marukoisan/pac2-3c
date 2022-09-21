@@ -49,9 +49,14 @@ CAbstractEnemy::~CAbstractEnemy()
 //----------------------------
 void CAbstractEnemy::Update()
 {
+	
 	if (GetisAttack())
 	{
-		SetTargetPos();
+		targetUpdateTimer++;
+		if (targetUpdateTimer % 8 == 0)
+		{
+			SetTargetPos();
+		}
 	}
 
 	//移動パターンの制御
@@ -156,20 +161,20 @@ void CAbstractEnemy::Draw()const
 		D_FIELD_POS_X + targetPosX, 
 		D_FIELD_POS_Y + targetPosY, 0xFF0000);
 
-	//敵位置のフィールド内座標の表示
-	//DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
-	//DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
-	{
-		int i = 0;
-		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][0], TRUE);
-		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
-		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
-		DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
-		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", y);
-		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", x);
-		DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", speed);
+	////敵位置のフィールド内座標の表示
+	////DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);
+	////DrawFormatString(0, 80+20*1, 0xFFFFFF, "X座標：%d", (int)x / (int)D_TILE_SIZE % D_FIELD_WIDTH);
+	//{
+	//	int i = 0;
+	//	DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][0], TRUE);
+	//	DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[0][1], TRUE);
+	//	DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][0], TRUE);
+	//	DrawRotaGraph(200, 10 + i++ * 32, 1.0, 0, surprisingImages[1][1], TRUE);
+	//	DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", y);
+	//	DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", x);
+	//	DrawFormatString(200, 10 + i++ * 32, 0x00FF00, "%lf", speed);
 
-	}
+	//}
 	////デバッグ用フィールドの数値
 	//for (int i = 0; i < D_FIELD_HEIGHT; i++)
 	//{
@@ -240,9 +245,12 @@ void CAbstractEnemy::HitAction_Player()
 //----------------------------------
 void CAbstractEnemy::Init()
 {
+	floor[D_DOOR_Y][D_DOOR_X] = D_BLOCK;
+	floor[D_DOOR_Y][D_DOOR_X + 1] = D_BLOCK;
 	x = initialPosX;
 	y = initialPosY;
 	direction = initialDirection;
+	isLeaveTheNest = false;
 	inEnemyroom = true;
 	isSurprising = false;
 	isEaten = false;
@@ -532,6 +540,7 @@ void CAbstractEnemy::LeaveTheNest()
 			{
 				inEnemyroom = false;
 				isLeaveTheNest = false;
+				ChangeDirection((int)x / (int)D_TILE_SIZE, (int)y / (int)D_TILE_SIZE);
 				leaveStep = 0;
 			}
 		}

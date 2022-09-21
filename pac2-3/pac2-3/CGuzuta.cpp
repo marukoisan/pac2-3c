@@ -22,11 +22,41 @@ CGuzuta::CGuzuta()
 
 //---------------------------------------
 // ターゲット位置の更新
-////---------------------------------------
-//void CGuzuta::SetTargetPos()
-//{
-//	
-//}
+//---------------------------------------
+void CGuzuta::SetTargetPos()
+{
+	float distanceX = player->GetX() - x;
+	float distanceY = player->GetY() - y;
+	float distance = (distanceX * distanceX) + (distanceY * distanceY);
+	
+	//半径8マス以内にいるなら
+	if ((8 * D_TILE_SIZE) * (8 * D_TILE_SIZE) > distance)
+	{
+		static int Timer;
+		Timer++;
+		if (Timer % 5 == 0)
+		{
+
+			int floorX;
+			int floorY;
+			do
+			{
+				floorX = GetRand(D_FIELD_WIDTH - 1);
+				floorY = GetRand(D_FIELD_HEIGHT - 1);
+
+			} while (floor[floorY][floorX] == 0);
+
+			targetPosX = floorX * D_TILE_SIZE;
+			targetPosY = floorY * D_TILE_SIZE;
+		}
+	}
+	else
+	{
+		//外ならアカベイと同じ
+		targetPosX = player->GetX();
+		targetPosY = player->GetY();
+	}
+}
 
 
 //---------------------------------------

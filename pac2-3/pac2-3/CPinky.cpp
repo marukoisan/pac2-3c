@@ -1,4 +1,6 @@
 #include "CPinky.h"
+#define _USE_MATH_DEFINES
+#include<math.h>
 
 //---------------------------------------
 // コンストラクタ
@@ -22,11 +24,36 @@ CPinky::CPinky()
 
 //---------------------------------------
 // ターゲット位置の更新
-////---------------------------------------
-//void CPinky::SetTargetPos()
-//{
-//	
-//}
+//---------------------------------------
+void CPinky::SetTargetPos()
+{
+	int pDirection = player->GetAngle() / M_PI * 2;
+	switch (pDirection)
+	{
+	case D_PLAYER_UP:
+		targetPosX = player->GetX();
+		targetPosY = player->GetY() - D_TILE_SIZE * 3;
+		break;
+
+	case D_PLAYER_RIGHT:
+		targetPosX = player->GetX() + D_TILE_SIZE * 3;
+		targetPosY = player->GetY();
+		break;
+
+	case D_PLAYER_DOWN:
+		targetPosX = player->GetX();
+		targetPosY = player->GetY() + D_TILE_SIZE * 3;
+		break;
+
+	case D_PLAYER_LEFT:
+		targetPosX = player->GetX() - D_TILE_SIZE * 3;
+		targetPosY = player->GetY();
+		break;
+
+	default:
+		;
+	}
+}
 
 
 //---------------------------------------

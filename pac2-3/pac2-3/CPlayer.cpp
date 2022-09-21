@@ -13,7 +13,7 @@ CPlayer::CPlayer(CController* pController)
 	directionY = 99;
 	nextDirection = D_PLAYER_LEFT;
 	angle = -M_PI / 2;//左向き
-	speed = 20.0f/8.0f*(16.0f/16.0f);
+	speed = MAKE_SPEED * 16.0f;
 	isReleased = false;
 
 	animTimer = 0;
@@ -50,6 +50,8 @@ CPlayer::~CPlayer()
 //--------------------
 void CPlayer::Update()
 {
+	SpeedUpdate();
+
 	animTimer++;
 	if (isAlive)
 	{
@@ -259,6 +261,48 @@ void CPlayer::warp()
 	{
 		x += D_FIELD_WIDTH * 20 - 20;
 	}
+}
+
+//-----------------------
+// スピードの更新
+//-----------------------
+void CPlayer::SpeedUpdate()
+{
+	if (powerTime >= 0)
+	{
+		if (eatTimeSp >= 0)
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_P_P_ATE];
+		}
+		else if (eatTime >= 0)
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_P_N_ATE];
+		}
+		else
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_P_N];
+		}
+	}
+	else
+	{
+		if (eatTimeSp >= 0)
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_N_P_ATE];
+		}
+		else if (eatTime >= 0)
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_N_N_ATE];
+		}
+		else
+		{
+			speed = MAKE_SPEED * SPEED_LEVEL[level][D_N_N];
+		}
+	}
+
+	powerTime--;
+	eatTime--;
+	eatTimeSp--;
+}
 }
 
 void CPlayer::LoadSounds()

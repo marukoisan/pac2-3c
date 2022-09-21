@@ -43,11 +43,23 @@ private:
 	int startModeTimer;
 	int playerAnimTimer;
 	int stopTimer;
+	int eatenFeedCount;
+
+	int stageLevel = 0;
 
 	//画像用変数
 	int gameOverImage; //ゲームオーバー画像
 	int readyImage;
 	int player_oneImage;
+
+	DIFICULTY level[D_LEVEL_MAX + 1] =
+	{
+		{0,60 * 6,0,0,4},{1,60 * 5,1,1,4},{1,60 * 4,2,2,3},
+		{1,60 * 3,2,2,3},{2,60 * 2,2,2,3},{2,60 * 5,3,2,3},
+		{2,60 * 2,3,2,3},{2,60 * 5,3,2,3},{2,60 * 5,4,2,3}
+
+	};
+
 
 	//音声用変数
 	int playStatSE;

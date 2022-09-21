@@ -13,6 +13,13 @@
 #define D_PLAYER_LEFT 3
 #define D_PLAYER_ANIM_FPS 5
 #define D_PLAYER_CROSSPOINT 2
+
+#define D_N_N 0      //通常時
+#define D_N_N_ATE 1  //通常時餌を食べたとき
+#define D_N_P_ATE 2  //通常時パワー餌を食べた時
+#define D_P_N 3
+#define D_P_N_ATE 4
+#define D_P_P_ATE 5
 class CController;
 class CPlayer : public CObject
 {
@@ -27,7 +34,7 @@ private:
 
 
 	double DIRECTIONS[4] =
-	{ 0,M_PI / 2,M_PI,-M_PI / 2 };
+	{ 0,M_PI / 2,M_PI,M_PI + M_PI / 2 };
 	
 	//移動用変数
 	int nextDirection;
@@ -35,7 +42,12 @@ private:
 	int directionY;
 	double angle;
 	float speed;
+	const float MAKE_SPEED = 20.0f / 8.0f / 16.0f;
 	bool isReleased;
+
+	int powerTime=0;
+	int eatTime = 0;
+	int eatTimeSp = 0;
 
 	int pacmanDyings[11];
 
@@ -82,6 +94,16 @@ private:
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 	};
 
+
+	int level=0;
+	const float SPEED_LEVEL[4][6] =
+	{
+		{16.0f,15.0f,13.0f,18.0f,17.0f,15.0f},
+		{18.0f,17.0f,15.0f,19.0f,18.0f,16.0f},
+		{20.0f,19.0f,17.0f,20.0f,19.0f,17.0f},
+		{18.0f,17.0f,15.0f,18.0f,17.0f,15.0f}
+	};
+
 	int downSound;//アニメーション再生中に流す音声
 
 public:
@@ -104,12 +126,29 @@ public:
 
 	bool GetisAlive();
 
+	double GetAngle() { return angle; }
+
+	void SetLevel(int lev) { level = lev; }
+	void SetPowerTime(int time) { powerTime = time; }
+	void eatFeed(bool isPower)
+	{
+		if (isPower)
+		{
+			eatTimeSp = 5;
+		}
+		else
+		{
+			eatTime = 5;
+		}
+	}
+
 	void warp();
 
 	void LoadSounds();//サウンド用の関数
 private:
 	void Move();
 	void Control();
+	void SpeedUpdate();
 
 };
 
