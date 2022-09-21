@@ -50,6 +50,7 @@ private:
 	int eatenFeedCount;
 
 	int stageLevel = 0;
+	bool isGameClear = false;
 
 	//画像用変数
 	int gameOverImage; //ゲームオーバー画像

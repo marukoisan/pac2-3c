@@ -126,10 +126,10 @@ void CPlayer::Draw()const
 		}
 	}
 	
-	{
+	{/*
 		int i = 0;
 		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", (int)isAlive);
-		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", animTimer);
+		DrawFormatString(0, 562 + 20 * i++, 0x750927, "%d", animTimer);*/
 
 	}
 }
