@@ -12,6 +12,35 @@ int i = 1;
 CTitle::CTitle()
 {
 	charactar_strImage = LoadGraph("images/character_str.png");
+
+
+	//画像読み込み
+	nickname = LoadGraph("images/nickname.png");
+	akabei_font = LoadGraph("images/akabei.png");
+	pinky_font = LoadGraph("images/PINKY.png");
+	aosuke_font = LoadGraph("images/AOSUKE.png");
+	guzuta_font = LoadGraph("images/guzuta.png");
+	highscore = LoadGraph("images/highscore.png");
+	slash = LoadGraph("images/slash.png");
+	nickname = LoadGraph("images/nickname.png");
+	oikake = LoadGraph("images/oikake.png");
+	machibuse = LoadGraph("images/machibuse.png");
+	kimagure = LoadGraph("images/kimagure.png");
+	otoboke = LoadGraph("images/otoboke.png");
+	akabei_title = LoadGraph("images/akabei_title.png");
+	pinky_title = LoadGraph("images/pinky_title.png");
+	aosuke_title = LoadGraph("images/aosuke_title.png");
+	guzuta_title = LoadGraph("images/guzuta_title.png");
+	esa = LoadGraph("images/tiles/big_dot.png");
+	pressA = LoadGraph("images/pressA.png");
+
+
+	//パックマン
+	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX, 3, 1, 32, 32, pacman);
+
+	//エネミー
+	LoadDivGraph("images/sprites/monster.png", 20, 20, 1, 32, 32, enemy);
+	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
 }
 
 //---------------------
@@ -36,18 +65,17 @@ CAbstractScene* CTitle::Update()
 
 	timer++;
 
+	if (timer % 20==0)
+	{
+		isShow = !isShow;
+	}
 	//パックマンスピード
-	if (timer / 15 >= 18 && timer / 15 < 28)
+	if (timer >270 && timer< 438)
 	{
 		angle = -M_PI / 2;	//左向き
-		pacmanx -= 3;
+		pacmanx -= 24.0 * D_TILE_SIZE / 168;
 	}
 
-	if (timer / 15 >= 28 && timer / 15 < 38)
-	{
-		angle = M_PI / 2;
-		pacmanx += 3.5;
-	}
 
 	//エネミー
 	if (timer % 8 == 0)//8はフレーム数
@@ -61,39 +89,7 @@ CAbstractScene* CTitle::Update()
 		eye = 1;
 	}
 
-	if (timer / 15 >= 28 && timer / 15 < 38)
-	{
-		angle = M_PI / 2;
-		enemyx += 2;
-		eye = 3;
-	}
 
-
-	//画像読み込み
-	nickname = LoadGraph("images/nickname.png");
-	akabei_font = LoadGraph("images/akabei.png");
-	pinky_font = LoadGraph("images/PINKY.png");
-	aosuke_font = LoadGraph("images/AOSUKE.png");
-	guzuta_font = LoadGraph("images/guzuta.png");
-	highscore = LoadGraph("images/highscore.png");
-	slash = LoadGraph("images/slash.png");
-	nickname = LoadGraph("images/nickname.png");
-	oikake = LoadGraph("images/oikake.png");
-	machibuse = LoadGraph("images/machibuse.png");
-	kimagure = LoadGraph("images/kimagure.png");
-	otoboke = LoadGraph("images/otoboke.png");
-	akabei_title = LoadGraph("images/akabei_title.png");
-	pinky_title = LoadGraph("images/pinky_title.png");
-	aosuke_title = LoadGraph("images/aosuke_title.png");
-	guzuta_title = LoadGraph("images/guzuta_title.png");
-	esa = LoadGraph("images/tiles/big_dot.png");
-
-	//パックマン
-	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX, 3, 1, 32, 32, pacman);
-
-	//エネミー
-	LoadDivGraph("images/sprites/monster.png", 20, 20, 1, 32, 32, enemy);
-	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
 
 	pacx = D_TITLE_POS_X + 28 * TILESIZE + pacmanx;
 
@@ -113,7 +109,8 @@ CAbstractScene* CTitle::Update()
 //---------------------
 void CTitle::Draw()const
 {
-	DrawGraph(D_TITLE_POS_X +  9 * TILESIZE,   0, highscore, TRUE);
+
+	//DrawGraph(D_TITLE_POS_X +  9 * TILESIZE,   0, highscore, TRUE);
 
 	DrawGraph(D_TITLE_POS_X +  7 * TILESIZE, 100, charactar_strImage, TRUE);
 	DrawGraph(D_TITLE_POS_X + 18 * TILESIZE, 100, slash, TRUE);
@@ -180,88 +177,11 @@ void CTitle::Draw()const
 		DrawGraph(D_TITLE_POS_X + 18 * TILESIZE, 260, guzuta_font, TRUE);
 	}
 
-
-	//パックマン
-	if (timer / 15 >= 18 && timer / 15 <= 27)
+	if (timer > 270 && isShow)
 	{
-		if (timer / D_TITLE_POS_X + 5 * TILESIZE <= D_TITLE_POS_X + 28 * TILESIZE + pacmanx)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 28 * TILESIZE + pacmanx, 320, 1.0, angle, pacman[timer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
-		}
+		DrawGraph(D_TITLE_POS_X + 50, 21 * D_TILE_SIZE, pressA,TRUE);
 	}
 
-	if (timer / 15 >= 28 && timer / 15 < 38)
-	{
-		DrawRotaGraphF(D_TITLE_POS_X + 28 * TILESIZE + pacmanx, 320, 1.0, angle, pacman[timer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
-	}
-
-
-	//エサ
-	if (timer / 15 >= 17 && timer / 15 <= 18)
-	{
-		DrawRotaGraphF(D_TITLE_POS_X + 6 * TILESIZE, 320, 0.2, 0, esa, TRUE);
-	}
-	if (timer / 15 >= 17 && timer / 15 <= 27)
-	{
-		if (timer / 15 % 2)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 6 * TILESIZE, 320, 0.2, 0, esa, TRUE);
-		}
-	}
-
-
-	if (timer / 15 >= 18 && timer / 15 < 27)
-	{
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemy[anim], TRUE);	//敵の体
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemy[anim + 2], TRUE);	//敵の体
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx +  80, 320, 1.0, 0, enemy[anim + 4], TRUE);	//敵の体
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx +  80, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemy[anim + 6], TRUE);	//敵の体
-		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		
-	}
-
-	if (timer / 15 >= 27 && timer / 15 < 38)
-	{
-		enemyhit();
-		if (i <= 1)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
-			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		}
-		if (i <= 2)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
-			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		}
-		if (i <= 3)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 80, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
-			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 80, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		}
-		if (i <= 4)
-		{
-			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
-			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
-		}
-	}
-
-
-	if (pacx + 25 == teki1x || pacx + 25 == teki2x || pacx + 25 == teki3x || pacx + 25 == teki4x)
-	{
-		WaitTimer(1000);
-	}
-
-
-	DrawFormatString(0, 140, 0x00ff00, "%d", pacx);
-	DrawFormatString(0, 160, 0x00ff00, "%d", teki1x);
-
-	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 }
 
 void CTitle::enemyhit() const

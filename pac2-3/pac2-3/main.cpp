@@ -4,7 +4,6 @@
 #include"CEsa.h"
 
 
-int loopCount = 0;
 
 //プログラムの開始
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
@@ -31,8 +30,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 		double nextTime = GetNowCount() + 16.66;
 		//画面の初期化
 		ClearDrawScreen();
-		loopCount++;
-		DrawFormatString(0, 40, 0xFFFFFF, "%d", loopCount);
 
 		sceneManager->Draw();
 
