@@ -14,12 +14,14 @@ class CAbstractEnemy;
 class CPlayer;
 class CUi;
 class CHitPoint;
+class CCoffeeBreak;
 class CFruit;
 class CAkabei;
 class CPinky;
 class CAosuke;
 class CGuzuta;
 class CEnemyController;
+
 
 class CGameMain : public CAbstractScene
 {
@@ -31,8 +33,8 @@ private:
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
+	CCoffeeBreak* coffee;
 	CFruit* fruit;
-
 	CAkabei* akabei;
 	CPinky* pinky;
 	CAosuke* aosuke;
@@ -70,6 +72,7 @@ private:
 
 	//音声用変数
 	int playStatSE;
+	int neutralSound;//一段階目
 public:
 	//コンストラクタ
 	CGameMain();
@@ -90,4 +93,3 @@ public:
 	void PlayerControl();
 	void LoadSound();
 };
-

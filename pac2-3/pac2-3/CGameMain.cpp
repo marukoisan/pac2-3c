@@ -13,6 +13,7 @@
 #include"CAosuke.h"
 #include"CGuzuta.h"
 #include"CEnemyController.h"
+//#include"CCoffeeBreak.h"
 
 
 XINPUT_STATE keyState;//デバッグ用　TODO：消す
@@ -59,7 +60,10 @@ CGameMain::CGameMain()
 	eatenFeedCount = 0;
 
 	playStatSE = 0;
+	neutralSound = 0;
 	LoadSound();
+
+	//coffee = new CCoffeeBreak;
 }
 
 //-------------------
@@ -77,6 +81,7 @@ CGameMain::~CGameMain()
 	delete pinky;
 	delete aosuke;
 	delete guzuta;
+	//delete coffee;
 }
 
 //-------------------
@@ -86,6 +91,7 @@ CAbstractScene* CGameMain::Update()
 {
 	
 	player->warp();
+	//coffee->Update();
 
 
 
@@ -215,6 +221,8 @@ CAbstractScene* CGameMain::Update()
 		}
 	}
 	return this;
+
+	
 }
 
 //-------------------
@@ -222,6 +230,7 @@ CAbstractScene* CGameMain::Update()
 //-------------------
 void CGameMain::Draw()const
 {
+	//coffee->Draw();
 	field->Draw();
 	esaController->Draw();
 	fruit->Draw();
@@ -234,6 +243,7 @@ void CGameMain::Draw()const
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
 	ui->Draw();
+
 
 	if (isGameOver)
 	{
@@ -277,7 +287,7 @@ void CGameMain::Draw()const
 
 	}
 
-
+	
 }
 
 
@@ -352,6 +362,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 		//アカベイ
 		if (CheckHitBox(player, akabei))
 		{
+			
 			if (akabei->GetisSurprising())
 			{
 				akabei->HitAction_Player();
@@ -365,6 +376,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 					playerAnimTimer = 0;
 					stopTimer = 60;
 				}
+				
 			}
 		}
 	}
@@ -441,7 +453,7 @@ void CGameMain::HitCheck_PlayerAndEnemy()
 //----------------------------------
 void CGameMain::PlayerControl()
 {
-
+				
 	//1マスの範囲が、10～30になっていているため、20で区切るために+10する
 	int x = (int)((player->GetX() + D_TILE_SIZE / 2) / D_TILE_SIZE);
 	int y = (int)((player->GetY() + D_TILE_SIZE / 2) / D_TILE_SIZE);
@@ -518,5 +530,6 @@ void CGameMain::HitCheck_PlayerAndFruit()
 
 void CGameMain::LoadSound()
 {
+	neutralSound = LoadSoundMem("sounds2/1.wav");//アカベイ用のSE
 	playStatSE = LoadSoundMem("sounds2/9.wav");//スタートのサウンド
 }
