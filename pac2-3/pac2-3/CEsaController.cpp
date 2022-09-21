@@ -63,7 +63,8 @@ void CEsaController::LoadesaImage()
 {
 	esaImages[0] = LoadGraph("images/tiles/dot.png");
 	esaImages[1] = LoadGraph("images/tiles/big_dot.png");
-	esaSounds = LoadSoundMem("sounds2/AnyConv.com__regular4.wav");//エサ取得音
+	esaSounds[0] = LoadSoundMem("sounds2/AnyConv.com__regular3.wav");//エサ取得音
+	esaSounds[1] = LoadSoundMem("sounds2/AnyConv.com__regular4.wav");//エサ取得音
 }
 
 void CEsaController::SetEsa()
