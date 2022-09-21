@@ -12,7 +12,7 @@ CFruit::CFruit()//コンストラクタ
 	fruitType = 0;  //エサ画像の判別
 	fruitFlg = false;  //エサの表示フラグ
 	fruitScore = 0;  //エサのスコア
-	fruitTime = 0;   //エサの点滅させるため用の時間変数
+	fruitTimer = 0;   //エサの点滅させるため用の時間変数
 	fruitIsShow = true; //エサの描画フラグ
 
 	height = 20;
@@ -24,6 +24,15 @@ CFruit::CFruit()//コンストラクタ
 CFruit::~CFruit()//デストラクタ
 {
 	;
+}
+
+void CFruit::Update()
+{
+	fruitTimer--;
+	if (fruitTimer < 0)
+	{
+		fruitFlg = false;
+	}
 }
 
 void CFruit::Draw()const
@@ -43,9 +52,20 @@ void CFruit::Draw()const
 
 }
 
+void CFruit::Init()
+{
+	fruitTimer = 0;
+	fruitFlg = false;
+}
+
 void CFruit::Advent(int index)
 {
+	if (index > FRUIT_MAX - 1)
+	{
+		index = FRUIT_MAX - 1;
+	}
 	fruitType = index;  //エサ画像の判別
 	fruitScore = FRUIT_SCORES[index]; //エサのスコア
 	fruitFlg = true;
+	fruitTimer = 60 * 10;
 }

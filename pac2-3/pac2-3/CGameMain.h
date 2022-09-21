@@ -43,6 +43,7 @@ private:
 	int startModeTimer;
 	int playerAnimTimer;
 	int stopTimer;
+	int eatenFeedCount;
 
 	int stageLevel = 0;
 

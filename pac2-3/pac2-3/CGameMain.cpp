@@ -52,6 +52,7 @@ CGameMain::CGameMain()
 	startModeTimer = 0;
 	playerAnimTimer = 9 * 11 + 1;
 	stopTimer = 0;
+	eatenFeedCount = 0;
 }
 
 //-------------------
@@ -112,7 +113,7 @@ CAbstractScene* CGameMain::Update()
 
 			if (keyState->Buttons[XINPUT_BUTTON_A] == TRUE)
 			{
-				fruit->Advent(3);
+				fruit->Advent(stageLevel);
 				pinky->LeaveTheNest();
 				aosuke->LeaveTheNest();
 				guzuta->LeaveTheNest();
@@ -146,6 +147,7 @@ CAbstractScene* CGameMain::Update()
 						aosuke->Update();
 						guzuta->Update();
 					}
+					fruit->Update();
 					player->Update();
 					HitCheck();
 				}
@@ -164,6 +166,7 @@ CAbstractScene* CGameMain::Update()
 					if (playerAnimTimer > 9 * 11)
 					{
 						hitPoint->Respawn();
+						fruit->Init();
 						akabei->Init();
 						pinky->Init();
 						aosuke->Init();
@@ -240,7 +243,7 @@ void CGameMain::Draw()const
 		}
 	}
 
-
+	
 	//デバッグ数値表示用
 	{
 		int i = 0;
@@ -250,6 +253,7 @@ void CGameMain::Draw()const
 		}
 		
 		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
+		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",eatenFeedCount);
 
 
 	}
@@ -289,6 +293,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				
 				if (esa[index].EsaGetType() == TRUE)//この部分の条件式をパワーエサを食べたときに変えたい
 				{
+					eatenFeedCount++;
 					akabei->Surprised();
 					pinky->Surprised();
 					aosuke->Surprised();
@@ -298,6 +303,7 @@ void CGameMain::HitCheck_PlayerAndFeed()
 				}
 				else
 				{
+					eatenFeedCount++;
 					player->eatFeed(false);
 				}
 			}
@@ -305,16 +311,6 @@ void CGameMain::HitCheck_PlayerAndFeed()
 
 		}
 	}
-
-	if (fruit->GetFlg() == true) {
-
-		if (CheckHitBox(player, fruit))//プレイヤーとフルーツが当たった時
-		{
-			ui->AddScore(fruit->GetScore());//uiの合計のスコアにfruitのスコアを入れる処理
-		}
-
-	}
-
 }
 
 //------------------------------------
