@@ -168,16 +168,16 @@ void CAbstractEnemy::Draw()const
 
 	//デバッグ用処理ここから-------------------------------------------------------------------------------
 	
-	//デバッグ用ターゲット位置の表示
-	DrawBoxAA(D_FIELD_POS_X + targetPosX - D_TILE_SIZE / 4
-		, D_FIELD_POS_Y + targetPosY - D_TILE_SIZE / 4
-		, D_FIELD_POS_X + targetPosX + D_TILE_SIZE / 4
-		, D_FIELD_POS_Y + targetPosY + D_TILE_SIZE / 4,
-		0xFF0000, TRUE);
+	////デバッグ用ターゲット位置の表示
+	//DrawBoxAA(D_FIELD_POS_X + targetPosX - D_TILE_SIZE / 4
+	//	, D_FIELD_POS_Y + targetPosY - D_TILE_SIZE / 4
+	//	, D_FIELD_POS_X + targetPosX + D_TILE_SIZE / 4
+	//	, D_FIELD_POS_Y + targetPosY + D_TILE_SIZE / 4,
+	//	0xFF0000, TRUE);
 
-	DrawLineAA(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
-		D_FIELD_POS_X + targetPosX, 
-		D_FIELD_POS_Y + targetPosY, 0xFF0000);
+	//DrawLineAA(D_FIELD_POS_X + x, D_FIELD_POS_Y + y,
+	//	D_FIELD_POS_X + targetPosX, 
+	//	D_FIELD_POS_Y + targetPosY, 0xFF0000);
 
 	////敵位置のフィールド内座標の表示
 	////DrawFormatString(0, 80+20*0, 0xFFFFFF, "Y座標：%d", (int)y / (int)D_TILE_SIZE % D_FIELD_HEIGHT);

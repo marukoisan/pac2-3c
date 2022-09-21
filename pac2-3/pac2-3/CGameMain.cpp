@@ -1,4 +1,5 @@
 #include"DxLib.h"
+#include"CTitle.h"
 #include "CGameMain.h"
 #include"CAbstractEnemy.h"
 #include"CField.h"
@@ -118,34 +119,30 @@ CAbstractScene* CGameMain::Update()
 	}
 	else
 	{
-		ui->Update();
-		esaController->Update();
-
-		if (stopTimer < 0)
+		if (!isGameOver)
 		{
+			ui->Update();
+			esaController->Update();
 
-
-
-
-
-			if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
+			if (stopTimer < 0)
 			{
-				esaController->DeleteFeed();
-			}
 
-			if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
-			{
-				player->Respawn();
-			}
 
-			if (isPlayMode)
-			{
-					//ゲームクリアの処理
-					// ステージの更新
-					// エサの再配置
-					//敵の初期化(難易度を渡す)
-					//プレイヤーの位置の初期化、難易度の更新
 
+
+
+				if (keyState->Buttons[XINPUT_BUTTON_START] == TRUE)
+				{
+					esaController->DeleteFeed();
+				}
+
+				if (keyState->Buttons[XINPUT_BUTTON_B] == TRUE)
+				{
+					player->Respawn();
+				}
+
+				if (isPlayMode)
+				{
 
 					if (player->GetisAlive() == true)
 					{
@@ -183,41 +180,62 @@ CAbstractScene* CGameMain::Update()
 
 						enemyController->GameClear();
 					}
-				
 
-			}
-			else
-			{
-				if (!(playerAnimTimer > 9 * 11))
-				{
-					player->Update();
-					playerAnimTimer++;
-					if (playerAnimTimer == 9 * 11)
-					{
-						stopTimer = 30;
-					}
-					if (playerAnimTimer > 9 * 11)
-					{
-						hitPoint->Respawn();
-						fruit->Init();
-						akabei->Init();
-						pinky->Init();
-						aosuke->Init();
-						guzuta->Init();
-					}
+
 				}
 				else
 				{
-					//スタートモードを流す
-					startModeTimer++;
-					if (startModeTimer > 60 * 2)
+					if (!(playerAnimTimer > 9 * 11))
 					{
-						//流れ終わったらプレイモードに返す
-						isPlayMode = true;
-						startModeTimer = 0;
+						player->Update();
+						playerAnimTimer++;
+						if (playerAnimTimer == 9 * 11)
+						{
+							stopTimer = 30;
+						}
+						if (playerAnimTimer > 9 * 11)
+						{
+							hitPoint->Respawn();
+							enemyController->GameClear();
+							if (hitPoint->GetPlayerLife() < 0)
+							{
+								isGameOver = true;
+							}
+							fruit->Init();
+							akabei->Init();
+							pinky->Init();
+							aosuke->Init();
+							guzuta->Init();
+						}
+					}
+					else
+					{
+						//スタートモードを流す
+						startModeTimer++;
+						if (startModeTimer > 60 * 2)
+						{
+							//流れ終わったらプレイモードに返す
+							isPlayMode = true;
+							startModeTimer = 0;
+						}
 					}
 				}
 			}
+		}
+		else
+		{
+
+			static bool gameover;
+			if (gameover == false)
+			{
+				stopTimer = 60;
+				gameover = true;
+			}
+			else
+			{
+				return new CTitle;
+			}
+
 		}
 	}
 	return this;
@@ -232,61 +250,49 @@ void CGameMain::Draw()const
 {
 	//coffee->Draw();
 	field->Draw();
-	esaController->Draw();
-	fruit->Draw();
-
-	player->Draw();
-
-	hitPoint->Draw();
-	//coffeebreak3->Draw();//TODO : 移動させる
-
-
-	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
-	ui->Draw();
-
-
-	if (isGameOver)
+	if (!isGameOver)
 	{
-		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-			, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
-	}
+		esaController->Draw();
+		fruit->Draw();
 
-	if (isGameStart)
-	{
-		DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, 15 * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-			, 1.0 / 8 * D_TILE_SIZE, 0, player_oneImage, TRUE);
-	}
-	else
-	{
-		akabei->Draw();
-		pinky->Draw();
-		aosuke->Draw();
-		guzuta->Draw();
-	}
+		player->Draw();
 
-	if (!isPlayMode && !isGameOver)
-	{
-		if (playerAnimTimer > 9 * 11)
+		hitPoint->Draw();
+		//coffeebreak3->Draw();//TODO : 移動させる
+
+		ui->Draw();
+
+
+		if (isGameStart)
 		{
-			if (startModeTimer <= 60 * 2)
+			DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, 15 * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
+				, 1.0 / 8 * D_TILE_SIZE, 0, player_oneImage, TRUE);
+		}
+		else
+		{
+			akabei->Draw();
+			pinky->Draw();
+			aosuke->Draw();
+			guzuta->Draw();
+		}
+
+		if (!isPlayMode && !isGameOver)
+		{
+			if (playerAnimTimer > 9 * 11)
 			{
-				DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
-					, 1.0 / 7 * D_TILE_SIZE, 0, readyImage, TRUE);
+				if (startModeTimer <= 60 * 2)
+				{
+					DrawRotaGraphF(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
+						, 1.0 / 7 * D_TILE_SIZE, 0, readyImage, TRUE);
+				}
 			}
 		}
 	}
+	else {
 
-	
-	//デバッグ数値表示用
-	{
-		int i = 0;
-		
-		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",hitPoint->playerLife);
-		DrawFormatString(0, 500 + i++ * 20, 0x3355FF, "%d",eatenFeedCount);
-
-
+		DrawRotaGraph(D_SCREEN_SIZE_WIDTH / 2, D_GAMEOVER_POS * (int)D_TILE_SIZE - (int)(D_TILE_SIZE / 2)//中心座標の為
+			, 1.0 / 8 * D_TILE_SIZE, 0, gameOverImage, TRUE);
 	}
-
 	
 }
 
