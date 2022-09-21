@@ -203,14 +203,17 @@ void CAbstractEnemy::HitAction()
 //---------------------------
 void CAbstractEnemy::Surprised()
 {
-	
+	if (CheckSoundMem(izikeSound) == 0) {
+		PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
+	}
 	isWhite = false;
 	isSurprising = true;
 	surprisingTimer = surprisingTime;
 	if (!isEaten)
 	{
 		direction = (direction + 2) % 4;
-		PlaySoundMem(izikeSound, DX_PLAYTYPE_LOOP, TRUE);//イジケ状態中鳴らす
+		
+		
 	}
 }
 

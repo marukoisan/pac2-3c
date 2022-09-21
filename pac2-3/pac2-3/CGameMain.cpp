@@ -51,6 +51,9 @@ CGameMain::CGameMain()
 	startModeTimer = 0;
 	playerAnimTimer = 9 * 11 + 1;
 	stopTimer = 0;
+
+	playStatSE = 0;
+	LoadSound();
 }
 
 //-------------------
@@ -75,11 +78,16 @@ CGameMain::~CGameMain()
 //-------------------
 CAbstractScene* CGameMain::Update()
 {
+	
 	player->warp();
 
 	stopTimer--;
 	if (isGameStart)
 	{
+		if (CheckSoundMem(playStatSE) == 0) {
+			PlaySoundMem(playStatSE, DX_PLAYTYPE_BACK, TRUE);
+		}
+		
 		if (startModeTimer < 60 * 2)
 		{
 			startModeTimer++;
@@ -483,4 +491,10 @@ void CGameMain::HitCheck_PlayerAndFruit()
 			ui->AddScore(fruit->HitAction_Player());
 		}
 	}
+}
+
+
+void CGameMain::LoadSound()
+{
+	playStatSE = LoadSoundMem("sounds2/9.wav");//スタートのサウンド
 }

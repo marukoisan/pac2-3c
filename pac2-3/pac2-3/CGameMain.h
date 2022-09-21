@@ -48,6 +48,9 @@ private:
 	int gameOverImage; //ゲームオーバー画像
 	int readyImage;
 	int player_oneImage;
+
+	//音声用変数
+	int playStatSE;
 public:
 	//コンストラクタ
 	CGameMain();
@@ -66,5 +69,6 @@ public:
 	void HitCheck_PlayerAndFruit();
 
 	void PlayerControl();
+	void LoadSound();
 };
 
