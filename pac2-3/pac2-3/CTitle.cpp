@@ -4,6 +4,8 @@
 #include"CGameMain.h"
 #define TILESIZE 20
 
+int z;
+int i = 1;
 //----------------------------
 // コンストラクタ
 //----------------------------
@@ -19,7 +21,7 @@ CAbstractScene* CTitle::Update()
 {
 	if (GetJoypadInputState(DX_INPUT_KEY_PAD1) == PAD_INPUT_2)
 	{
-		saveData = 2;
+		timer=28*10;
 	}
 	if (GetJoypadInputState(DX_INPUT_KEY_PAD1) == PAD_INPUT_3)
 	{
@@ -35,12 +37,36 @@ CAbstractScene* CTitle::Update()
 	timer++;
 
 	//パックマンスピード
-	if (timer / 15 >= 18 && D_TITLE_POS_X + 5 * TILESIZE <= D_TITLE_POS_X + 28 * TILESIZE + playerx)
+	if (timer / 15 >= 18 && timer / 15 < 28)
 	{
-	playerx-=3;
+		angle = -M_PI / 2;	//左向き
+		pacmanx -= 3;
 	}
 
-	angle = -M_PI / 2;	//左向き
+	if (timer / 15 >= 28 && timer / 15 < 38)
+	{
+		angle = M_PI / 2;
+		pacmanx += 3.5;
+	}
+
+	//エネミー
+	if (timer % 8 == 0)//8はフレーム数
+	{
+		anim = !anim;
+	}
+
+	if (timer / 15 >= 18 && timer / 15 < 28)
+	{
+		enemyx -= 3.05;
+		eye = 1;
+	}
+
+	if (timer / 15 >= 28 && timer / 15 < 38)
+	{
+		angle = M_PI / 2;
+		enemyx += 2;
+		eye = 3;
+	}
 
 
 	//画像読み込み
@@ -64,6 +90,20 @@ CAbstractScene* CTitle::Update()
 
 	//パックマン
 	LoadDivGraph("images/sprites/pacman.png", D_PLAYER_IMAGE_MAX, 3, 1, 32, 32, pacman);
+
+	//エネミー
+	LoadDivGraph("images/sprites/monster.png", 20, 20, 1, 32, 32, enemy);
+	LoadDivGraph("images/sprites/eyes.png", 4, 4, 1, 32, 32, enemyEyes);
+
+	pacx = D_TITLE_POS_X + 28 * TILESIZE + pacmanx;
+
+	teki1x = D_TITLE_POS_X + 30 * TILESIZE + enemyx;
+
+	teki2x = D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40;
+
+	teki3x = D_TITLE_POS_X + 30 * TILESIZE + enemyx + 80;
+
+	teki4x = D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120;
 
 	return this;
 }
@@ -141,33 +181,93 @@ void CTitle::Draw()const
 	}
 
 
+	//パックマン
+	if (timer / 15 >= 18 && timer / 15 <= 27)
+	{
+		if (timer / D_TITLE_POS_X + 5 * TILESIZE <= D_TITLE_POS_X + 28 * TILESIZE + pacmanx)
+		{
+			DrawRotaGraphF(D_TITLE_POS_X + 28 * TILESIZE + pacmanx, 320, 1.0, angle, pacman[timer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+		}
+	}
+
+	if (timer / 15 >= 28 && timer / 15 < 38)
+	{
+		DrawRotaGraphF(D_TITLE_POS_X + 28 * TILESIZE + pacmanx, 320, 1.0, angle, pacman[timer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+	}
+
+
 	//エサ
 	if (timer / 15 >= 17 && timer / 15 <= 18)
 	{
-		DrawRotaGraphF(D_TITLE_POS_X + 5 * TILESIZE, 320, 0.2, 0, esa, TRUE);
+		DrawRotaGraphF(D_TITLE_POS_X + 6 * TILESIZE, 320, 0.2, 0, esa, TRUE);
 	}
-	if (timer / 15 >= 17)
+	if (timer / 15 >= 17 && timer / 15 <= 27)
 	{
 		if (timer / 15 % 2)
 		{
-			DrawRotaGraphF(D_TITLE_POS_X + 5 * TILESIZE, 320, 0.2, 0, esa, TRUE);
+			DrawRotaGraphF(D_TITLE_POS_X + 6 * TILESIZE, 320, 0.2, 0, esa, TRUE);
 		}
 	}
 
 
-	//パックマン
-	if (timer / 15 >= 18)
-
+	if (timer / 15 >= 18 && timer / 15 < 27)
 	{
-		if (timer / D_TITLE_POS_X + 5 * TILESIZE <= D_TITLE_POS_X + 28 * TILESIZE + playerx)
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemy[anim], TRUE);	//敵の体
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemy[anim + 2], TRUE);	//敵の体
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx +  80, 320, 1.0, 0, enemy[anim + 4], TRUE);	//敵の体
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx +  80, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemy[anim + 6], TRUE);	//敵の体
+		DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		
+	}
+
+	if (timer / 15 >= 27 && timer / 15 < 38)
+	{
+		enemyhit();
+		if (i <= 1)
 		{
-			DrawRotaGraphF(D_TITLE_POS_X + 28 * TILESIZE + playerx, 320, 1.0, angle, pacman[timer / D_PLAYER_ANIM_FPS % D_PLAYER_IMAGE_MAX], TRUE);
+			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
+			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		}
+		if (i <= 2)
+		{
+			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
+			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 40, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		}
+		if (i <= 3)
+		{
+			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 80, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
+			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 80, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
+		}
+		if (i <= 4)
+		{
+			DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemy[anim + 16], TRUE);	//敵の体
+			//DrawRotaGraphF(D_TITLE_POS_X + 30 * TILESIZE + enemyx + 120, 320, 1.0, 0, enemyEyes[eye], TRUE);	//敵の目
 		}
 	}
 
-	
+
+	if (pacx + 25 == teki1x || pacx + 25 == teki2x || pacx + 25 == teki3x || pacx + 25 == teki4x)
+	{
+		WaitTimer(1000);
+	}
+
+
+	DrawFormatString(0, 140, 0x00ff00, "%d", pacx);
+	DrawFormatString(0, 160, 0x00ff00, "%d", teki1x);
 
 	DrawFormatString(0, 0, 0xffffff, "%d", saveData);
+}
 
-	
+void CTitle::enemyhit() const
+{
+	if (pacx + 25 >= teki1x)i = 2;
+	if (pacx + 25 >= teki2x)i = 3;
+	if (pacx + 25 >= teki3x)i = 4;
+	if (pacx + 25 >= teki4x)i = 5;
 }

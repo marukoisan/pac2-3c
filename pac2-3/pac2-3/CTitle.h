@@ -38,7 +38,21 @@ private:
 	int pacman[D_PLAYER_IMAGE_MAX] = {};
 
 	//パックマンスピード
-	float playerx;
+	float pacmanx;
+
+	//エネミー
+	int enemy[20] = {};		//アカ
+	int enemyEyes[4] = {};
+	float enemyx;
+	bool anim;
+
+	int pacx;
+	int teki1x;
+	int teki2x;
+	int teki3x;
+	int teki4x;
+
+	int eye;
 
 
 public:
@@ -48,5 +62,7 @@ public:
 	CAbstractScene* Update()override;
 	//描画
 	void Draw()const override;
+	//当たり判定
+	void enemyhit()const;
 };
 
