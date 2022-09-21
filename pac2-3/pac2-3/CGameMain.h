@@ -14,11 +14,13 @@ class CAbstractEnemy;
 class CPlayer;
 class CUi;
 class CHitPoint;
+class CCoffeeBreak;
 class CFruit;
 class CAkabei;
 class CPinky;
 class CAosuke;
 class CGuzuta;
+
 
 class CGameMain : public CAbstractScene
 {
@@ -30,8 +32,8 @@ private:
 	CPlayer* player;
 	CUi* ui;//uiの奴
 	CHitPoint* hitPoint;
+	CCoffeeBreak* coffee;
 	CFruit* fruit;
-
 	CAkabei* akabei;
 	CPinky* pinky;
 	CAosuke* aosuke;
@@ -78,4 +80,3 @@ public:
 
 	void PlayerControl();
 };
-
